@@ -9,5 +9,6 @@ export const environment = {
   dataSource: {
     user: '/mobile-demo/data/user.json',
     contacts: '/mobile-demo/data/contacts.json'
-  }
+  },
+  voiceNavigatorUrl: 'http://localhost:5000/'
 };
