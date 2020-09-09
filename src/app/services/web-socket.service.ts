@@ -8,7 +8,7 @@ export class WebSocketService {
   socket: SocketIOClient.Socket;
 
   init() {
-    if (!this.socket) {
+    if (!this.socket || this.socket.disconnected) {
       this.socket = io(environment.voiceNavigatorUrl);
     }
   }
@@ -26,6 +26,6 @@ export class WebSocketService {
   }
 
   stop() {
-    this.socket.close();
+    this.socket.disconnect();
   }
 }
