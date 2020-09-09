@@ -1,6 +1,13 @@
 [
   {
     "id": 1,
+    "title": "Plans for upgrading the stark reactor",
+    "description": "Mr. Stark was very cool that I couldn't understand a word about his plans.",
+    "occurredOn": "September 1, 2020 10:10:00",
+    "contactId": 1
+  },
+  {
+    "id": 1,
     "title": "Finalizing plans for Endgame",
     "description": "Let's make a time heist and save Earth.",
     "occurredOn": "September 2, 2020 12:20:00",
