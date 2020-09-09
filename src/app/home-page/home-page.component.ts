@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent {
 
-  constructor() { }
+  readonly loaders = Array.from(Array(5));
+  readonly today = Date.now();
 
-  ngOnInit(): void {
-  }
+  @Input() loading: boolean;
+  @Input() data: User;
+  @Input() error: string;
 
 }

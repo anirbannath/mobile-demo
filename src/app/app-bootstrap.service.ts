@@ -6,11 +6,6 @@ import { environment } from '../environments/environment';
 @Injectable()
 export class AppBootstrapService {
 
-  private readonly DATA_SOURCE = {
-    profiles: '/data/profiles.json',
-    contacts: '/data/contacts.json'
-  };
-
   constructor(
     private http: HttpClient
   ) { }
@@ -21,11 +16,11 @@ export class AppBootstrapService {
       return true;
     }
 
-    const dbName = 'mobileDemo';
-    const sourceObservables = Object.keys(this.DATA_SOURCE).map(key => this.http.get(this.DATA_SOURCE[key]));
+    const dataSourceKeys = Object.keys(environment.dbDataSource),
+      sourceObservables = dataSourceKeys.map(key => this.http.get(environment.dbDataSource[key]));
 
     forkJoin(sourceObservables).subscribe((response: Array<Array<any>>) => {
-      const openRequest = indexedDB.open(dbName, environment.dbVersion);
+      const openRequest = indexedDB.open(environment.dbName, environment.dbVersion);
 
       openRequest.onupgradeneeded = (event) => {
         let db = openRequest.result;
@@ -33,7 +28,7 @@ export class AppBootstrapService {
           case 0:
             // perform initialization
             response.forEach((collection, index) => {
-              this.initializeData(db, dbName, Object.keys(this.DATA_SOURCE)[index], collection);
+              this.initializeLocalDB(db, environment.dbName, dataSourceKeys[index], collection);
             });
         }
       };
@@ -51,7 +46,7 @@ export class AppBootstrapService {
     return true;
   }
 
-  private initializeData(db: IDBDatabase, dbName: string, collectionName: string, collectionData: Array<any>) {
+  private initializeLocalDB(db: IDBDatabase, dbName: string, collectionName: string, collectionData: Array<any>) {
     if (!db.objectStoreNames.contains(collectionName)) {
       const objectStore = db.createObjectStore(collectionName, { keyPath: 'id' });
       collectionData.forEach(item => {

@@ -1,4 +1,13 @@
 export const environment = {
   production: true,
-  dbVersion: 1
+  dbName: 'mobileDemo',
+  dbVersion: 1,
+  dataDelay: 2500,
+  dbDataSource: {
+    notes: '/data/notes.json'
+  },
+  dataSource: {
+    user: '/data/user.json',
+    contacts: '/data/contacts.json'
+  }
 };

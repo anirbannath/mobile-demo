@@ -1,1 +1,22 @@
-<p>contacts-page works!</p>
+<app-header>Contacts</app-header>
+
+<ng-container *ngIf="!loading">
+  <div *ngIf="error" class="card-body text-center">
+    {{ error }}
+  </div>
+  <div *ngIf="!error && data?.length <= 0" class="card-body text-center">
+    No records to show.
+  </div>
+  <ng-container *ngIf="!error && data?.length > 0">
+    <div *ngFor="let contact of data" class="card-body list-item" (click)="onSelectContact(contact?.id)">
+      <div class="contact-name text-truncate">{{ contact?.lastName }}, {{ contact?.firstName }}</div>
+      <div class="text-muted">{{ contact?.type }}</div>
+    </div>
+  </ng-container>
+</ng-container>
+<div *ngIf="loading">
+  <div *ngFor="let loader of loaders" class="card-body list-item">
+    <div class="skeleton w-75"></div>
+    <div class="skeleton w-25"></div>
+  </div>
+</div>

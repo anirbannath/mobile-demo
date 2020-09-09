@@ -7,8 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { reducers, metaReducers } from './reducers';
 import { AppBootstrapService } from './app-bootstrap.service';
+import { reducers } from './state/reducers';
+import { effects } from './state/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FooterModule } from './footer/footer.module';
 
 export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
   return () => bootstrapService.seedDatabase();
@@ -20,13 +23,13 @@ export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'mobileDemo' }),
+    BrowserAnimationsModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    }),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
-    HttpClientModule
+    HttpClientModule,
+    FooterModule
   ],
   providers: [
     AppBootstrapService,

@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Contact } from '../models/contact';
 
 @Component({
   selector: 'app-contacts-page',
   templateUrl: './contacts-page.component.html',
-  styleUrls: ['./contacts-page.component.scss']
+  styleUrls: ['./contacts-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactsPageComponent implements OnInit {
+export class ContactsPageComponent {
 
-  constructor() { }
+  readonly loaders = Array.from(Array(10));
 
-  ngOnInit(): void {
+  @Input() loading: boolean;
+  @Input() data: Array<Contact>;
+  @Input() error: string;
+
+  @Output() selectContact = new EventEmitter<number>();
+
+  onSelectContact(id: number) {
+    id && this.selectContact.emit(id);
   }
 
 }

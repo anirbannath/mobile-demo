@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  color: var(--light);
+  background-color: var(--primary);
+  justify-content: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.nav-link {
+  display: flex;
+  text-decoration: none;
+  color: var(--light);
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 33%;
+
+  &.active {
+    background-color: var(--dark);
+  }
+
+  .fa {
+    font-size: 1.5em;
+  }
+
+  div {
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+}

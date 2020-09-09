@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Finalizing plans for Endgame",
+    "description": "Let's make a time heist and save Earth.",
+    "occurredOn": "September 2, 2020 12:20:00",
+    "contactId": 1
+  },
+  {
+    "id": 2,
+    "title": "Discussion about Rocky's upcoming fights",
+    "description": "Offense is the best defence.",
+    "occurredOn": "September 1, 2020 03:24:00",
+    "contactId": 5
+  },
+  {
+    "id": 3,
+    "title": "Reconfigure Peter's web shooter",
+    "description": "Need to optimize the web shooter.",
+    "occurredOn": "September 3, 2020 03:24:00",
+    "contactId": 4
+  },
+  {
+    "id": 4,
+    "title": "Discussion on newly discovered magical creatures",
+    "description": "We came to know that there are 52 newly discovered magical creatures. These creatures were recorded by Scamander, Newt",
+    "occurredOn": "September 1, 2020 03:24:00",
+    "contactId": 2
+  }
+]

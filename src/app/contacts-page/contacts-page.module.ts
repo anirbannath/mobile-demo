@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { ContactsPageRoutingModule } from './contacts-page-routing.module';
 import { ContactsPageComponent } from './contacts-page.component';
+import { HeaderModule } from '../header/header.module';
+import { ContactsContainerComponent } from './contacts-container.component';
 
 
 @NgModule({
-  declarations: [ContactsPageComponent],
+  declarations: [ContactsPageComponent, ContactsContainerComponent],
   imports: [
     CommonModule,
-    ContactsPageRoutingModule
+    ContactsPageRoutingModule,
+    HeaderModule
   ]
 })
 export class ContactsPageModule { }

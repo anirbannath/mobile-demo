@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { ClientPageRoutingModule } from './client-page-routing.module';
 import { ClientPageComponent } from './client-page.component';
+import { HeaderModule } from '../header/header.module';
+import { ClientContainerComponent } from './client-container.component';
 
 
 @NgModule({
-  declarations: [ClientPageComponent],
+  declarations: [ClientPageComponent, ClientContainerComponent],
   imports: [
     CommonModule,
-    ClientPageRoutingModule
+    ClientPageRoutingModule,
+    HeaderModule
   ]
 })
 export class ClientPageModule { }

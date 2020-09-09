@@ -1,1 +1,47 @@
-<p>home-page works!</p>
+<app-header>My Home</app-header>
+
+<div>
+  <div class="card">
+    <div class="card-title">Overview</div>
+    <div class="card-body text-center">
+      <ng-container *ngIf="!loading">
+        <div>
+          <div class="h4 text-muted">Welcome</div>
+          <h1 class="h2 text-truncate">{{ data?.lastName }}, {{ data?.firstName }}</h1>
+        </div>
+        <hr>
+        <div>
+          <div class="h2">{{ data?.profit | currency }}</div>
+          <div class="text-muted">Net Profit</div>
+          <div>Last updated: {{ today | date }}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <div>
+          <div class="skeleton mx-auto w-25 mb-10"></div>
+          <div class="skeleton mx-auto w-50"></div>
+        </div>
+        <hr>
+        <div>
+          <div class="skeleton mx-auto w-50 mb-10"></div>
+          <div class="skeleton mx-auto w-25 mb-10"></div>
+          <div class="skeleton mx-auto w-35"></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Notes</div>
+    <ng-container *ngIf="!loading">
+      <div *ngIf="data?.notes?.length <= 0" class="card-body text-center text-muted">
+        No records to show.
+      </div>
+    </ng-container>
+    <div *ngIf="loading">
+      <div *ngFor="let loader of loaders" class="card-body list-item">
+        <div class="skeleton w-75"></div>
+        <div class="skeleton w-25"></div>
+      </div>
+    </div>
+  </div>
+</div>

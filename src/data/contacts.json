@@ -3,12 +3,40 @@
     "id": 1,
     "firstName": "Tony",
     "lastName": "Stark",
+    "type": "Platinum Customer",
+    "netWorth": 12400000000,
     "notes": []
   },
   {
     "id": 2,
+    "firstName": "Hermione",
+    "lastName": "Granger",
+    "type": "Gold Customer",
+    "netWorth": 8600000000,
+    "notes": []
+  },
+  {
+    "id": 3,
     "firstName": "James",
     "lastName": "Bond",
+    "type": "Gold Customer",
+    "netWorth": 10500000000,
+    "notes": []
+  },
+  {
+    "id": 4,
+    "firstName": "Peter",
+    "lastName": "Parker",
+    "type": "Standard Customer",
+    "netWorth": 560000000,
+    "notes": []
+  },
+  {
+    "id": 5,
+    "firstName": "Rocky",
+    "lastName": "Balboa",
+    "type": "New Customer",
+    "netWorth": 256900000,
     "notes": []
   }
 ]
