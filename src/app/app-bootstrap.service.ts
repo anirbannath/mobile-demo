@@ -10,40 +10,43 @@ export class AppBootstrapService {
     private http: HttpClient
   ) { }
 
-  async seedDatabase() {
-    if (!window.indexedDB) {
-      console.error(`Your browser doesn't support a stable version of IndexedDB.`);
-      return true;
-    }
+  seedDatabase() {
+    return new Promise<boolean>((resolve, reject) => {
 
-    const dataSourceKeys = Object.keys(environment.dbDataSource),
-      sourceObservables = dataSourceKeys.map(key => this.http.get(environment.dbDataSource[key]));
+      if (!window.indexedDB) {
+        console.error(`Your browser doesn't support a stable version of IndexedDB.`);
+        resolve(true);
+      }
 
-    forkJoin(sourceObservables).subscribe((response: Array<Array<any>>) => {
-      const openRequest = indexedDB.open(environment.dbName, environment.dbVersion);
+      const dataSourceKeys = Object.keys(environment.dbDataSource),
+        sourceObservables = dataSourceKeys.map(key => this.http.get(environment.dbDataSource[key]));
 
-      openRequest.onupgradeneeded = (event) => {
-        let db = openRequest.result;
-        switch (event.oldVersion) {
-          case 0:
-            // perform initialization
-            response.forEach((collection, index) => {
-              this.initializeLocalDB(db, environment.dbName, dataSourceKeys[index], collection);
-            });
-        }
-      };
+      forkJoin(sourceObservables).subscribe((response: Array<Array<any>>) => {
+        const openRequest = indexedDB.open(environment.dbName, environment.dbVersion);
 
-      openRequest.onerror = () => {
-        console.error("IndexedDB Error", openRequest.error);
-      };
+        openRequest.onupgradeneeded = (event) => {
+          let db = openRequest.result;
+          switch (event.oldVersion) {
+            case 0:
+              // perform initialization
+              response.forEach((collection, index) => {
+                this.initializeLocalDB(db, environment.dbName, dataSourceKeys[index], collection);
+              });
+          }
+        };
 
-      openRequest.onsuccess = () => {
-        console.log('Database status checked and is running!');
-      };
+        openRequest.onerror = () => {
+          console.error("IndexedDB Error", openRequest.error);
+          resolve(true);
+        };
+
+        openRequest.onsuccess = () => {
+          console.log('Database status checked and is running!');
+          resolve(true);
+        };
+      });
     });
 
-
-    return true;
   }
 
   private initializeLocalDB(db: IDBDatabase, dbName: string, collectionName: string, collectionData: Array<any>) {
