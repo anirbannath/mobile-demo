@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../models/user';
+import { Note } from '../models/note';
 
 @Component({
   selector: 'app-home-page',
@@ -11,8 +12,11 @@ export class HomePageComponent {
   readonly loaders = Array.from(Array(5));
   readonly today = Date.now();
 
-  @Input() loading: boolean;
-  @Input() data: User;
-  @Input() error: string;
+  @Input() userLoading: boolean;
+  @Input() userData: User;
+  @Input() userError: string;
+  @Input() notesLoading: boolean;
+  @Input() notesData: Array<Note>;
+  @Input() notesError: string;
 
 }

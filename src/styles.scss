@@ -177,6 +177,10 @@ fieldset:disabled a.btn {
   }
 }
 
+.item-title {
+  font-size: 1.2rem;
+}
+
 .mx-auto {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -214,6 +218,10 @@ fieldset:disabled a.btn {
   text-align: center;
 }
 
+.text-primary {
+  color: var(--primary);
+}
+
 .text-muted {
   color: var(--secondary);
 }
@@ -222,6 +230,13 @@ fieldset:disabled a.btn {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.text-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 @keyframes shimmer {

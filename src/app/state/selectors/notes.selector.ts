@@ -1,5 +1,7 @@
 import { AppState } from '../../models/app-state';
 import { createSelector } from '@ngrx/store';
+import { selectSelectedContactId } from './contacts.selectors';
+import { Note } from '../../models/note';
 
 export const selectNotes = (state: AppState) => state.notes;
 
@@ -16,7 +18,7 @@ export const selectNotesData = createSelector(
 export const selectNotesList = createSelector(
   selectNotesData,
   (noteDictonary) => {
-    const list = [];
+    const list: Array<Note> = [];
     if (noteDictonary) {
       Object.keys(noteDictonary).forEach(key => {
         list.push(noteDictonary[key]);
@@ -29,4 +31,10 @@ export const selectNotesList = createSelector(
 export const selectNotesError = createSelector(
   selectNotes,
   (contacts) => contacts.error
+);
+
+export const selectClientNotesData = createSelector(
+  selectNotesList,
+  selectSelectedContactId,
+  (notes, id) => id ? notes.filter(note => note.contactId === id) : []
 );

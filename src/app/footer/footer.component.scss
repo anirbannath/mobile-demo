@@ -1,4 +1,4 @@
-:host {
+.footer-wrapper {
   display: flex;
   position: fixed;
   left: 0;
@@ -35,4 +35,8 @@
     line-height: 1.2;
     margin-top: 2px;
   }
+}
+
+.footer-buffer {
+  height: 60px;
 }

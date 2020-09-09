@@ -4,19 +4,19 @@
   <div class="card">
     <div class="card-title">Overview</div>
     <div class="card-body text-center">
-      <ng-container *ngIf="!loading">
+      <ng-container *ngIf="!userLoading">
         <div>
           <div class="h4 text-muted">Welcome</div>
-          <h1 class="h2 text-truncate">{{ data?.lastName }}, {{ data?.firstName }}</h1>
+          <h1 class="h2 text-truncate">{{ userData?.lastName }}, {{ userData?.firstName }}</h1>
         </div>
         <hr>
         <div>
-          <div class="h2">{{ data?.profit | currency }}</div>
+          <div class="h2">{{ userData?.profit | currency }}</div>
           <div class="text-muted">Net Profit</div>
           <div>Last updated: {{ today | date }}</div>
         </div>
       </ng-container>
-      <ng-container *ngIf="loading">
+      <ng-container *ngIf="userLoading">
         <div>
           <div class="skeleton mx-auto w-25 mb-10"></div>
           <div class="skeleton mx-auto w-50"></div>
@@ -32,15 +32,23 @@
   </div>
   <div class="card">
     <div class="card-title">Notes</div>
-    <ng-container *ngIf="!loading">
-      <div *ngIf="data?.notes?.length <= 0" class="card-body text-center text-muted">
+    <ng-container *ngIf="!notesLoading">
+      <div *ngIf="!notesError && notesData?.length <= 0" class="card-body text-center text-muted">
         No records to show.
       </div>
+      <div *ngIf="!notesError && notesData?.length > 0">
+        <div *ngFor="let note of notesData" class="card-body list-item">
+          <div class="item-title text-primary text-truncate">{{ note?.title }}</div>
+          <div class="text-clamp">{{ note?.description }}</div>
+          <div class="text-muted text-truncate">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm:ss a' }}</div>
+        </div>
+      </div>
     </ng-container>
-    <div *ngIf="loading">
+    <div *ngIf="notesLoading">
       <div *ngFor="let loader of loaders" class="card-body list-item">
+        <div class="skeleton w-50"></div>
         <div class="skeleton w-75"></div>
-        <div class="skeleton w-25"></div>
+        <div class="skeleton w-35"></div>
       </div>
     </div>
   </div>
