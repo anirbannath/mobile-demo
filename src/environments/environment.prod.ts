@@ -4,10 +4,10 @@ export const environment = {
   dbVersion: 1,
   dataDelay: 2500,
   dbDataSource: {
-    notes: '/data/notes.json'
+    notes: '/mobile-demo/data/notes.json'
   },
   dataSource: {
-    user: '/data/user.json',
-    contacts: '/data/contacts.json'
+    user: '/mobile-demo/data/user.json',
+    contacts: '/mobile-demo/data/contacts.json'
   }
 };

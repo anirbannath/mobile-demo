@@ -11,7 +11,8 @@
     "dev:ssr": "ng run mobile-demo:serve-ssr",
     "serve:ssr": "node dist/mobile-demo/server/main.js",
     "build:ssr": "ng build --prod && ng run mobile-demo:server:production",
-    "prerender": "ng run mobile-demo:prerender"
+    "prerender": "ng run mobile-demo:prerender",
+    "build:github": "ng build --prod --output-path docs --base-href /mobile-demo/"
   },
   "private": true,
   "dependencies": {
