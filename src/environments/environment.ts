@@ -13,7 +13,8 @@ export const environment = {
   dataSource: {
     user: '/data/user.json',
     contacts: '/data/contacts.json'
-  }
+  },
+  voiceNavigatorUrl: 'http://localhost:5000/'
 };
 
 /*

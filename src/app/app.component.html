@@ -3,3 +3,9 @@
 </div>
 
 <app-footer></app-footer>
+
+<div class="record-wrapper">
+  <button aria-label="start recording" class="record" [class.recording]="isVoiceNavigationStarted" (click)="toggleVoiceNavigation()">
+    <i aria-hidden="true" class="fa fa-microphone"></i>
+  </button>
+</div>

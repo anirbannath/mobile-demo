@@ -12,6 +12,8 @@ import { reducers } from './state/reducers';
 import { effects } from './state/effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterModule } from './footer/footer.module';
+import { WebSocketService } from './services/web-socket.service';
+import { VoiceRecognitionService } from './services/voice-navigation.service';
 
 export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
   return () => bootstrapService.seedDatabase();
@@ -38,7 +40,9 @@ export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
       useFactory: bootstrapServiceFactory,
       deps: [AppBootstrapService],
       multi: true
-    }
+    },
+    WebSocketService,
+    VoiceRecognitionService
   ],
   bootstrap: [AppComponent]
 })
