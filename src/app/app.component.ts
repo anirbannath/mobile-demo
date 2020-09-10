@@ -16,6 +16,7 @@ import { appRoutes } from './app-routing.module';
 })
 export class AppComponent implements OnInit {
 
+  isRecognitionSupported: boolean;
   isVoiceNavigationStarted = false;
 
   constructor(
@@ -23,7 +24,9 @@ export class AppComponent implements OnInit {
     private voiceRecognitionService: VoiceRecognitionService,
     private webSocketService: WebSocketService,
     private router: Router
-  ) { }
+  ) {
+    this.isRecognitionSupported = voiceRecognitionService.isRecognitionSupported;
+  }
 
   ngOnInit() {
     this.store.dispatch(loadNotes());
