@@ -200,6 +200,10 @@ fieldset:disabled a.btn {
   width: 25%;
 }
 
+small {
+  font-size: 0.8rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -208,8 +212,16 @@ fieldset:disabled a.btn {
   color: $primary;
 }
 
+.text-danger {
+  color: $danger;
+}
+
 .text-muted {
   color: $secondary;
+}
+
+.text-dark {
+  color: $dark;
 }
 
 .text-truncate {
@@ -309,5 +321,58 @@ fieldset:disabled a.btn {
   to {
     opacity: 0;
     transform: scale3d(2.5, 2.5, 1);
+  }
+}
+
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 40px;
+    height: 20px;
+    background: #8f8f8f;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+  }
+
+  label:after {
+    content: " ";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 16px;
+    transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  input:disabled+label {
+    opacity: 0.65;
+  }
+
+  input:checked+label {
+    background: $success;
+  }
+
+  input:checked+label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+
+  label:active:after {
+    width: 25px;
   }
 }

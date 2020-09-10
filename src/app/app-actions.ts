@@ -15,4 +15,9 @@ export const appActions = {
   setNotes: '[Notes] Set Notes',
   errorNotes: '[Notes] Error Notes',
   cancelLoadNotes: '[Notes] Cancel Load Notes',
+
+  setVoiceAssistantSupport: '[Voice Assistant] Set Voice Assistant Support',
+  startVoiceAssistant: '[Voice Assistant] Start',
+  stopVoiceAssistant: '[Voice Assistant] Stop',
+  setVoiceAssistantResult: '[Voice Assistant] Set Voice Assistant Result',
 }

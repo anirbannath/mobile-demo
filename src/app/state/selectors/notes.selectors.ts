@@ -7,12 +7,12 @@ export const selectNotes = (state: AppState) => state.notes;
 
 export const selectNotesLoading = createSelector(
   selectNotes,
-  (contacts) => contacts.loading
+  (notes) => notes.loading
 );
 
 export const selectNotesData = createSelector(
   selectNotes,
-  (contacts) => contacts.data
+  (notes) => notes.data
 );
 
 export const selectNotesList = createSelector(
@@ -30,7 +30,7 @@ export const selectNotesList = createSelector(
 
 export const selectNotesError = createSelector(
   selectNotes,
-  (contacts) => contacts.error
+  (notes) => notes.error
 );
 
 export const selectClientNotesData = createSelector(

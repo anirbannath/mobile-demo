@@ -5,7 +5,7 @@ import { User } from '../models/user';
 import { selectUserLoading, selectUserData, selectUserError } from '../state/selectors/user.selectors';
 import { loadUser } from '../state/actions/user.actions';
 import { Note } from '../models/note';
-import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/selectors/notes.selector';
+import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/selectors/notes.selectors';
 
 @Component({
   selector: 'app-home-container',

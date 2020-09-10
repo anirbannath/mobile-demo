@@ -61,4 +61,7 @@ export const routerAnimations =
 
     transition('ClientPage => HomePage', backwardSlide),
     transition('ClientPage => ContactsPage', backwardSlide),
+
+    transition('* => SettingsPage', forwardSlide),
+    transition('SettingsPage => *', backwardSlide)
   ]);

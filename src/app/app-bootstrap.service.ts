@@ -1,17 +1,24 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { environment } from '../environments/environment';
+import { VoiceAssistantService } from './services/voice-assistant.service';
+import { setVoiceAssistantSupport } from './state/actions/voice-assistant.actions';
 
 @Injectable()
 export class AppBootstrapService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store,
+    private voiceAssistantService: VoiceAssistantService
   ) { }
 
-  seedDatabase() {
+  bootstrap() {
     return new Promise<boolean>((resolve, reject) => {
+
+      this.store.dispatch(setVoiceAssistantSupport({ support: this.voiceAssistantService.isSupported }));
 
       if (!window.indexedDB) {
         console.error(`Your browser doesn't support a stable version of IndexedDB.`);

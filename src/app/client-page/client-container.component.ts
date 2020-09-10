@@ -5,7 +5,7 @@ import { Contact } from '../models/contact';
 import { Note } from '../models/note';
 import { loadContacts } from '../state/actions/contacts.actions';
 import { selectContactsLoading, selectIndividualContactData, selectContactsError, selectSelectedContactId } from '../state/selectors/contacts.selectors';
-import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../state/selectors/notes.selector';
+import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../state/selectors/notes.selectors';
 
 @Component({
   selector: 'app-client-container',

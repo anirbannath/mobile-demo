@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { environment } from '../../../environments/environment';
-import { selectNotesData } from '../selectors/notes.selector';
-import { cancelLoadNotes, setNotes } from '../actions/notes.actions';
-import { Note } from 'src/app/models/note';
+import { selectNotesData } from '../selectors/notes.selectors';
+import { cancelLoadNotes, setNotes, errorNotes } from '../actions/notes.actions';
+import { Note } from '../../models/note';
 
 @Injectable()
 export class NotesEffects {
@@ -26,18 +26,30 @@ export class NotesEffects {
           subscriber.next(cancelLoadNotes());
           subscriber.complete();
         } else {
-          const dbRequest = indexedDB.open(environment.dbName, environment.dbVersion);
-          dbRequest.onsuccess = () => {
-            const db = dbRequest.result,
-              tx = db.transaction('notes', 'readonly'),
-              notesTx = tx.objectStore('notes'),
-              notesDataRequest: IDBRequest<Array<Note>> = notesTx.getAll();
-            notesDataRequest.onsuccess = (event) => {
-              setTimeout(() => {
-                subscriber.next(setNotes({ notes: notesDataRequest.result }));
+          try {
+            const dbRequest = indexedDB.open(environment.dbName, environment.dbVersion);
+            dbRequest.onsuccess = () => {
+              try {
+                const db = dbRequest.result,
+                  tx = db.transaction('notes', 'readonly'),
+                  notesTx = tx.objectStore('notes'),
+                  notesDataRequest: IDBRequest<Array<Note>> = notesTx.getAll();
+                notesDataRequest.onsuccess = (event) => {
+                  setTimeout(() => {
+                    subscriber.next(setNotes({ notes: notesDataRequest.result }));
+                    subscriber.complete();
+                  }, environment.dataDelay);
+                };
+              } catch (ex) {
+                console.error(ex);
+                subscriber.next(errorNotes({ error: `This feature uses the Browser's IndexedDB. To use this feature, please use Google Chrome.` }));
                 subscriber.complete();
-              }, environment.dataDelay);
-            };
+              }
+            }
+          } catch (ex) {
+            console.error(ex);
+            subscriber.next(errorNotes({ error: `This feature uses the Browser's IndexedDB. To use this feature, please use Google Chrome.` }));
+            subscriber.complete();
           }
         }
       });

@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 export class WebSocketService {
   socket: SocketIOClient.Socket;
 
-  init() {
+  start() {
     if (!this.socket || this.socket.disconnected) {
       this.socket = io(environment.voiceNavigatorUrl);
     }
@@ -15,17 +15,17 @@ export class WebSocketService {
 
   listen(eventName: string) {
     return new Observable((subscriber) => {
-      this.socket.on(eventName, (data) => {
+      this.socket && this.socket.on(eventName, (data) => {
         subscriber.next(data);
       })
     })
   }
 
   emit(eventName: string, data: any) {
-    this.socket.emit(eventName, data);
+    this.socket && this.socket.emit(eventName, data);
   }
 
   stop() {
-    this.socket.disconnect();
+    this.socket && this.socket.disconnect();
   }
 }

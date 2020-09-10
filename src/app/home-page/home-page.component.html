@@ -1,4 +1,4 @@
-<app-header>My Home</app-header>
+<app-header [settings]="true">My Home</app-header>
 
 <div>
   <div class="card">
@@ -33,8 +33,8 @@
   <div class="card">
     <div class="card-title">Notes</div>
     <ng-container *ngIf="!notesLoading">
-      <div *ngIf="!notesError && notesData?.length <= 0" class="card-body text-center text-muted">
-        No records to show.
+      <div *ngIf="notesData?.length <= 0" class="card-body text-center text-muted">
+        {{ notesError || 'No records to show.' }}
       </div>
       <div *ngIf="!notesError && notesData?.length > 0">
         <div *ngFor="let note of notesData" class="card-body list-item">

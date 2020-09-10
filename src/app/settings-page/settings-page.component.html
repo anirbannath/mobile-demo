@@ -1,0 +1,42 @@
+<app-header [back]="true">Settings</app-header>
+
+<div class="card">
+  <div class="card-title">App Settings</div>
+  <div class="list-item card-body text-dark">
+    <div class="list-group">
+      <div>
+        Voice Assistant
+      </div>
+      <div class="switch">
+        <input type="checkbox" id="voiceSwitch" [checked]="voiceAssistantActive" [disabled]="!voiceAssistantSupported"
+          (click)="onVoiceAssistantToggle()" /><label for="voiceSwitch">Toggle</label>
+      </div>
+    </div>
+    <small *ngIf="!voiceAssistantSupported" class="text-danger">
+      Voice Assistant is not supported in your browser/platform. For the best performance use Google Chrome.
+    </small>
+  </div>
+  <div class="list-item list-group card-body text-dark">
+    <div>
+      Dark Mode (Coming Soon)
+    </div>
+    <div class="switch">
+      <input type="checkbox" id="darkSwitch" disabled /><label for="darkSwitch">Toggle</label>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Disclaimer</div>
+  <div class="card-body text-dark">
+    <p>This application is created for learning and demo purpose.</p>
+    <p>The source code suggests best practices which should be followed while developing an Angular application and is
+      mainly designed targeting mobile platforms (like Android/iOS).</p>
+    <p>It doesn't use any server-side API for fetching or saving data. It uses some static JSON files for retrieving
+      data and uses IndexedDB for saving data.</p>
+    <p>Under the hood, this application uses NgRx for state management and webkitSpeechRecognition for voice navigation.
+    </p>
+    <p>Some of its features may only work properly on Google Chrome (yet a few features may not work for iOS even with
+      Google Chrome)</p>
+  </div>
+</div>

@@ -11,12 +11,17 @@ export const appRoutes: Routes = [
   {
     path: 'contacts',
     loadChildren: () => import('./contacts-page/contacts-page.module').then(m => m.ContactsPageModule),
-    data: { navigationKey: 'contact', animationKey: 'ContactsPage' }
+    data: { navigationKey: 'contacts', animationKey: 'ContactsPage' }
   },
   {
     path: 'client',
     loadChildren: () => import('./client-page/client-page.module').then(m => m.ClientPageModule),
-    data: { navigationKey: 'client', animationKey: 'ClientPage' }
+    data: { navigationKey: 'clients', animationKey: 'ClientPage' }
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings-page/settings-page.module').then(m => m.SettingsPageModule),
+    data: { navigationKey: 'settings', animationKey: 'SettingsPage' }
   },
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },

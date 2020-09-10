@@ -1,3 +1,9 @@
 <h1>
   <ng-content></ng-content>
 </h1>
+<a *ngIf="back" class="btn-header btn-back" aria-label="back" href="javascript:void(0)" (click)="goBack()">
+  <i class="fa fa-chevron-left" aria-hidden="true"></i>
+</a>
+<a *ngIf="settings" class="btn-header btn-settings" routerLink="/settings" aria-label="settings">
+  <i class="icon fa fa-cog" aria-hidden="true"></i>
+</a>

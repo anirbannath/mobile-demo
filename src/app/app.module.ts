@@ -13,10 +13,10 @@ import { effects } from './state/effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterModule } from './footer/footer.module';
 import { WebSocketService } from './services/web-socket.service';
-import { VoiceRecognitionService } from './services/voice-navigation.service';
+import { VoiceAssistantService } from './services/voice-assistant.service';
 
 export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
-  return () => bootstrapService.seedDatabase();
+  return () => bootstrapService.bootstrap();
 }
 
 @NgModule({
@@ -41,8 +41,8 @@ export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
       deps: [AppBootstrapService],
       multi: true
     },
-    WebSocketService,
-    VoiceRecognitionService
+    VoiceAssistantService,
+    WebSocketService
   ],
   bootstrap: [AppComponent]
 })

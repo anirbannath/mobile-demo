@@ -1,0 +1,13 @@
+.list-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+p {
+  margin: 0 0 1rem 0;
+
+  &:last-child {
+    margin: 0;
+  }
+}

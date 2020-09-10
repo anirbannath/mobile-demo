@@ -1,12 +1,14 @@
 import { User } from './user';
 import { ContactDictionary } from './contact';
 import { NoteDictionary } from './note';
+import { SpeechAssistantMeta } from './voice-assistant';
 
 export interface AppState {
   user: AppDataState<User>,
   contacts: AppDataState<ContactDictionary>,
   selectedContactId: number,
-  notes: AppDataState<NoteDictionary>
+  notes: AppDataState<NoteDictionary>,
+  voiceAssistant: AppDataState<SpeechAssistantMeta>
 };
 
 export interface AppDataState<T> {
