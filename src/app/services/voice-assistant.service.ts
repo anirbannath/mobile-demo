@@ -12,6 +12,7 @@ export class VoiceAssistantService {
 
   public isSupported = !!window.webkitSpeechRecognition;
   private recognition: any;
+  private manuallyStopped = false;
 
   constructor() {
     if (this.isSupported && !this.recognition) {
@@ -19,6 +20,20 @@ export class VoiceAssistantService {
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';
+
+      this.recognition.onstart = () => {
+        this.manuallyStopped = false;
+        console.log('Speech recognition started.')
+      };
+
+      this.recognition.onend = () => {
+        if (!this.manuallyStopped) {
+          this.recognition.start();
+        } else {
+          this.manuallyStopped = true;
+          console.log('Speech recognition stopped.')
+        }
+      };
     }
   }
 
@@ -47,21 +62,17 @@ export class VoiceAssistantService {
 
   start() {
     if (this.recognition) {
+      this.manuallyStopped = false;
       this.recognition.start();
       console.log('Starting speech recognition...');
-      this.recognition.onstart = () => {
-        console.log('Speech recognition started.')
-      }
     }
   }
 
   stop() {
     if (this.recognition) {
+      this.manuallyStopped = true;
       this.recognition.stop();
       console.log("Stopping speech recognition...");
-      this.recognition.onend = () => {
-        console.log('Speech recognition stopped.')
-      }
     }
   }
 }
