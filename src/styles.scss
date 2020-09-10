@@ -1,18 +1,5 @@
 @import 'assets/font-awesome/css/font-awesome.css';
-
-:root {
-  --default: #222;
-  --primary: #3672bd;
-  --secondary: #6c757d;
-  --success: #28a745;
-  --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light: #f8f9fa;
-  --dark: #46484d;
-  --card-title: #e6edf3;
-  --border-color: #cccdce;
-}
+@import 'variables';
 
 h1,
 .h1,
@@ -155,7 +142,7 @@ fieldset:disabled a.btn {
 
 .card {
   &:not(:last-child) {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid $border-color;
   }
 
 }
@@ -163,7 +150,7 @@ fieldset:disabled a.btn {
 .card-title {
   font-size: 1.3rem;
   padding: 6px 20px;
-  background-color: var(--card-title);
+  background-color: $card-title;
 }
 
 .card-body {
@@ -172,7 +159,7 @@ fieldset:disabled a.btn {
 
 .list-item {
   &:not(:last-child) {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid $border-color;
   }
 }
 
@@ -218,11 +205,11 @@ fieldset:disabled a.btn {
 }
 
 .text-primary {
-  color: var(--primary);
+  color: $primary;
 }
 
 .text-muted {
-  color: var(--secondary);
+  color: $secondary;
 }
 
 .text-truncate {

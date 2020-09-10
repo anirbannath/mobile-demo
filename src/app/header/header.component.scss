@@ -1,3 +1,5 @@
+@import '../../variables';
+
 :host {
   display: block;
   position: sticky;
@@ -11,8 +13,8 @@ h1 {
   align-items: center;
   justify-content: center;
   width: 100%;
-  color: var(--light);
-  background-color: var(--primary);
+  color: $light;
+  background-color: $primary;
   font-size: 1.8rem;
   line-height: 1;
   font-weight: 300;
