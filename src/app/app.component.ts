@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { routerAnimations } from './app-animations';
 import { loadNotes } from './state/actions/notes.actions';
 import { VoiceRecognitionService } from './services/voice-navigation.service';
 import { WebSocketService } from './services/web-socket.service';
-import { filter } from 'rxjs/operators'
 import { appRoutes } from './app-routing.module';
 
 @Component({
@@ -47,13 +46,15 @@ export class AppComponent implements OnInit {
     this.webSocketService.listen('formattedtext-event').subscribe((data: string) => {
       console.log("Final Data ", data);
       if (data) {
-        let text = data.toLowerCase();
-        appRoutes.forEach(route => {
-          if (text.indexOf(route.path) >= 0) {
-            this.router.navigateByUrl('/' + route.path);
-          }
-        }, error => {
-          console.log(error);
+        const text = data.toLowerCase(),
+          words = text.split(' ');
+        appRoutes.some(route => {
+          return words.some(word => {
+            if (route.data.navigationKey && route.data.navigationKey.indexOf(word) >= 0) {
+              this.router.navigateByUrl('/' + route.path);
+              return true;
+            }
+          });
         })
       }
     });
