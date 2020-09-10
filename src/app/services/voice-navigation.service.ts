@@ -41,8 +41,7 @@ export class VoiceRecognitionService {
         this.recognition.stop();
         console.log("End speech recognition")
       } else {
-        this.wordConcat()
-        this.recognition.start();
+        this.wordConcat();
       }
     });
   }
