@@ -33,12 +33,19 @@ export class NotesEffects {
                 const db = dbRequest.result,
                   tx = db.transaction('notes', 'readonly'),
                   notesTx = tx.objectStore('notes'),
-                  notesDataRequest: IDBRequest<Array<Note>> = notesTx.getAll();
+                  notesDataRequest: IDBRequest<IDBCursorWithValue> = notesTx.openCursor(IDBKeyRange.lowerBound(1));
+                const notes: Array<Note> = [];
                 notesDataRequest.onsuccess = (event) => {
-                  setTimeout(() => {
-                    subscriber.next(setNotes({ notes: notesDataRequest.result }));
-                    subscriber.complete();
-                  }, environment.dataDelay);
+                  const result = notesDataRequest.result;
+                  if (result) {
+                    notes.push(result.value);
+                    result.continue();
+                  } else {
+                    setTimeout(() => {
+                      subscriber.next(setNotes({ notes: notes }));
+                      subscriber.complete();
+                    }, environment.dataDelay);
+                  }
                 };
               } catch (ex) {
                 console.error(ex);
