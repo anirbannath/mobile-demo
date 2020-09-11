@@ -1,0 +1,43 @@
+@import 'variables';
+
+@mixin dark-theme-css-variables() {
+  --body: #{$dark-body};
+  --default: #{$dark-default};
+  --primary: #{$dark-primary};
+  --primary-bright: #{$dark-primary-bright};
+  --secondary: #{$dark-secondary};
+  --success: #{$dark-success};
+  --info: #{$dark-info};
+  --warning: #{$dark-warning};
+  --danger: #{$dark-danger};
+  --light: #{$dark-light};
+  --dark: #{$dark-dark};
+  --card-title: #{$dark-card-title};
+  --border: #{$dark-border};
+  --skeleton: #{$dark-skeleton};
+}
+
+:root {
+  --body: #{$body};
+  --default: #{$default};
+  --primary: #{$primary};
+  --primary-bright: #{$primary-bright};
+  --secondary: #{$secondary};
+  --success: #{$success};
+  --info: #{$info};
+  --warning: #{$warning};
+  --danger: #{$danger};
+  --light: #{$light};
+  --dark: #{$dark};
+  --card-title: #{$card-title};
+  --border: #{$border};
+  --skeleton: #{$skeleton};
+
+  @media (prefers-color-scheme: dark) {
+    @include dark-theme-css-variables();
+  }
+}
+
+.dark {
+  @include dark-theme-css-variables();
+}

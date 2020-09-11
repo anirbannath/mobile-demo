@@ -2,33 +2,39 @@
 
 <div class="card">
   <div class="card-title">App Settings</div>
-  <div class="list-item card-body text-dark">
+  <div class="list-item card-body">
     <div class="list-group">
       <div>
         Voice Assistant
       </div>
       <div class="switch">
         <input type="checkbox" id="voiceSwitch" [checked]="voiceAssistantActive" [disabled]="!voiceAssistantSupported"
-          (click)="onVoiceAssistantToggle()" /><label for="voiceSwitch">Toggle</label>
+          (click)="onVoiceAssistantToggle()" /><label for="voiceSwitch">Toggle voice assistant</label>
       </div>
     </div>
     <small *ngIf="!voiceAssistantSupported" class="text-danger">
       Voice Assistant is not supported in your browser/platform. For the best performance use Google Chrome.
     </small>
   </div>
-  <div class="list-item list-group card-body text-dark">
-    <div>
-      Dark Mode (Coming Soon)
+  <div class="list-item card-body">
+    <div class="list-group">
+      <div>
+        Always Dark Mode
+      </div>
+      <div class="switch">
+        <input type="checkbox" id="darkSwitch" [checked]="forceDarkTheme" [disabled]="!supportDarkTheme"
+          (click)="onDarkThemeToggle()" /><label for="darkSwitch">Toggle dark theme</label>
+      </div>
     </div>
-    <div class="switch">
-      <input type="checkbox" id="darkSwitch" disabled /><label for="darkSwitch">Toggle</label>
-    </div>
+    <small *ngIf="!voiceAssistantSupported" class="text-danger">
+      Dark Mode is not supported in your browser/platform. For the best performance use Google Chrome.
+    </small>
   </div>
 </div>
 
 <div class="card">
   <div class="card-title">Disclaimer</div>
-  <div class="card-body text-dark">
+  <div class="card-body">
     <p>This application is created for learning and demo purpose.</p>
     <p>The source code suggests best practices which should be followed while developing an Angular application and is
       mainly designed targeting mobile platforms (like Android/iOS).</p>

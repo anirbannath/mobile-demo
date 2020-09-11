@@ -1,5 +1,12 @@
-@import 'assets/font-awesome/css/font-awesome.css';
+@import '../assets/font-awesome/css/font-awesome.css';
 @import 'variables';
+@import 'mixins';
+@import 'theme';
+
+body {
+  @include color-fallback(color, --default, $default);
+  @include color-fallback(background-color, --body, $body);
+}
 
 h1,
 .h1,
@@ -48,10 +55,21 @@ h6,
   font-size: 1rem;
 }
 
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0;
+  border-top: 1px solid transparent;
+  @include color-fallback(border-color, --border, $border);
+}
+
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  @include color-fallback(color, --default, $default);
   text-align: center;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -65,24 +83,11 @@ h6,
   line-height: 1.5;
   border-radius: 0.25rem;
   text-decoration: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn {
-    transition: none;
-  }
-}
-
-.btn:hover {
-  color: #212529;
-  text-decoration: none;
 }
 
 .btn:focus,
 .btn.focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .btn.disabled,
@@ -100,57 +105,22 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-}
-
-.btn-primary:focus,
-.btn-primary.focus {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-}
-
-.btn-primary.disabled,
-.btn-primary:disabled {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active,
-.show>.btn-primary.dropdown-toggle {
-  color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
-}
-
-.btn-primary:not(:disabled):not(.disabled):active:focus,
-.btn-primary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  @include color-fallback(color, --light, $light);
+  @include color-fallback(background-color, --primary-bright, $primary-bright);
+  @include color-fallback(border-color, --primary-bright, $primary-bright);
 }
 
 .card {
   &:not(:last-child) {
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid transparent;
+    @include color-fallback(border-color, --border, $border);
   }
-
 }
 
 .card-title {
   font-size: 1.3rem;
   padding: 6px 20px;
-  background-color: $card-title;
+  @include color-fallback(background-color, --card-title, $card-title);
 }
 
 .card-body {
@@ -159,7 +129,8 @@ fieldset:disabled a.btn {
 
 .list-item {
   &:not(:last-child) {
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid transparent;
+    @include color-fallback(border-color, --border, $border);
   }
 }
 
@@ -209,19 +180,15 @@ small {
 }
 
 .text-primary {
-  color: $primary;
+  @include color-fallback(color, --primary-bright, $primary-bright, true);
 }
 
 .text-danger {
-  color: $danger;
+  @include color-fallback(color, --danger, $danger, true);
 }
 
 .text-muted {
-  color: $secondary;
-}
-
-.text-dark {
-  color: $dark;
+  @include color-fallback(color, --secondary, $secondary, true);
 }
 
 .text-truncate {
@@ -251,77 +218,8 @@ small {
   height: 20px;
   margin: 6px 0;
   animation: shimmer 2s infinite;
-  background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+  @include color-fallback(background, --skeleton, $skeleton);
   background-size: 1000px 100%;
-}
-
-.record-wrapper {
-  position: fixed;
-  right: 30px;
-  bottom: 85px;
-}
-
-.record {
-  display: flex;
-  position: relative;
-  flex: 1 0 64px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 64px;
-  width: 64px;
-  border-radius: 100%;
-  border: 0;
-  font-size: 1.4rem;
-  color: #f44;
-  background: #fff;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .25);
-  outline: 0;
-}
-
-.recording {
-
-  color: #fff;
-  background-color: #ff4444;
-
-  &::before,
-  &::after {
-    opacity: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    content: '';
-    height: 100%;
-    width: 100%;
-    border: 8px solid rgba(0, 0, 0, 0.2);
-    border-radius: 100%;
-    animation-name: ripple;
-    animation-duration: 3s;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
-    z-index: -1;
-  }
-
-  &::before {
-    animation-delay: 0.5s;
-  }
-}
-
-@keyframes ripple {
-  from {
-    opacity: 1;
-    transform: scale3d(0.75, 0.75, 1);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale3d(2.5, 2.5, 1);
-  }
 }
 
 .switch {
@@ -340,7 +238,7 @@ small {
     text-indent: -9999px;
     width: 40px;
     height: 20px;
-    background: #8f8f8f;
+    background: #444;
     display: block;
     border-radius: 100px;
     position: relative;
@@ -364,7 +262,7 @@ small {
   }
 
   input:checked+label {
-    background: $success;
+    @include color-fallback(background-color, --success, $success);
   }
 
   input:checked+label:after {

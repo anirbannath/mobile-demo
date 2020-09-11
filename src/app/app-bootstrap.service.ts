@@ -1,15 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { environment } from '../environments/environment';
 import { VoiceAssistantService } from './services/voice-assistant.service';
 import { setVoiceAssistantSupport } from './state/actions/voice-assistant.actions';
+import { isPlatformBrowser } from '@angular/common';
+import { setForceDarkTheme, setSupportDarkTheme } from './state/actions/dark-theme.actions';
 
 @Injectable()
 export class AppBootstrapService {
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private http: HttpClient,
     private store: Store,
     private voiceAssistantService: VoiceAssistantService
@@ -17,6 +20,13 @@ export class AppBootstrapService {
 
   bootstrap() {
     return new Promise<boolean>((resolve, reject) => {
+
+      if (isPlatformBrowser(this.platformId)) {
+        const forceDarkTheme = localStorage.getItem('forceDarkTheme') === 'true' ? true : false;
+        const supportDarkTheme = CSS && CSS.supports && CSS.supports('color', 'var(--fake-var)');
+        this.store.dispatch(setForceDarkTheme({ force: forceDarkTheme }));
+        this.store.dispatch(setSupportDarkTheme({ support: supportDarkTheme }));
+      }
 
       this.store.dispatch(setVoiceAssistantSupport({ support: this.voiceAssistantService.isSupported }));
 

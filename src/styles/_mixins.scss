@@ -1,0 +1,11 @@
+@mixin color-fallback($property, $css-variable, $value, $important: false) {
+  @if($important==true) {
+    #{$property}: $value !important;
+    #{$property}: var($css-variable, $value) !important;
+  }
+
+  @if($important==false) {
+    #{$property}: $value;
+    #{$property}: var($css-variable, $value);
+  }
+}

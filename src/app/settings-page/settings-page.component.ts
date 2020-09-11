@@ -10,10 +10,17 @@ export class SettingsPageComponent {
 
   @Input() voiceAssistantSupported: boolean;
   @Input() voiceAssistantActive: boolean;
+  @Input() supportDarkTheme: boolean;
+  @Input() forceDarkTheme: boolean;
   @Output() voiceAssistantToggle = new EventEmitter<boolean>();
+  @Output() darkThemeToggle = new EventEmitter<boolean>();
 
   onVoiceAssistantToggle() {
     this.voiceAssistantToggle.emit(!this.voiceAssistantActive);
+  }
+
+  onDarkThemeToggle() {
+    this.darkThemeToggle.emit(!this.forceDarkTheme);
   }
 
 }

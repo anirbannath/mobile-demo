@@ -1,4 +1,8 @@
 export const appActions = {
+
+  setForceDarkTheme: '[Dark Theme] Set Force Dark Theme',
+  setSupportDarkTheme: '[Dark Theme] Set Support Dark Theme',
+
   loadUser: '[User] Load User',
   setUser: '[User] Set User',
   errorUser: '[User] Error User',
