@@ -1,4 +1,4 @@
-<app-header [cancel]="true" [edit]="!edit" [save]="edit" (onSave)="onSave()">Note</app-header>
+<app-header [back]="!edit" [cancel]="edit" [edit]="!edit" [save]="edit" (onSave)="onSave()">Note</app-header>
 
 <div class="card-body">
   <div *ngIf="loading">

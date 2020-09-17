@@ -4,9 +4,18 @@ import { NoteContainerComponent } from './note-container.component';
 
 
 const routes: Routes = [
-  { path: ':id/edit', component: NoteContainerComponent },
-  { path: ':id', component: NoteContainerComponent },
-  { path: '', component: NoteContainerComponent }
+  {
+    path: ':id/edit', component: NoteContainerComponent,
+    data: { animationKey: 'EditNotePage' }
+  },
+  {
+    path: ':id', component: NoteContainerComponent,
+    data: { animationKey: 'ViewNotePage' }
+  },
+  {
+    path: '', component: NoteContainerComponent,
+    data: { animationKey: 'CreateNotePage' }
+  }
 ];
 
 @NgModule({

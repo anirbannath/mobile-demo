@@ -53,6 +53,15 @@ export const backwardSlide = [
 
 export const routerAnimations =
   trigger('routeAnimations', [
+    transition('* => EditNotePage', forwardSlide),
+    transition('EditNotePage => *', backwardSlide),
+
+    transition('* => ViewNotePage', forwardSlide),
+    transition('ViewNotePage => *', backwardSlide),
+
+    transition('* => CreateNotePage', forwardSlide),
+    transition('CreateNotePage => *', backwardSlide),
+
     transition('HomePage => ContactsPage', forwardSlide),
     transition('HomePage => ClientPage', forwardSlide),
 
@@ -63,5 +72,5 @@ export const routerAnimations =
     transition('ClientPage => ContactsPage', backwardSlide),
 
     transition('* => SettingsPage', forwardSlide),
-    transition('SettingsPage => *', backwardSlide)
+    transition('SettingsPage => *', backwardSlide),
   ]);
