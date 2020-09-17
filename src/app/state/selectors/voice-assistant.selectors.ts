@@ -13,12 +13,12 @@ export const selectVoiceAssistantActive = createSelector(
   (assistant) => assistant.data && assistant.data.active
 );
 
-export const selectVoiceAssistantFinalTranscript = createSelector(
-  selectVoiceAssistant,
-  (assistant) => assistant.data && assistant.data.finalTranscript
-);
-
 export const selectVoiceAssistantInterimTranscript = createSelector(
   selectVoiceAssistant,
   (assistant) => assistant.data && assistant.data.interimTranscript
+);
+
+export const selectVoiceAssistantFinalTranscript = createSelector(
+  selectVoiceAssistant,
+  (assistant) => assistant.data && assistant.data.finalTranscript
 );

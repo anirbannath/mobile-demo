@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterModule } from './footer/footer.module';
 import { WebSocketService } from './services/web-socket.service';
 import { VoiceAssistantService } from './services/voice-assistant.service';
+import { ToastModule } from './toast/toast.module';
 
 export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
   return () => bootstrapService.bootstrap();
@@ -31,6 +32,7 @@ export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     HttpClientModule,
+    ToastModule,
     FooterModule
   ],
   providers: [

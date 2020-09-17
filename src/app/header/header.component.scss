@@ -11,13 +11,13 @@
 
 h1 {
   display: flex;
-  height: 60px;
+  height: 56px;
   align-items: center;
   justify-content: center;
   width: 100%;
   @include color-fallback(color, --light, $light);
   @include color-fallback(background-color, --primary, $primary);
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   line-height: 1;
   font-weight: 300;
   user-select: none;
@@ -48,5 +48,5 @@ h1 {
 }
 
 .icon {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
 }

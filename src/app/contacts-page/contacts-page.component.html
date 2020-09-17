@@ -9,8 +9,8 @@
   </div>
   <ng-container *ngIf="!error && data?.length > 0">
     <div *ngFor="let contact of data" class="card-body list-item" (click)="onSelectContact(contact?.id)">
-      <div class="item-title text-truncate">{{ contact?.lastName }}, {{ contact?.firstName }}</div>
-      <div class="text-muted">{{ contact?.type }}</div>
+      <div class="text-truncate">{{ contact?.lastName }}, {{ contact?.firstName }}</div>
+      <div class="text-muted text-small">{{ contact?.type }}</div>
     </div>
   </ng-container>
 </ng-container>

@@ -14,6 +14,7 @@ $dark: #313338;
 $card-title: #e6edf3;
 $border: #cccdce;
 $skeleton: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+$toast: #b2b3b4;
 
 // END OF DEFAULT THEME VARIABLES
 
@@ -21,9 +22,9 @@ $skeleton: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
 
 // DARK THEME VARIABLES
 
-$dark-body: #101315;
+$dark-body: #242729;
 $dark-default: #eee;
-$dark-primary: #136fbf;
+$dark-primary: #094169;
 $dark-primary-bright: #5585ff;
 $dark-secondary: #9099a1;
 $dark-success: #28a745;
@@ -32,8 +33,9 @@ $dark-warning: #ffc107;
 $dark-danger: #ff384c;
 $dark-light: #f8f9fa;
 $dark-dark: #0a1120;
-$dark-card-title: #111c27;
+$dark-card-title: #111417;
 $dark-border: #333;
-$dark-skeleton: linear-gradient(to right, #1c1d1d 4%, #262525 25%, #1c1d1d 36%);
+$dark-skeleton: linear-gradient(to right, #505050 4%, #262525 25%, #505050 36%);
+$dark-toast: #595959;
 
 // END OF DARK THEME VARIABLES

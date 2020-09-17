@@ -10,8 +10,8 @@ export const voiceAssistantReducer = createReducer(
   on(setVoiceAssistantResult, (state, { result }) => ({
     ...state, data: {
       ...state.data,
-      finalTranscript: result.finalTranscript,
-      interimTranscript: result.interimTranscript,
+      finalTranscript: '' || result?.finalTranscript,
+      interimTranscript: '' || result?.interimTranscript,
     }
   })),
 );

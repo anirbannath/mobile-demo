@@ -6,12 +6,12 @@
     <div class="card-body text-center">
       <ng-container *ngIf="!userLoading">
         <div>
-          <div class="h4 text-muted">Welcome</div>
-          <h1 class="h2 text-truncate">{{ userData?.lastName }}, {{ userData?.firstName }}</h1>
+          <div class="h5 text-muted">Welcome</div>
+          <h1 class="h4 text-truncate">{{ userData?.lastName }}, {{ userData?.firstName }}</h1>
         </div>
         <hr>
         <div>
-          <div class="h2">{{ userData?.profit | currency }}</div>
+          <div class="h4">{{ userData?.profit | currency }}</div>
           <div class="text-muted">Net Profit</div>
           <div>Last updated: {{ today | date }}</div>
         </div>
@@ -38,9 +38,9 @@
       </div>
       <div *ngIf="!notesError && notesData?.length > 0">
         <div *ngFor="let note of notesData" class="card-body list-item">
-          <div class="item-title text-primary text-truncate">{{ note?.title }}</div>
-          <div class="text-clamp">{{ note?.description }}</div>
-          <div class="text-muted text-truncate">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm a' }}</div>
+          <div class="text-primary text-truncate">{{ note?.title }}</div>
+          <div class="text-clamp text-small">{{ note?.description }}</div>
+          <div class="text-muted text-truncate text-small">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm a' }}</div>
         </div>
       </div>
     </ng-container>

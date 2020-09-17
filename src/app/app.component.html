@@ -2,4 +2,7 @@
   <router-outlet #outlet="outlet"></router-outlet>
 </div>
 
+<app-toast [interim]="voiceAssistantInterimTranscript$ | async" [final]="voiceAssistantFinalTranscript$ | async">
+</app-toast>
+
 <app-footer></app-footer>

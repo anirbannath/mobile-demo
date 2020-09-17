@@ -2,9 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
-import { selectUserLoading, selectUserData, selectUserError } from '../state/selectors/user.selectors';
-import { loadUser } from '../state/actions/user.actions';
 import { Note } from '../models/note';
+import { selectUserLoading, selectUserData, selectUserError } from '../state/selectors/user.selectors';
 import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/selectors/notes.selectors';
 
 @Component({
@@ -41,7 +40,6 @@ export class HomeContainerComponent implements OnInit {
     this.notesLoading$ = this.store.select(selectNotesLoading);
     this.notesData$ = this.store.select(selectNotesList);
     this.notesError$ = this.store.select(selectNotesError);
-    this.store.dispatch(loadUser());
   }
 
 }

@@ -1,0 +1,20 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.toast {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 72px;
+  padding: 8px 16px 10px 16px;
+  border-radius: 6px;
+  opacity: 0.95;
+  z-index: 100;
+  @include color-fallback(color, --toast, $toast);
+  @include color-fallback(background-color, --default, $default);
+
+  &.toast-final {
+    font-weight: 600;
+    @include color-fallback(color, --body, $body);
+  }
+}

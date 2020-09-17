@@ -39,14 +39,15 @@ export class VoiceAssistantEffects {
     tap((action) => {
       const data: SpeechAssistantMeta = (<any>action).result;
       if (data) {
-        console.log(data.interimTranscript);
-        const text = data.finalTranscript && data.finalTranscript.toLowerCase();
+        console.log(data?.interimTranscript);
+        const text = data?.finalTranscript;
         if (text) {
           console.log('Final: ' + text);
-          const words = text.split(' ');
+          const words = text.toLowerCase().split(' ');
           appRoutes.some(route => {
             return words.some(word => {
-              if (route.data && route.data.navigationKey && route.data.navigationKey.indexOf(word) >= 0) {
+              if (route.data && route.data.navigationKey &&
+                route.data.navigationKey.indexOf(word) >= 0) {
                 this.router.navigateByUrl('/' + route.path);
                 return true;
               }

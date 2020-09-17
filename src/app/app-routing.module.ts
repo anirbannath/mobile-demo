@@ -6,22 +6,22 @@ export const appRoutes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home-page/home-page.module').then(m => m.HomePageModule),
-    data: { navigationKey: 'home', animationKey: 'HomePage' }
+    data: { navigationKey: ['homepage', 'home'], animationKey: 'HomePage' }
   },
   {
     path: 'contacts',
     loadChildren: () => import('./contacts-page/contacts-page.module').then(m => m.ContactsPageModule),
-    data: { navigationKey: 'contacts', animationKey: 'ContactsPage' }
+    data: { navigationKey: ['contact', 'contacts'], animationKey: 'ContactsPage' }
   },
   {
     path: 'client',
     loadChildren: () => import('./client-page/client-page.module').then(m => m.ClientPageModule),
-    data: { navigationKey: 'clients', animationKey: 'ClientPage' }
+    data: { navigationKey: ['client', 'clients'], animationKey: 'ClientPage' }
   },
   {
     path: 'settings',
     loadChildren: () => import('./settings-page/settings-page.module').then(m => m.SettingsPageModule),
-    data: { navigationKey: 'settings', animationKey: 'SettingsPage' }
+    data: { navigationKey: ['setting', 'settings'], animationKey: 'SettingsPage' }
   },
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
