@@ -12,7 +12,7 @@ export class ToastComponent implements OnChanges {
 
   private _setTimeoutHandler: any;
   showToast: boolean;
-  @Input() debounceTime = 2000;
+  @Input() duration = 2000;
   @Input() interim: string;
   @Input() final: string;
 
@@ -29,7 +29,7 @@ export class ToastComponent implements OnChanges {
       this._setTimeoutHandler = setTimeout(() => {
         this.showToast = false;
         this._cd.detectChanges();
-      }, this.debounceTime);
+      }, this.duration);
     }
   }
 

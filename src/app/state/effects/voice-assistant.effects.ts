@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, concatMap, tap } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
 import { setVoiceAssistantResult } from '../actions/voice-assistant.actions';
-import { appRoutes } from '../../app-routing.module';
+import { voiceNavigations } from '../../app-routing.module';
 import { SpeechAssistantMeta } from '../../models/voice-assistant';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class VoiceAssistantEffects {
   constructor(
     private actions$: Actions,
     private voiceAssistantService: VoiceAssistantService,
+    private location: Location,
     private router: Router
   ) { }
 
@@ -39,16 +41,16 @@ export class VoiceAssistantEffects {
     tap((action) => {
       const data: SpeechAssistantMeta = (<any>action).result;
       if (data) {
-        console.log(data?.interimTranscript);
-        const text = data?.finalTranscript;
-        if (text) {
-          console.log('Final: ' + text);
-          const words = text.toLowerCase().split(' ');
-          appRoutes.some(route => {
-            return words.some(word => {
-              if (route.data && route.data.navigationKey &&
-                route.data.navigationKey.indexOf(word) >= 0) {
-                this.router.navigateByUrl('/' + route.path);
+        const finalTranscript = data?.finalTranscript?.toLowerCase();
+        if (finalTranscript) {
+          voiceNavigations.some(route => {
+            return route?.navigationKey.some(navigationKey => {
+              if (finalTranscript?.indexOf(navigationKey) >= 0) {
+                if (route.path === 'goBack') {
+                  this.location.back();
+                } else {
+                  this.router.navigateByUrl('/' + route.path);
+                }
                 return true;
               }
             })

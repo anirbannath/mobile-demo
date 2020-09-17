@@ -1,0 +1,14 @@
+p {
+  margin: 0;
+}
+
+.loading-h {
+  height: 25px;
+  margin: 10px 0;
+}
+
+textarea {
+  height: calc(100vh - 170px);
+  overflow: auto;
+  resize: none;
+}

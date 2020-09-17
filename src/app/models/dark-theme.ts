@@ -1,4 +1,4 @@
 export interface DarkTheme {
-  isSupported: boolean,
-  isForced: boolean
+  isSupported?: boolean,
+  isForced?: boolean
 }

@@ -1,9 +1,21 @@
 <h1>
   <ng-content></ng-content>
 </h1>
-<a *ngIf="back" class="btn-header btn-back" aria-label="back" href="javascript:void(0)" (click)="goBack()">
+<a *ngIf="back" class="btn-header btn-left" aria-label="back" href="javascript:void(0)" (click)="goBack()">
   <i class="fa fa-chevron-left" aria-hidden="true"></i>
 </a>
-<a *ngIf="settings" class="btn-header btn-settings" routerLink="/settings" aria-label="settings">
+<a *ngIf="cancel" class="btn-header btn-left" href="javascript:void(0)" (click)="goBack()">
+  Cancel
+</a>
+<a *ngIf="settings" class="btn-header btn-right" routerLink="/settings" aria-label="settings">
   <i class="icon fa fa-cog" aria-hidden="true"></i>
+</a>
+<a *ngIf="note" class="btn-header btn-right" routerLink="/note" aria-label="create note">
+  <i class="icon fa fa-plus" aria-hidden="true"></i>
+</a>
+<a *ngIf="edit" class="btn-header btn-right" [routerLink]="['edit']">
+  Edit
+</a>
+<a *ngIf="save" class="btn-header btn-right" href="javascript:void(0)" (click)="onSaveClick()">
+  Save
 </a>

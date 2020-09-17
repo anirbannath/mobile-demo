@@ -25,34 +25,52 @@ h6,
   margin: 0;
 }
 
-h1,
-.h1 {
+h1 {
   font-size: 2.5rem;
 }
 
-h2,
-.h2 {
+h2 {
   font-size: 2rem;
 }
 
-h3,
-.h3 {
+h3 {
   font-size: 1.75rem;
 }
 
-h4,
-.h4 {
+h4 {
   font-size: 1.5rem;
 }
 
-h5,
-.h5 {
+h5 {
   font-size: 1.25rem;
 }
 
-h6,
-.h6 {
+h6 {
   font-size: 1rem;
+}
+
+.h1 {
+  font-size: 2.5rem !important;
+}
+
+.h2 {
+  font-size: 2rem !important;
+}
+
+.h3 {
+  font-size: 1.75rem !important;
+}
+
+.h4 {
+  font-size: 1.5rem !important;
+}
+
+.h5 {
+  font-size: 1.25rem !important;
+}
+
+.h6 {
+  font-size: 1rem !important;
 }
 
 hr {
@@ -118,6 +136,8 @@ fieldset:disabled a.btn {
 }
 
 .card-title {
+  position: sticky;
+  top: 56px;
   padding: 6px 20px;
   @include color-fallback(background-color, --card-title, $card-title);
 }
@@ -127,6 +147,10 @@ fieldset:disabled a.btn {
 }
 
 .list-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+
   &:not(:last-child) {
     border-bottom: 1px solid transparent;
     @include color-fallback(border-color, --border, $border);
@@ -224,6 +248,33 @@ small,
 
 .user-select-none {
   user-select: none;
+}
+
+input[type=text],
+textarea {
+  margin: 0;
+  font-family: inherit;
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  @include color-fallback(color, --default, $default);
+  background-color: transparent;
+  background-clip: padding-box;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  @include color-fallback(border-color, --border, $border);
+  border-radius: 0;
+  outline: 0;
+}
+
+textarea {
+  height: auto;
+  overflow: auto;
+  resize: vertical;
 }
 
 .switch {

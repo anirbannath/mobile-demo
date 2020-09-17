@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
@@ -9,7 +9,13 @@ import { Location } from '@angular/common';
 export class HeaderComponent {
 
   @Input() back: boolean;
+  @Input() cancel: boolean;
   @Input() settings: boolean;
+  @Input() note: boolean;
+  @Input() edit: boolean;
+  @Input() save: boolean;
+
+  @Output() onSave = new EventEmitter<void>();
 
   constructor(
     private location: Location
@@ -17,6 +23,10 @@ export class HeaderComponent {
 
   goBack() {
     this.location.back();
+  }
+
+  onSaveClick() {
+    this.onSave.emit();
   }
 
 }

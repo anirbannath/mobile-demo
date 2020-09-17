@@ -1,0 +1,24 @@
+<app-header [cancel]="true" [edit]="!edit" [save]="edit" (onSave)="onSave()">Note</app-header>
+
+<div class="card-body">
+  <div *ngIf="loading">
+    <div class="skeleton loading-h w-100"></div>
+    <div class="skeleton loading-h w-50"></div>
+    <hr>
+    <div class="skeleton w-100"></div>
+    <div class="skeleton w-100"></div>
+    <div class="skeleton w-100"></div>
+    <div class="skeleton w-35"></div>
+  </div>
+  <ng-container *ngIf="!loading">
+    <div *ngIf="!edit && !!note?.id">
+      <h1 class="h5">{{ note.title }}</h1>
+      <hr>
+      <p class="text-small">{{ note.description }}</p>
+    </div>
+    <div *ngIf="edit">
+      <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title">
+      <textarea [(ngModel)]="note.description" placeholder="Description"></textarea>
+    </div>
+  </ng-container>
+</div>

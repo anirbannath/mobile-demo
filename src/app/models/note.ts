@@ -1,9 +1,9 @@
 export interface Note {
-  id: number,
-  title: string,
-  description: string,
-  occurredOn: Date,
-  contactId: number
+  id?: number,
+  title?: string,
+  description?: string,
+  occurredOn?: Date,
+  contactId?: number
 }
 
 export interface NoteDictionary {
