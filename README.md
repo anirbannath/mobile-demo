@@ -27,4 +27,4 @@ Here are some commands which can be used to navigate between the pages:
 - Create note
 - Create a note
 - Discard (For going to the previous page)
-- cancel (For going to the previous page)
+- Cancel (For going to the previous page)
