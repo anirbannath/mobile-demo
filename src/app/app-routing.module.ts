@@ -20,7 +20,7 @@ export const voiceNavigations = [
   },
   {
     path: 'note',
-    navigationKey: ['create note', 'create notes']
+    navigationKey: ['create note', 'create a note', 'create notes']
   },
   {
     path: 'goBack',
