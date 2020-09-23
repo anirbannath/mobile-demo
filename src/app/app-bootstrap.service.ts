@@ -30,38 +30,42 @@ export class AppBootstrapService {
 
       this.store.dispatch(setVoiceAssistantSupport({ support: this.voiceAssistantService.isSupported }));
 
-      if (!window.indexedDB) {
-        console.error(`Your browser doesn't support a stable version of IndexedDB.`);
+      if (isPlatformBrowser(this.platformId)) {
+        if (!window.indexedDB) {
+          console.error(`Your browser doesn't support a stable version of IndexedDB.`);
+          resolve(true);
+        } else {
+          const dataSourceKeys = Object.keys(environment.dbDataSource),
+            sourceObservables = dataSourceKeys.map(key => this.http.get(environment.dbDataSource[key]));
+
+          forkJoin(sourceObservables).subscribe((response: Array<Array<any>>) => {
+            const openRequest = indexedDB.open(environment.dbName, environment.dbVersion);
+
+            openRequest.onupgradeneeded = (event) => {
+              let db = openRequest.result;
+              switch (event.oldVersion) {
+                case 0:
+                  // perform initialization
+                  response.forEach((collection, index) => {
+                    this.initializeLocalDB(db, environment.dbName, dataSourceKeys[index], collection);
+                  });
+              }
+            };
+
+            openRequest.onerror = () => {
+              console.error("IndexedDB Error", openRequest.error);
+              resolve(true);
+            };
+
+            openRequest.onsuccess = () => {
+              console.log('Database status checked and is running!');
+              resolve(true);
+            };
+          });
+        }
+      } else {
         resolve(true);
       }
-
-      const dataSourceKeys = Object.keys(environment.dbDataSource),
-        sourceObservables = dataSourceKeys.map(key => this.http.get(environment.dbDataSource[key]));
-
-      forkJoin(sourceObservables).subscribe((response: Array<Array<any>>) => {
-        const openRequest = indexedDB.open(environment.dbName, environment.dbVersion);
-
-        openRequest.onupgradeneeded = (event) => {
-          let db = openRequest.result;
-          switch (event.oldVersion) {
-            case 0:
-              // perform initialization
-              response.forEach((collection, index) => {
-                this.initializeLocalDB(db, environment.dbName, dataSourceKeys[index], collection);
-              });
-          }
-        };
-
-        openRequest.onerror = () => {
-          console.error("IndexedDB Error", openRequest.error);
-          resolve(true);
-        };
-
-        openRequest.onsuccess = () => {
-          console.log('Database status checked and is running!');
-          resolve(true);
-        };
-      });
     });
 
   }

@@ -19,11 +19,8 @@ To activate voice assistant go to the settings page and activate Voice Assistant
 Here are some commands which can be used to navigate between the pages:
 
 - Go to home
-- Go to contact
-- Go to client
-- Take me to my homepage
-- Take me to contacts page
-- Take me to clients page
+- Go to contact page
+- Navigate to client page
 - Create note
 - Create a note
 - Discard (For going to the previous page)

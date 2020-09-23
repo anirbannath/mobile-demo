@@ -5,20 +5,25 @@ export const selectVoiceAssistant = (state: AppState) => state.voiceAssistant;
 
 export const selectVoiceAssistantSupported = createSelector(
   selectVoiceAssistant,
-  (assistant) => assistant.data && assistant.data.isSupported
+  (assistant) => assistant?.data?.isSupported
 );
 
 export const selectVoiceAssistantActive = createSelector(
   selectVoiceAssistant,
-  (assistant) => assistant.data && assistant.data.active
+  (assistant) => assistant?.data?.active
 );
 
 export const selectVoiceAssistantInterimTranscript = createSelector(
   selectVoiceAssistant,
-  (assistant) => assistant.data && assistant.data.interimTranscript
+  (assistant) => assistant?.data?.interimTranscript
 );
 
 export const selectVoiceAssistantFinalTranscript = createSelector(
   selectVoiceAssistant,
-  (assistant) => assistant.data && assistant.data.finalTranscript
+  (assistant) => assistant?.data?.finalTranscript
+);
+
+export const selectVoiceAssistantAcknowledgement = createSelector(
+  selectVoiceAssistant,
+  (assistant) => assistant?.data?.acknowledgement
 );

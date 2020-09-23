@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Location } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { Note } from '../../models/note';
 export class NotesEffects {
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private store: Store,
     private actions$: Actions,
     private location: Location
@@ -25,6 +26,9 @@ export class NotesEffects {
     switchMap(([action, notesData]) => {
       return new Observable<Action>(subscriber => {
         try {
+          if (!isPlatformBrowser(this.platformId)) {
+            throw new Error('Not browser');
+          }
           const dbRequest = indexedDB.open(environment.dbName, environment.dbVersion);
           dbRequest.onsuccess = () => {
             try {

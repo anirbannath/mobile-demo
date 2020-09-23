@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from '../../models/app-state';
-import { startVoiceAssistant, stopVoiceAssistant, setVoiceAssistantSupport, setVoiceAssistantResult } from '../actions/voice-assistant.actions';
+import {
+  startVoiceAssistant, stopVoiceAssistant,
+  setVoiceAssistantSupport, setVoiceAssistantResult,
+  loadAssistantInstruction, setAssistantInstruction, setAssistantAcknowledgement
+} from '../actions/voice-assistant.actions';
 
 export const voiceAssistantReducer = createReducer(
   initialState,
@@ -12,6 +16,30 @@ export const voiceAssistantReducer = createReducer(
       ...state.data,
       finalTranscript: '' || result?.finalTranscript,
       interimTranscript: '' || result?.interimTranscript,
+      acknowledgement: ''
     }
   })),
+
+  on(loadAssistantInstruction, (state, { transcript }) => ({ ...state, loading: true })),
+  on(setAssistantInstruction, (state, { instruction }) => ({
+    ...state,
+    loading: false,
+    data: {
+      ...state.data,
+      instruction: {
+        action: instruction?.action,
+        target: instruction?.target,
+        value: instruction?.value,
+      }
+    }
+  })),
+
+  on(setAssistantAcknowledgement, (state, { acknowledgement }) => ({
+    ...state,
+    data: {
+      ...state.data,
+      acknowledgement: acknowledgement
+    }
+  })),
+
 );

@@ -10,5 +10,6 @@ export const environment = {
     user: '/mobile-demo/data/user.json',
     contacts: '/mobile-demo/data/contacts.json'
   },
-  voiceNavigatorUrl: 'http://localhost:5000/'
+  instructionResolver: '/api/resolve-instruction',
+  envNode: false
 };

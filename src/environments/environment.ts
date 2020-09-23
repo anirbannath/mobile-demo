@@ -14,7 +14,8 @@ export const environment = {
     user: '/data/user.json',
     contacts: '/data/contacts.json'
   },
-  voiceNavigatorUrl: 'http://localhost:5000/'
+  instructionResolver: '/api/resolve-instruction',
+  envNode: true
 };
 
 /*

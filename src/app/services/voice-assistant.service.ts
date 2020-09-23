@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SpeechAssistantMeta } from '../models/voice-assistant';
@@ -7,16 +8,20 @@ declare global {
   var webkitSpeechRecognition: any
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class VoiceAssistantService {
 
-  public isSupported = !!window.webkitSpeechRecognition;
+  public isSupported = isPlatformBrowser(this.platformId) && !!webkitSpeechRecognition;
   private recognition: any;
   private manuallyStopped = false;
 
-  constructor() {
-    if (this.isSupported && !this.recognition) {
-      this.recognition = new window.webkitSpeechRecognition();
+  constructor(
+    @Inject(PLATFORM_ID) private platformId
+  ) {
+    if (isPlatformBrowser(this.platformId) && this.isSupported && !this.recognition) {
+      this.recognition = new webkitSpeechRecognition();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';

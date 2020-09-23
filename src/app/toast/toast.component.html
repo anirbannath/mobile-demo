@@ -1,3 +1,8 @@
-<div [@toastAnimation] *ngIf="showToast" [class.toast-final]="final" class="toast">
-  {{ final || interim }}
+<div [@toastAnimation] *ngIf="showToast" class="toast">
+  <div [class.toast-final]="final">
+    {{ final || interim }}
+  </div>
+  <div *ngIf="acknowledgement" class="toast-final">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> {{ acknowledgement }}
+  </div>
 </div>

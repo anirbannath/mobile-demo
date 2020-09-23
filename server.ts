@@ -6,13 +6,27 @@ import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
+
+import * as bodyParser from 'body-parser';
+import * as compression from 'compression';
+import apiRouter from './src-server/api';
+import { trainActionClassifier } from './src-server/utils/classifier';
+
+// SSR Workaround for getting Window Object
+import * as domino from 'domino';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/mobile-demo/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+
+  // SSR Workaround for getting Window Object
+  const template = readFileSync(join(distFolder, 'index.html')).toString();
+  const window = domino.createWindow(template);
+  (global as any).window = window;
+  (global as any).indexedDB = window.indexedDB;
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
@@ -22,8 +36,13 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  // Middlewares
+  server.use(compression());
+  server.use(bodyParser.json());
+  server.use(bodyParser.urlencoded({ extended: true }));
+
   // Example Express Rest API endpoints
-  // server.use('/api', apiRouter);
+  server.use('/api', apiRouter);
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
@@ -39,6 +58,12 @@ export function app() {
 
 function run() {
   const port = process.env.PORT || 4000;
+
+  trainActionClassifier().then((classifier) => {
+    console.log('Training actions completed.')
+  }).catch((err) => {
+    console.error(err.message);
+  })
 
   // Start up the Node server
   const server = app();

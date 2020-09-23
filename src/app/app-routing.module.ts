@@ -1,30 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-export const voiceNavigations = [
+export const navigationInstructions = [
   {
-    path: 'home',
+    path: '/home',
     navigationKey: ['homepage', 'home']
   },
   {
-    path: 'contacts',
+    path: '/contacts',
     navigationKey: ['contact', 'contacts']
   },
   {
-    path: 'client',
+    path: '/client',
     navigationKey: ['client', 'clients']
   },
   {
-    path: 'settings',
+    path: '/settings',
     navigationKey: ['setting', 'settings']
   },
   {
-    path: 'note',
+    path: '/note',
     navigationKey: ['create note', 'create a note', 'create notes']
-  },
-  {
-    path: 'goBack',
-    navigationKey: ['cancel', 'discard']
   }
 ]
 

@@ -24,5 +24,14 @@ export const appActions = {
   setVoiceAssistantSupport: '[Voice Assistant] Set Voice Assistant Support',
   startVoiceAssistant: '[Voice Assistant] Start',
   stopVoiceAssistant: '[Voice Assistant] Stop',
+
   setVoiceAssistantResult: '[Voice Assistant] Set Voice Assistant Result',
+
+  loadAssistantInstruction: '[Voice Assistant] Load Voice Assistant Instruction',
+  errorAssistantInstruction: '[Voice Assistant] Error Voice Assistant Instruction',
+  setAssistantInstruction: '[Voice Assistant] Set Voice Assistant Instruction',
+  cancelAssistantInstruction: '[Voice Assistant] Cancel Load Voice Assistant Instruction',
+
+  setAssistantAcknowledgement: '[Voice Assistant] Set Assistant Acknowledgement',
+
 }

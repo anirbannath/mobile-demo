@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 import { routerAnimations } from './app-animations';
 import { loadNotes } from './state/actions/notes.actions';
 import { loadUser } from './state/actions/user.actions';
-import { selectVoiceAssistantFinalTranscript, selectVoiceAssistantInterimTranscript } from './state/selectors/voice-assistant.selectors';
+import {
+  selectVoiceAssistantAcknowledgement, selectVoiceAssistantFinalTranscript,
+  selectVoiceAssistantInterimTranscript
+} from './state/selectors/voice-assistant.selectors';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +20,7 @@ export class AppComponent implements OnInit {
 
   voiceAssistantInterimTranscript$: Observable<string>;
   voiceAssistantFinalTranscript$: Observable<string>;
+  voiceAssistantFinalAcknowledgement$: Observable<string>;
 
   constructor(
     private store: Store
@@ -25,6 +29,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.voiceAssistantInterimTranscript$ = this.store.select(selectVoiceAssistantInterimTranscript);
     this.voiceAssistantFinalTranscript$ = this.store.select(selectVoiceAssistantFinalTranscript);
+    this.voiceAssistantFinalAcknowledgement$ = this.store.select(selectVoiceAssistantAcknowledgement);
     this.store.dispatch(loadUser());
     this.store.dispatch(loadNotes());
   }

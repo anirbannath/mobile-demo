@@ -13,8 +13,9 @@
   @include color-fallback(color, --toast, $toast);
   @include color-fallback(background-color, --default, $default);
 
-  &.toast-final {
-    font-weight: 600;
-    @include color-fallback(color, --body, $body);
-  }
+}
+
+.toast-final {
+  font-weight: 600;
+  @include color-fallback(color, --body, $body);
 }
