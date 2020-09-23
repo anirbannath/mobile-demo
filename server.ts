@@ -23,10 +23,7 @@ export function app() {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // SSR Workaround for getting Window Object
-  const template = readFileSync(join(distFolder, 'index.html')).toString();
-  const window = domino.createWindow(template);
-  (global as any).window = window;
-  (global as any).indexedDB = window.indexedDB;
+  (global as any).window = {};
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({

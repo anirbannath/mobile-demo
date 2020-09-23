@@ -32,7 +32,7 @@ export class AppBootstrapService {
 
       if (isPlatformBrowser(this.platformId)) {
         if (!window.indexedDB) {
-          console.error(`Your browser doesn't support a stable version of IndexedDB.`);
+          console.log(`Your browser doesn't support a stable version of IndexedDB.`);
           resolve(true);
         } else {
           const dataSourceKeys = Object.keys(environment.dbDataSource),
@@ -53,7 +53,7 @@ export class AppBootstrapService {
             };
 
             openRequest.onerror = () => {
-              console.error("IndexedDB Error", openRequest.error);
+              console.log("IndexedDB Error", openRequest.error);
               resolve(true);
             };
 

@@ -50,13 +50,13 @@ export class NotesEffects {
                 }
               };
             } catch (ex) {
-              console.error(ex);
+              // console.error(ex);
               subscriber.next(errorNotes({ error: `This feature uses the Browser's IndexedDB. To use this feature, please use Google Chrome.` }));
               subscriber.complete();
             }
           }
         } catch (ex) {
-          console.error(ex);
+          // console.error(ex);
           subscriber.next(errorNotes({ error: `This feature uses the Browser's IndexedDB. To use this feature, please use Google Chrome.` }));
           subscriber.complete();
         }
@@ -92,13 +92,13 @@ export class NotesEffects {
                 subscriber.complete();
               }
             } catch (ex) {
-              console.error(ex);
+              // console.error(ex);
               subscriber.next(cancelLoadNotes());
               subscriber.complete();
             }
           }
         } catch (ex) {
-          console.error(ex);
+          // console.error(ex);
           subscriber.next(cancelLoadNotes());
           subscriber.complete();
         }
