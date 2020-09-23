@@ -13,9 +13,6 @@ import * as compression from 'compression';
 import apiRouter from './src-server/api';
 import { trainActionClassifier } from './src-server/utils/classifier';
 
-// SSR Workaround for getting Window Object
-import * as domino from 'domino';
-
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
