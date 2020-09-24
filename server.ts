@@ -6,7 +6,7 @@ import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync } from 'fs';
 
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
@@ -16,7 +16,7 @@ import { trainActionClassifier } from './src-server/utils/classifier';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/mobile-demo/browser');
+  const distFolder = join(__dirname, '..', 'browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // SSR Workaround for getting Window Object

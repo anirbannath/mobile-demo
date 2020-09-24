@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { EMPTY, of } from 'rxjs';
 import { map, tap, switchMap, distinctUntilChanged, catchError } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
@@ -9,9 +10,8 @@ import { InstructionAssistantService } from '../../services/instruction-assistan
 import { loadAssistantInstruction, setAssistantInstruction, setVoiceAssistantResult, setAssistantAcknowledgement } from '../actions/voice-assistant.actions';
 import { navigationInstructions } from '../../app-routing.module';
 import { InstructionResult } from '../../models/voice-assistant';
-import { EMPTY, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { assistantAcknowledgement } from 'src/app/app-constants';
+import { environment } from '../../../environments/environment';
+import { assistantAcknowledgement } from '../../services/assistant-util';
 
 @Injectable()
 export class VoiceAssistantEffects {

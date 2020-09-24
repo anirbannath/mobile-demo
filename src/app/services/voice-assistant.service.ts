@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

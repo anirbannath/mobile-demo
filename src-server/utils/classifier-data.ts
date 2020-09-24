@@ -2,7 +2,8 @@ export const actionClassifierData = [
 
   { text: 'discard', stem: 'navigate.back' },
   { text: 'cancel', stem: 'navigate.back' },
-  { text: 'previous page', stem: 'navigate.back' },
+  { text: 'back', stem: 'navigate.back' },
+  { text: 'previous', stem: 'navigate.back' },
 
   { text: 'go', stem: 'navigate.forward' },
   { text: 'create', stem: 'navigate.forward' },

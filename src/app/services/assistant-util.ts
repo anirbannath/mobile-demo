@@ -1,6 +1,7 @@
-import { InstructionResult } from './models/voice-assistant';
+import { InstructionResult } from '../models/voice-assistant';
 
 export const ASSISTANT_ACKNOWLEDGEMENT = {
+  'navigate.back': `Navigating to previous page`,
   'navigate.forward': `Navigating to $value`,
   'select': `Selecting $value`
 }
