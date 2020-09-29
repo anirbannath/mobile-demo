@@ -11,7 +11,6 @@ import { existsSync } from 'fs';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import apiRouter from './src-server/api';
-import { trainActionClassifier } from './src-server/utils/classifier';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {

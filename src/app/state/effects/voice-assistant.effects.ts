@@ -3,7 +3,7 @@ import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, tap, switchMap, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { map, tap, switchMap, distinctUntilChanged, catchError, withLatestFrom, concatAll } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
 import { InstructionAssistantService } from '../../services/instruction-assistant.service';
@@ -13,6 +13,8 @@ import { InstructionResult } from '../../models/voice-assistant';
 import { assistantAcknowledgement } from '../../services/assistant-util';
 import { selectNote } from '../actions/notes.actions';
 import { selectContact } from '../actions/contacts.actions';
+import { selectUserData } from '../selectors/user.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class VoiceAssistantEffects {
@@ -20,6 +22,7 @@ export class VoiceAssistantEffects {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     private actions$: Actions,
+    private store: Store,
     private voiceAssistantService: VoiceAssistantService,
     private instructionAssistantService: InstructionAssistantService,
     private location: Location,
@@ -30,34 +33,54 @@ export class VoiceAssistantEffects {
     ofType(appActions.startVoiceAssistant),
     switchMap(() => {
       this.voiceAssistantService.start();
-      return this.voiceAssistantService.result().pipe(
-        map((data) => setVoiceAssistantResult({ result: data }))
-      )
-    })
+      return [
+        of(setAssistantAcknowledgement({ acknowledgement: 'Hello!' })),
+        this.voiceAssistantService.result().pipe(
+          map((data) => setVoiceAssistantResult({ result: data })))
+      ]
+    }),
+    concatAll()
   ));
 
   stopVoiceAssistant = createEffect(() => this.actions$.pipe(
     ofType(appActions.stopVoiceAssistant),
-    tap(() => {
+    switchMap(() => {
       this.voiceAssistantService.stop();
+      return of(setAssistantAcknowledgement({ acknowledgement: 'Good bye!' }))
     })
-  ), { dispatch: false });
+  ));
 
   onVoiceAssistantResult = createEffect(() => this.actions$.pipe(
     ofType(appActions.setVoiceAssistantResult),
     map(action => (<any>action)?.result?.finalTranscript as string),
     distinctUntilChanged(),
-    switchMap((finalTranscript) =>
-      finalTranscript ? of(loadAssistantInstruction({ transcript: finalTranscript })) : EMPTY)));
+    withLatestFrom(this.store.select(selectUserData)),
+    switchMap(([finalTranscript, user]) => {
+      if (finalTranscript) {
+        if (this.location.path(true) === '/start') {
+          if (finalTranscript.toLowerCase().indexOf('agree') >= 0) {
+            this.router.navigate(['home']);
+            return of(setAssistantAcknowledgement({ acknowledgement: `Welcome ${user?.firstName}!` }))
+          } else {
+            return of(setAssistantAcknowledgement({ acknowledgement: `You need to say "I Agree" to proceed!` }))
+          }
+        } else {
+          const target = navigationInstructions.filter(nav => nav.path === this.location.path(true))[0]?.target;
+          return of(loadAssistantInstruction({
+            transcript: finalTranscript,
+            target: target
+          }))
+        }
+      }
+      return EMPTY;
+    })));
 
   onLoadAssistantInstruction = createEffect(() => this.actions$.pipe(
     ofType(appActions.loadAssistantInstruction),
     switchMap((action) => {
-      const transcript = (<any>action)?.transcript;
-      const target = navigationInstructions.filter(nav => nav.path === this.location.path(true))[0]?.target;
       const request = {
-        transcript: transcript,
-        target: target
+        transcript: (<any>action)?.transcript,
+        target: (<any>action)?.target
       };
       return this.instructionAssistantService.resolve(request).pipe(
         map(data => setAssistantInstruction({ instruction: data })),
@@ -106,7 +129,7 @@ export class VoiceAssistantEffects {
           if (!navigationSuccess) {
             confirmedInstruction = {
               ...instruction,
-              action: 'navigate.unknown'
+              target: 'unknown'
             }
           }
           break;

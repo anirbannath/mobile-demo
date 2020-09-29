@@ -7,6 +7,7 @@ export const environment = {
   dbName: 'mobileDemo',
   dbVersion: 1,
   dataDelay: 2500,
+  deployBaseUrl: undefined,
   dbDataSource: {
     notes: '/data/notes.json'
   },

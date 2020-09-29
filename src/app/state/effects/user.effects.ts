@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, withLatestFrom, map, delay } from 'rxjs/operators';
+import { switchMap, withLatestFrom, map } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { environment } from '../../../environments/environment';
 import { User } from '../../models/user';
@@ -27,7 +27,6 @@ export class UserEffects {
         return of(cancelLoadUser());
       } else {
         return this.http.get(environment.dataSource.user).pipe(
-          delay(environment.dataDelay),
           map((data: User) => setUser({ user: data })));
       }
     })

@@ -29,6 +29,11 @@ export const navigationInstructions = [
 
 export const appRoutes: Routes = [
   {
+    path: 'start',
+    loadChildren: () => import('./start-page/start-page.module').then(m => m.StartPageModule),
+    data: { animationKey: 'StartPage' }
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home-page/home-page.module').then(m => m.HomePageModule),
     data: { animationKey: 'HomePage' }
@@ -53,7 +58,7 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./note-page/note-page.module').then(m => m.NotePageModule),
   },
 
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'start' },
   { path: '**', loadChildren: () => import('./not-found-page/not-found-page.module').then(m => m.NotFoundPageModule) }
 ];
 

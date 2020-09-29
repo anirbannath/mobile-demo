@@ -3,9 +3,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Contact } from '../models/contact';
 import { Note } from '../models/note';
-import { loadContacts } from '../state/actions/contacts.actions';
 import { setSelectedNote } from '../state/actions/notes.actions';
-import { selectContactsLoading, selectIndividualContactData, selectContactsError, selectSelectedContactId } from '../state/selectors/contacts.selectors';
+import {
+  selectContactsLoading, selectIndividualContactData,
+  selectContactsError, selectSelectedContactId
+} from '../state/selectors/contacts.selectors';
 import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../state/selectors/notes.selectors';
 
 @Component({
@@ -46,7 +48,6 @@ export class ClientContainerComponent implements OnInit {
     this.notesLoading$ = this.store.select(selectNotesLoading);
     this.notesData$ = this.store.select(selectClientNotesData);
     this.notesError$ = this.store.select(selectNotesError);
-    this.store.dispatch(loadContacts());
   }
 
   onSelectNote(id: number) {

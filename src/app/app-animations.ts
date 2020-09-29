@@ -62,6 +62,8 @@ export const routerAnimations =
     transition('* => CreateNotePage', forwardSlide),
     transition('CreateNotePage => *', backwardSlide),
 
+    transition('StartPage => *', forwardSlide),
+
     transition('HomePage => ContactsPage', forwardSlide),
     transition('HomePage => ClientPage', forwardSlide),
 

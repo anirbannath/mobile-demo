@@ -1,0 +1,11 @@
+<button *ngIf="voiceAssistantSupported" class="btn-header" [class.text-success]="voiceAssistantActive"
+  aria-label="Toggle voice assistant" (click)="onVoiceAssistantToggle()">
+  <i class="fa fa-microphone" aria-hidden="true"></i>
+</button>
+<div class="container-center">
+  <i class="fa fa-shield icon-lg" aria-hidden="true"></i>
+  <p>
+    Welcome to MobileDemo. This application is created for learning and demo purpose.
+  </p>
+  <a class="btn btn-outline-primary" routerLink="/home">I Agree</a>
+</div>

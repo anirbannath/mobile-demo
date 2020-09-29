@@ -9,7 +9,7 @@
   padding: 8px 16px 10px 16px;
   border-radius: 6px;
   opacity: 0.95;
-  z-index: 100;
+  z-index: 999;
   @include color-fallback(color, --toast, $toast);
   @include color-fallback(background-color, --default, $default);
 

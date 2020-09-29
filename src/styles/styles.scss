@@ -10,9 +10,13 @@
 }
 
 body {
-
   @include color-fallback(color, --default, $default);
   @include color-fallback(background-color, --body, $body);
+}
+
+p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 h1,
@@ -135,6 +139,24 @@ fieldset:disabled a.btn {
   @include color-fallback(border-color, --primary-bright, $primary-bright);
 }
 
+.btn-outline-primary {
+  @include color-fallback(color, --primary-bright, $primary-bright);
+  @include color-fallback(border-color, --primary-bright, $primary-bright);
+}
+
+.btn-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 20px 20px;
+  @include color-fallback(color, --light, $light);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  line-height: 1;
+}
+
 .card {
   &:not(:last-child) {
     border-bottom: 1px solid transparent;
@@ -212,6 +234,10 @@ small,
 
 .text-primary {
   @include color-fallback(color, --primary-bright, $primary-bright, true);
+}
+
+.text-success {
+  @include color-fallback(color, --success, $success, true);
 }
 
 .text-danger {
