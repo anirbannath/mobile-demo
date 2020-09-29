@@ -13,9 +13,8 @@ export interface InstructionRequest {
 }
 
 export interface InstructionResult {
-  action?: InstructionAction,
+  action?: string,
   target?: string,
-  value?: string
+  value?: string,
+  tags?: Array<any>
 }
-
-export type InstructionAction = 'navigate.forward' | 'navigate.back' | 'select' | 'unknown';

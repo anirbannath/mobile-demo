@@ -20,7 +20,7 @@ export const navigationInstructions = [
   },
   {
     path: '/note',
-    navigationKey: ['note', 'create note',]
+    navigationKey: ['note', 'create note']
   }
 ]
 

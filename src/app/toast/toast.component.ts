@@ -1,5 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, PLATFORM_ID, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { toastAnimation } from './toast.animation';
 
 @Component({
@@ -19,7 +18,6 @@ export class ToastComponent implements OnChanges {
   @Input() acknowledgement: string;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId,
     private _cd: ChangeDetectorRef,
   ) { }
 
@@ -32,12 +30,6 @@ export class ToastComponent implements OnChanges {
         this.showToast = false;
         this._cd.markForCheck();
       }, this.duration);
-    }
-
-    if (isPlatformBrowser(this.platformId) && changes['acknowledgement']?.currentValue) {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = changes['acknowledgement']?.currentValue;
-      window.speechSynthesis.speak(msg);
     }
   }
 

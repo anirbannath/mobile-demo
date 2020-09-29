@@ -1,6 +1,6 @@
 import * as natural from 'natural';
 import { join } from 'path';
-import { actionClassifierData } from './classifier-data';
+import { actionClassifierData } from './classifier-data/classifier-data';
 
 export const trainActionClassifier = () => {
   return new Promise<natural.LogisticRegressionClassifier>((resolve, reject) => {

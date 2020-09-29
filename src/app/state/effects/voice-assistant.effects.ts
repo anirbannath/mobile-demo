@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Location } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
@@ -17,6 +17,7 @@ import { assistantAcknowledgement } from '../../services/assistant-util';
 export class VoiceAssistantEffects {
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId,
     private actions$: Actions,
     private voiceAssistantService: VoiceAssistantService,
     private instructionAssistantService: InstructionAssistantService,
@@ -45,16 +46,8 @@ export class VoiceAssistantEffects {
     ofType(appActions.setVoiceAssistantResult),
     map(action => (<any>action)?.result?.finalTranscript as string),
     distinctUntilChanged(),
-    switchMap((finalTranscript) => {
-      if (finalTranscript) {
-        return environment.envNode ?
-          of(loadAssistantInstruction({ transcript: finalTranscript })) :
-          of(setAssistantInstruction({ instruction: { action: 'navigate.forward', target: 'application', value: finalTranscript } }));
-      } else {
-        return EMPTY;
-      }
-    })
-  ));
+    switchMap((finalTranscript) =>
+      finalTranscript ? of(loadAssistantInstruction({ transcript: finalTranscript })) : EMPTY)));
 
   onLoadAssistantInstruction = createEffect(() => this.actions$.pipe(
     ofType(appActions.loadAssistantInstruction),
@@ -72,17 +65,31 @@ export class VoiceAssistantEffects {
     ofType(appActions.setAssistantInstruction),
     switchMap((action) => {
       const instruction: InstructionResult = (<any>action).instruction;
-      this.doInstruction(instruction);
-      return of(setAssistantAcknowledgement({ acknowledgement: assistantAcknowledgement(instruction) }))
+      return of(setAssistantAcknowledgement(this.doInstruction(instruction)))
+    })
+  ));
+
+  onSetAssistantAcknowledgement = createEffect(() => this.actions$.pipe(
+    ofType(appActions.setAssistantAcknowledgement),
+    switchMap((action) => {
+      const acknowledgement: string = (<any>action).acknowledgement;
+      if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = acknowledgement;
+        window.speechSynthesis.speak(msg);
+      }
+      return (<any>action).appAction ? of((<any>action).appAction) : EMPTY;
     })
   ));
 
   doInstruction(instruction: InstructionResult) {
+    let confirmedInstruction = { ...instruction };
+    let appAction: any;
     if (instruction) {
-      switch (instruction?.action) {
+      switch (`${instruction?.action}.${instruction?.target}`) {
         case 'navigate.forward':
           const value = instruction?.value?.toLowerCase();
-          navigationInstructions.some(route => {
+          const navigationSuccess = navigationInstructions.some(route => {
             return route?.navigationKey.some(navigationKey => {
               if (value?.indexOf(navigationKey) >= 0) {
                 this.router.navigateByUrl(route.path);
@@ -90,6 +97,12 @@ export class VoiceAssistantEffects {
               }
             })
           });
+          if (!navigationSuccess) {
+            confirmedInstruction = {
+              ...instruction,
+              action: 'navigate.unknown'
+            }
+          }
           break;
 
         case 'navigate.back':
@@ -97,6 +110,11 @@ export class VoiceAssistantEffects {
           break;
       }
     }
+
+    return {
+      acknowledgement: assistantAcknowledgement(confirmedInstruction),
+      appAction: appAction
+    };
   }
 
 }

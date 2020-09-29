@@ -33,5 +33,6 @@ export const appActions = {
   cancelAssistantInstruction: '[Voice Assistant] Cancel Load Voice Assistant Instruction',
 
   setAssistantAcknowledgement: '[Voice Assistant] Set Assistant Acknowledgement',
+  actOnAssistantInstruction: '[Voice Assistant] Act on Assistant Instruction',
 
 }

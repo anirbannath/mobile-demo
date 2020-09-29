@@ -1,9 +1,12 @@
 import { InstructionResult } from '../models/voice-assistant';
 
 export const ASSISTANT_ACKNOWLEDGEMENT = {
-  'navigate.back': `Navigating to previous page`,
-  'navigate.forward': `Navigating to $value`,
-  'select': `Selecting $value`
+  'navigate.back': `Navigating to previous page.`,
+  'navigate.forward': `Navigating to $value.`,
+  'select.note': `Selecting $value`,
+  'select.contact': `Selecting $value`,
+
+  'navigate.unknown': `Sorry, but I couldn't find the page you are asking for.`,
 }
 
 export const ASSISTANT_ACKNOWLEDGEMENT_NOT_FOUND = [
@@ -21,8 +24,9 @@ export const assistantAcknowledgementNotFound = () => {
 }
 
 export const assistantAcknowledgement = (instruction: InstructionResult) => {
-  if (instruction?.action && ASSISTANT_ACKNOWLEDGEMENT[instruction.action]) {
-    const responseMeta: string = ASSISTANT_ACKNOWLEDGEMENT[instruction.action];
+  const command = `${instruction?.action}.${instruction?.target}`;
+  if (command && ASSISTANT_ACKNOWLEDGEMENT[command]) {
+    const responseMeta: string = ASSISTANT_ACKNOWLEDGEMENT[command];
     return responseMeta.replace('$value', instruction.value);
   } else {
     return assistantAcknowledgementNotFound();

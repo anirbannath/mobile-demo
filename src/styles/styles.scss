@@ -246,6 +246,39 @@ small,
   background-size: 1000px 100%;
 }
 
+@keyframes flash {
+
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.flash {
+  position: relative;
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--warning);
+    opacity: 0.2 !important;
+    animation-name: flash;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    z-index: -1;
+  }
+}
+
 .user-select-none {
   user-select: none;
 }

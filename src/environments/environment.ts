@@ -14,8 +14,7 @@ export const environment = {
     user: '/data/user.json',
     contacts: '/data/contacts.json'
   },
-  instructionResolver: '/api/resolve-instruction',
-  envNode: true
+  instructionResolver: '/api/resolve-instruction'
 };
 
 /*
