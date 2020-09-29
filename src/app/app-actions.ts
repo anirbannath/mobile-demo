@@ -14,12 +14,16 @@ export const appActions = {
   cancelLoadContacts: '[Contacts] Cancel Load Contacts',
 
   setSelectedContact: '[Contact] Set Selected Contact',
+  selectContact: '[Contact] Select Contact',
 
   loadNotes: '[Notes] Load Notes',
   setNotes: '[Notes] Set Notes',
   errorNotes: '[Notes] Error Notes',
   cancelLoadNotes: '[Notes] Cancel Load Notes',
   saveNote: '[Notes] Save Note',
+
+  setSelectedNote: '[Notes] Set Selected Note',
+  selectNote: '[Notes] Select Note',
 
   setVoiceAssistantSupport: '[Voice Assistant] Set Voice Assistant Support',
   startVoiceAssistant: '[Voice Assistant] Start',

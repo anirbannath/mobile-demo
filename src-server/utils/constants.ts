@@ -14,6 +14,7 @@ export const ACTIONS = [
       'go',
       'cancel',
       'discard',
+      'create note'
     ]
   },
 ]

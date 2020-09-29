@@ -3,14 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const navigationInstructions = [
   {
+    target: 'note',
     path: '/home',
     navigationKey: ['homepage', 'home']
   },
   {
+    target: 'contact',
     path: '/contacts',
     navigationKey: ['contact', 'contacts']
   },
   {
+    target: 'note',
     path: '/client',
     navigationKey: ['client', 'clients']
   },

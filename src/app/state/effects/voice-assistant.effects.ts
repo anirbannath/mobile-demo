@@ -10,8 +10,9 @@ import { InstructionAssistantService } from '../../services/instruction-assistan
 import { loadAssistantInstruction, setAssistantInstruction, setVoiceAssistantResult, setAssistantAcknowledgement } from '../actions/voice-assistant.actions';
 import { navigationInstructions } from '../../app-routing.module';
 import { InstructionResult } from '../../models/voice-assistant';
-import { environment } from '../../../environments/environment';
 import { assistantAcknowledgement } from '../../services/assistant-util';
+import { selectNote } from '../actions/notes.actions';
+import { selectContact } from '../actions/contacts.actions';
 
 @Injectable()
 export class VoiceAssistantEffects {
@@ -53,7 +54,11 @@ export class VoiceAssistantEffects {
     ofType(appActions.loadAssistantInstruction),
     switchMap((action) => {
       const transcript = (<any>action)?.transcript;
-      const request = { transcript: transcript };
+      const target = navigationInstructions.filter(nav => nav.path === this.location.path(true))[0]?.target;
+      const request = {
+        transcript: transcript,
+        target: target
+      };
       return this.instructionAssistantService.resolve(request).pipe(
         map(data => setAssistantInstruction({ instruction: data })),
         catchError(() => EMPTY)
@@ -65,22 +70,23 @@ export class VoiceAssistantEffects {
     ofType(appActions.setAssistantInstruction),
     switchMap((action) => {
       const instruction: InstructionResult = (<any>action).instruction;
-      return of(setAssistantAcknowledgement(this.doInstruction(instruction)))
+      const result = this.doInstruction(instruction);
+      return result.appAction ?
+        of(result.appAction) : of(setAssistantAcknowledgement({ acknowledgement: result.acknowledgement }))
     })
   ));
 
   onSetAssistantAcknowledgement = createEffect(() => this.actions$.pipe(
     ofType(appActions.setAssistantAcknowledgement),
-    switchMap((action) => {
+    tap((action) => {
       const acknowledgement: string = (<any>action).acknowledgement;
       if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
         const msg = new SpeechSynthesisUtterance();
         msg.text = acknowledgement;
         window.speechSynthesis.speak(msg);
       }
-      return (<any>action).appAction ? of((<any>action).appAction) : EMPTY;
     })
-  ));
+  ), { dispatch: false });
 
   doInstruction(instruction: InstructionResult) {
     let confirmedInstruction = { ...instruction };
@@ -90,8 +96,8 @@ export class VoiceAssistantEffects {
         case 'navigate.forward':
           const value = instruction?.value?.toLowerCase();
           const navigationSuccess = navigationInstructions.some(route => {
-            return route?.navigationKey.some(navigationKey => {
-              if (value?.indexOf(navigationKey) >= 0) {
+            return route?.navigationKey.some(_navigationKey => {
+              if (value === _navigationKey) {
                 this.router.navigateByUrl(route.path);
                 return true;
               }
@@ -108,11 +114,19 @@ export class VoiceAssistantEffects {
         case 'navigate.back':
           this.location.back();
           break;
+
+        case 'select.note':
+          appAction = selectNote({ search: instruction.value })
+          break;
+
+        case 'select.contact':
+          appAction = selectContact({ search: instruction.value })
+          break;
       }
     }
 
     return {
-      acknowledgement: assistantAcknowledgement(confirmedInstruction),
+      acknowledgement: appAction ? '' : assistantAcknowledgement(confirmedInstruction),
       appAction: appAction
     };
   }

@@ -1,5 +1,6 @@
 import { AppState } from '../../models/app-state';
 import { createSelector } from '@ngrx/store';
+import { Contact } from '../../models/contact';
 
 export const selectContacts = (state: AppState) => state.contacts;
 
@@ -16,7 +17,7 @@ export const selectContactsData = createSelector(
 export const selectContactsList = createSelector(
   selectContactsData,
   (contactDictonary) => {
-    const list = [];
+    const list: Array<Contact> = [];
     if (contactDictonary) {
       Object.keys(contactDictonary).forEach(key => {
         list.push(contactDictonary[key]);

@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { Note } from '../models/note';
 import { selectUserLoading, selectUserData, selectUserError } from '../state/selectors/user.selectors';
 import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/selectors/notes.selectors';
+import { setSelectedNote } from '../state/actions/notes.actions';
 
 @Component({
   selector: 'app-home-container',
@@ -15,7 +16,8 @@ import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/
       [userError]="userError$ | async"
       [notesLoading]="notesLoading$ | async"
       [notesData]="notesData$ | async"
-      [notesError]="notesError$ | async">
+      [notesError]="notesError$ | async"
+      (selectNote)="onSelectNote($event)">
     </app-home-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -40,6 +42,10 @@ export class HomeContainerComponent implements OnInit {
     this.notesLoading$ = this.store.select(selectNotesLoading);
     this.notesData$ = this.store.select(selectNotesList);
     this.notesError$ = this.store.select(selectNotesError);
+  }
+
+  onSelectNote(id: number) {
+    this.store.dispatch(setSelectedNote({ id: id }));
   }
 
 }

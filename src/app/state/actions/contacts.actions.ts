@@ -8,3 +8,5 @@ export const errorContacts = createAction(appActions.errorContacts, props<{ erro
 export const cancelLoadContacts = createAction(appActions.cancelLoadContacts);
 
 export const setSelectedContact = createAction(appActions.setSelectedContact, props<{ id: number }>());
+
+export const selectContact = createAction(appActions.selectContact, props<{ search: any }>());

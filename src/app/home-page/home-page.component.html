@@ -37,7 +37,7 @@
         {{ notesError || 'No records to show.' }}
       </div>
       <div *ngIf="!notesError && notesData?.length > 0">
-        <a *ngFor="let note of notesData" class="card-body list-item" [routerLink]="['/note', note.id]">
+        <a *ngFor="let note of notesData" class="card-body list-item" (click)="onSelectNote(note.id)">
           <div class="text-primary text-truncate">{{ note?.title }}</div>
           <div class="text-clamp text-small">{{ note?.description }}</div>
           <div class="text-muted text-truncate text-small">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm a' }}</div>

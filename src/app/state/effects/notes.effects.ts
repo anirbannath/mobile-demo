@@ -1,13 +1,15 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, Observable } from 'rxjs';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import { concatAll, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { environment } from '../../../environments/environment';
-import { selectNotesData, selectNotesList } from '../selectors/notes.selectors';
-import { cancelLoadNotes, setNotes, loadNotes as loadAllNotes, errorNotes } from '../actions/notes.actions';
+import { selectNotesList } from '../selectors/notes.selectors';
+import { cancelLoadNotes, setNotes, loadNotes as loadAllNotes, errorNotes, setSelectedNote } from '../actions/notes.actions';
+import { setAssistantAcknowledgement } from '../actions/voice-assistant.actions';
 import { Note } from '../../models/note';
 
 @Injectable()
@@ -17,7 +19,8 @@ export class NotesEffects {
     @Inject(PLATFORM_ID) private platformId: Object,
     private store: Store,
     private actions$: Actions,
-    private location: Location
+    private location: Location,
+    private router: Router,
   ) { }
 
   loadNotes = createEffect(() => this.actions$.pipe(
@@ -108,6 +111,46 @@ export class NotesEffects {
         });
       }
     })
+  ));
+
+  selectNoteById = createEffect(() => this.actions$.pipe(
+    ofType(appActions.setSelectedNote),
+    tap((action) => {
+      const noteId = (<any>action).id;
+      this.router.navigate(['note', noteId]);
+    })
+  ), { dispatch: false })
+
+  selectNote = createEffect(() => this.actions$.pipe(
+    ofType(appActions.selectNote),
+    withLatestFrom(this.store.select(selectNotesList)),
+    switchMap(([action, notes]) => {
+      let selectedNote: Note = null;
+      const search = (<any>action).search;
+      if (!isNaN(+search)) {
+        selectedNote = notes[search];
+      } else {
+        if (notes?.length > 0) {
+          notes.some(_note => {
+            if (new RegExp(search, 'i').test(_note.title)) {
+              selectedNote = _note;
+              return true;
+            }
+          })
+        }
+      }
+      if (selectedNote !== null) {
+        return [
+          of(setSelectedNote({ id: selectedNote.id })),
+          of(setAssistantAcknowledgement({ acknowledgement: `Selecting note: ${selectedNote.title}` }))
+        ]
+      } else {
+        return [
+          of(setAssistantAcknowledgement({ acknowledgement: `Sorry, I couldn't find the note you are searching for.` }))
+        ]
+      }
+    }),
+    concatAll()
   ));
 
 }

@@ -53,12 +53,6 @@ export function app() {
 function run() {
   const port = process.env.PORT || 4000;
 
-  trainActionClassifier().then((classifier) => {
-    console.log('Training actions completed.')
-  }).catch((err) => {
-    console.error(err.message);
-  })
-
   // Start up the Node server
   const server = app();
   server.listen(port, () => {

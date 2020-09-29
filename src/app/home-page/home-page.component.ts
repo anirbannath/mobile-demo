@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../models/user';
 import { Note } from '../models/note';
 
@@ -18,5 +18,10 @@ export class HomePageComponent {
   @Input() notesLoading: boolean;
   @Input() notesData: Array<Note>;
   @Input() notesError: string;
+  @Output() selectNote = new EventEmitter<number>();
+
+  onSelectNote(id: number) {
+    this.selectNote.emit(id);
+  }
 
 }

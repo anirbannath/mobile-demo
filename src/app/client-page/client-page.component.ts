@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Contact } from '../models/contact';
 import { Note } from '../models/note';
 
@@ -19,5 +19,10 @@ export class ClientPageComponent {
   @Input() notesLoading: boolean;
   @Input() notesData: Array<Note>;
   @Input() notesError: string;
+  @Output() selectNote = new EventEmitter<number>();
+
+  onSelectNote(id: number) {
+    this.selectNote.emit(id);
+  }
 
 }

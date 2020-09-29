@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Contact } from '../models/contact';
 import { Note } from '../models/note';
 import { loadContacts } from '../state/actions/contacts.actions';
+import { setSelectedNote } from '../state/actions/notes.actions';
 import { selectContactsLoading, selectIndividualContactData, selectContactsError, selectSelectedContactId } from '../state/selectors/contacts.selectors';
 import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../state/selectors/notes.selectors';
 
@@ -17,7 +18,8 @@ import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../
       [contactError]="contactError$ | async"
       [notesLoading]="notesLoading$ | async"
       [notesData]="notesData$ | async"
-      [notesError]="notesError$ | async">
+      [notesError]="notesError$ | async"
+      (selectNote)="onSelectNote($event)">
     </app-client-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,6 +47,10 @@ export class ClientContainerComponent implements OnInit {
     this.notesData$ = this.store.select(selectClientNotesData);
     this.notesError$ = this.store.select(selectNotesError);
     this.store.dispatch(loadContacts());
+  }
+
+  onSelectNote(id: number) {
+    this.store.dispatch(setSelectedNote({ id: id }));
   }
 
 }

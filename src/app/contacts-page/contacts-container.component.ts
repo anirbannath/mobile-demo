@@ -38,7 +38,6 @@ export class ContactsContainerComponent implements OnInit {
 
   onSelectContact(id: number) {
     this.store.dispatch(setSelectedContact({ id: id }));
-    this.router.navigate(['client']);
   }
 
 }

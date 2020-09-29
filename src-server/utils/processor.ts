@@ -13,7 +13,7 @@ const processInstruction = async (request: InstructionRequest) => {
 
   const tags = getObjectTags(request.transcript);
 
-  let action: string, target = request?.target;
+  let action: string;
   ACTIONS.some(_action => {
     return _action.commands.some(_command => {
       if (new RegExp(_command, 'i').test(request.transcript)) {
@@ -21,7 +21,8 @@ const processInstruction = async (request: InstructionRequest) => {
         return true;
       }
     })
-  })
+  });
+  let target = action === 'select' ? request?.target : null;
   if (!target && TARGETS[action]) {
     TARGETS[action].some(_target => {
       if (_target.isFallback) {
