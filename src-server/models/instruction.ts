@@ -7,6 +7,6 @@ export interface InstructionResult {
   actions?: Array<any>
   action?: string,
   target?: string,
-  value?: string,
+  value?: number | string,
   tags?: any
 }

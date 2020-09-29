@@ -2,6 +2,7 @@ import { InstructionRequest, InstructionResult } from '../models/instruction';
 import { loadActionClassifier } from './classifier';
 import { getObjectTags } from './tagger';
 import { ACTIONS, TARGETS } from './constants';
+import { getNumber } from './numerics';
 
 const processInstruction = async (request: InstructionRequest) => {
 
@@ -10,8 +11,6 @@ const processInstruction = async (request: InstructionRequest) => {
       action: 'unknown'
     } as InstructionResult;
   }
-
-  const tags = getObjectTags(request.transcript);
 
   let action: string;
   ACTIONS.some(_action => {
@@ -39,8 +38,24 @@ const processInstruction = async (request: InstructionRequest) => {
     })
   }
 
-  const value = tags.filter(tag => tag.token.toLowerCase().indexOf('setting') >= 0 || tag.tag.indexOf('NN') >= 0)
-    .map(tag => tag.token).join(' ');
+  const tags = getObjectTags(request.transcript);
+  let value: number | string;
+  tags.some(_tag => {
+    if (_tag.tag === 'CD') {
+      value = +_tag.token;
+      return true;
+    } else {
+      const num = getNumber(_tag.token.toLowerCase());
+      if (num !== undefined) {
+        value = num;
+        return true;
+      }
+    }
+  });
+  if (value === undefined) {
+    value = tags.filter(tag => tag.token.toLowerCase().indexOf('setting') >= 0 || tag.tag.indexOf('NN') >= 0)
+      .map(tag => tag.token).join(' ');
+  }
 
   const result: InstructionResult = {
     action: action || 'unknown',

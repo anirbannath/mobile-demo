@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, of } from 'rxjs';
-import { switchMap, withLatestFrom, map, delay, concatAll, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap, withLatestFrom, map, delay, tap, mergeAll } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { environment } from '../../../environments/environment';
 import { selectContactsData, selectContactsList } from '../selectors/contacts.selectors';
@@ -50,7 +50,7 @@ export class ContactsEffects {
       let selectedContact: Contact = null;
       const search = (<any>action).search;
       if (!isNaN(+search)) {
-        selectedContact = contacts[search];
+        selectedContact = contacts[search - 1];
       } else {
         if (contacts?.length > 0) {
           contacts.some(_contact => {
@@ -72,7 +72,7 @@ export class ContactsEffects {
         ];
       }
     }),
-    concatAll()
+    mergeAll()
   ));
 
 }

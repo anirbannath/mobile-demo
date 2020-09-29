@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
-import { concatAll, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { mergeAll, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { environment } from '../../../environments/environment';
 import { selectNotesList } from '../selectors/notes.selectors';
@@ -128,7 +128,7 @@ export class NotesEffects {
       let selectedNote: Note = null;
       const search = (<any>action).search;
       if (!isNaN(+search)) {
-        selectedNote = notes[search];
+        selectedNote = notes[search - 1];
       } else {
         if (notes?.length > 0) {
           notes.some(_note => {
@@ -150,7 +150,7 @@ export class NotesEffects {
         ]
       }
     }),
-    concatAll()
+    mergeAll()
   ));
 
 }

@@ -3,7 +3,7 @@ import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, tap, switchMap, distinctUntilChanged, catchError, withLatestFrom, concatAll } from 'rxjs/operators';
+import { map, tap, switchMap, distinctUntilChanged, catchError, withLatestFrom, mergeAll } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
 import { InstructionAssistantService } from '../../services/instruction-assistant.service';
@@ -39,7 +39,7 @@ export class VoiceAssistantEffects {
           map((data) => setVoiceAssistantResult({ result: data })))
       ]
     }),
-    concatAll()
+    mergeAll()
   ));
 
   stopVoiceAssistant = createEffect(() => this.actions$.pipe(
