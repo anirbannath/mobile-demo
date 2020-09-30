@@ -3,25 +3,30 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const navigationInstructions = [
   {
+    name: 'My Home',
     target: 'note',
     path: '/home',
     navigationKey: ['homepage', 'home']
   },
   {
+    name: 'Contacts',
     target: 'contact',
     path: '/contacts',
     navigationKey: ['contact', 'contacts']
   },
   {
+    name: 'Client Info',
     target: 'note',
     path: '/client',
     navigationKey: ['client', 'clients']
   },
   {
+    name: 'Settings',
     path: '/settings',
     navigationKey: ['setting', 'settings']
   },
   {
+    name: 'Create Note',
     path: '/note',
     navigationKey: ['note', 'create note']
   }

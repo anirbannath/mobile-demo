@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HeaderModule } from '../header/header.module';
 
 import { NotePageRoutingModule } from './note-page-routing.module';
-import { NotePageComponent } from './note-page.component';
 import { NoteContainerComponent } from './note-container.component';
-import { HeaderModule } from '../header/header.module';
-import { FormsModule } from '@angular/forms';
+import { NotePageComponent } from './note-page.component';
+import { NoteEditPageComponent } from './note-edit-page.component';
+import { NoteEditContainerComponent } from './note-edit-container.component';
 
 
 @NgModule({
-  declarations: [NotePageComponent, NoteContainerComponent],
+  declarations: [
+    NoteContainerComponent,
+    NotePageComponent,
+    NoteEditContainerComponent,
+    NoteEditPageComponent
+  ],
   imports: [
     CommonModule,
     NotePageRoutingModule,

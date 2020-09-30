@@ -15,6 +15,13 @@ export interface InstructionRequest {
 export interface InstructionResult {
   action?: string,
   target?: string,
-  value?: string,
+  value?: string | number,
   tags?: Array<any>
+}
+
+export interface AppInstruction {
+  acknowledgementValue?: string,
+  action?: string,
+  type?: 'function' | 'action',
+  payload?: any,
 }

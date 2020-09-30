@@ -1,20 +1,24 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, of } from 'rxjs';
-import { map, tap, switchMap, distinctUntilChanged, catchError, withLatestFrom, mergeAll } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import { map, switchMap, distinctUntilChanged, catchError, withLatestFrom, mergeAll } from 'rxjs/operators';
 import { appActions } from '../../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
 import { InstructionAssistantService } from '../../services/instruction-assistant.service';
 import { loadAssistantInstruction, setAssistantInstruction, setVoiceAssistantResult, setAssistantAcknowledgement } from '../actions/voice-assistant.actions';
 import { navigationInstructions } from '../../app-routing.module';
-import { InstructionResult } from '../../models/voice-assistant';
+import { AppInstruction, InstructionResult } from '../../models/voice-assistant';
 import { assistantAcknowledgement } from '../../services/assistant-util';
-import { selectNote } from '../actions/notes.actions';
-import { selectContact } from '../actions/contacts.actions';
+import { setSelectedNote } from '../actions/notes.actions';
+import { setSelectedContact } from '../actions/contacts.actions';
 import { selectUserData } from '../selectors/user.selectors';
-import { Store } from '@ngrx/store';
+import { selectNotesList } from '../selectors/notes.selectors';
+import { selectContactsList } from '../selectors/contacts.selectors';
+import { Note } from '../../models/note';
+import { Contact } from '../../models/contact';
 
 @Injectable()
 export class VoiceAssistantEffects {
@@ -26,15 +30,26 @@ export class VoiceAssistantEffects {
     private voiceAssistantService: VoiceAssistantService,
     private instructionAssistantService: InstructionAssistantService,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone,
   ) { }
 
   startVoiceAssistant = createEffect(() => this.actions$.pipe(
     ofType(appActions.startVoiceAssistant),
-    switchMap(() => {
+    withLatestFrom(this.store.select(selectUserData)),
+    switchMap(([action, user]) => {
       this.voiceAssistantService.start();
+      const hourOfDay = new Date(Date.now()).getHours();
+      let greetingMessage = 'Hello';
+      if (hourOfDay < 12) {
+        greetingMessage = 'Good morning';
+      } else if (hourOfDay >= 12 && hourOfDay <= 14) {
+        greetingMessage = 'Good Afternoon';
+      } else if (hourOfDay <= 20) {
+        greetingMessage = 'Good evening';
+      }
       return [
-        of(setAssistantAcknowledgement({ acknowledgement: 'Hello!' })),
+        of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}` })),
         this.voiceAssistantService.result().pipe(
           map((data) => setVoiceAssistantResult({ result: data })))
       ]
@@ -46,7 +61,7 @@ export class VoiceAssistantEffects {
     ofType(appActions.stopVoiceAssistant),
     switchMap(() => {
       this.voiceAssistantService.stop();
-      return of(setAssistantAcknowledgement({ acknowledgement: 'Good bye!' }))
+      return of(setAssistantAcknowledgement({ acknowledgement: 'Good bye.' }))
     })
   ));
 
@@ -91,67 +106,150 @@ export class VoiceAssistantEffects {
 
   onSetAssistantInstruction = createEffect(() => this.actions$.pipe(
     ofType(appActions.setAssistantInstruction),
-    switchMap((action) => {
+    withLatestFrom(
+      this.store.select(selectNotesList),
+      this.store.select(selectContactsList)
+    ),
+    switchMap(([action, notes, contacts]) => {
       const instruction: InstructionResult = (<any>action).instruction;
-      const result = this.doInstruction(instruction);
-      return result.appAction ?
-        of(result.appAction) : of(setAssistantAcknowledgement({ acknowledgement: result.acknowledgement }))
+      const result = this.getInstruction(instruction, notes, contacts);
+      const acknowledgement = assistantAcknowledgement(result);
+      return of(setAssistantAcknowledgement({ acknowledgement: acknowledgement, payload: result }))
     })
   ));
 
   onSetAssistantAcknowledgement = createEffect(() => this.actions$.pipe(
     ofType(appActions.setAssistantAcknowledgement),
-    tap((action) => {
-      const acknowledgement: string = (<any>action).acknowledgement;
-      if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = acknowledgement;
-        window.speechSynthesis.speak(msg);
-      }
-    })
-  ), { dispatch: false });
-
-  doInstruction(instruction: InstructionResult) {
-    let confirmedInstruction = { ...instruction };
-    let appAction: any;
-    if (instruction) {
-      switch (`${instruction?.action}.${instruction?.target}`) {
-        case 'navigate.forward':
-          const value = instruction?.value?.toLowerCase();
-          const navigationSuccess = navigationInstructions.some(route => {
-            return route?.navigationKey.some(_navigationKey => {
-              if (value === _navigationKey) {
-                this.router.navigateByUrl(route.path);
-                return true;
-              }
-            })
-          });
-          if (!navigationSuccess) {
-            confirmedInstruction = {
-              ...instruction,
-              target: 'unknown'
+    switchMap((action) => {
+      return new Observable<Action>(subscriber => {
+        const acknowledgement: string = (<any>action).acknowledgement;
+        const instruction: AppInstruction = (<any>action).payload;
+        if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
+          const msg = new SpeechSynthesisUtterance();
+          msg.text = acknowledgement;
+          window.speechSynthesis.speak(msg);
+          msg.onend = () => {
+            if (instruction && instruction.payload) {
+              this.ngZone.run(() => {
+                if (instruction.type === 'action') {
+                  subscriber.next(instruction.payload)
+                } else {
+                  instruction.payload();
+                }
+                subscriber.complete();
+              })
+            } else {
+              subscriber.complete();
             }
           }
-          break;
+        } else {
+          subscriber.complete();
+        }
+      })
+    })
+  ));
 
-        case 'navigate.back':
-          this.location.back();
-          break;
+  getInstruction(instruction: InstructionResult, notes: Array<Note>, contacts: Array<Contact>) {
+    let appInstruction: AppInstruction = {
+      action: `unknown`
+    };
+    const instructionAction = instruction?.action && instruction?.target ? `${instruction?.action}.${instruction?.target}` : '';
+    switch (instructionAction) {
+      case 'navigate.forward':
+        const value = instruction?.value && typeof instruction.value === 'string' ?
+          instruction.value.toLowerCase() : instruction.value + '';
+        const navigationSuccess = navigationInstructions.some(_route => {
+          return _route?.navigationKey.some(_navigationKey => {
+            if (value === _navigationKey) {
+              appInstruction = {
+                acknowledgementValue: _route.name,
+                action: instructionAction,
+                type: 'function',
+                payload: () => { this.router.navigateByUrl(_route.path) }
+              }
+              return true;
+            }
+          })
+        });
+        if (!navigationSuccess) {
+          appInstruction = {
+            action: `${instruction?.action}.unknown`
+          }
+        }
+        break;
 
-        case 'select.note':
-          appAction = selectNote({ search: instruction.value })
-          break;
+      case 'navigate.back':
+        appInstruction = {
+          action: instructionAction,
+          type: 'function',
+          payload: () => { this.location.back() }
+        }
+        break;
 
-        case 'select.contact':
-          appAction = selectContact({ search: instruction.value })
-          break;
-      }
+      case 'select.note':
+        let selectedNote: Note = null;
+        {
+          const search = instruction.value;
+          if (!isNaN(+search)) {
+            selectedNote = notes[+search - 1];
+          } else {
+            if (search && notes?.length > 0) {
+              notes.some(_note => {
+                if (new RegExp('' + search, 'i').test(_note.title)) {
+                  selectedNote = _note;
+                  return true;
+                }
+              })
+            }
+          }
+        }
+        if (selectedNote) {
+          appInstruction = {
+            acknowledgementValue: selectedNote.title,
+            action: instructionAction,
+            type: 'action',
+            payload: setSelectedNote({ id: selectedNote.id })
+          }
+        } else {
+          appInstruction = {
+            action: `${instructionAction}.unknown`
+          }
+        }
+        break;
+
+      case 'select.contact':
+        let selectedContact: Contact = null;
+        {
+          const search = instruction.value;
+          if (!isNaN(+search)) {
+            selectedContact = contacts[+search - 1];
+          } else {
+            if (search && contacts?.length > 0) {
+              contacts.some(_contact => {
+                if (new RegExp('' + search, 'i').test(`${_contact.firstName} ${_contact.lastName}`)) {
+                  selectedContact = _contact;
+                  return true;
+                }
+              })
+            }
+          }
+        }
+        if (selectedContact) {
+          appInstruction = {
+            acknowledgementValue: `${selectedContact.firstName} ${selectedContact.lastName}`,
+            action: instructionAction,
+            type: 'action',
+            payload: setSelectedContact({ id: selectedContact.id })
+          }
+        } else {
+          appInstruction = {
+            action: `${instructionAction}.unknown`
+          }
+        }
+        break;
     }
 
-    return {
-      acknowledgement: appAction ? '' : assistantAcknowledgement(confirmedInstruction),
-      appAction: appAction
-    };
+    return appInstruction;
   }
 
 }

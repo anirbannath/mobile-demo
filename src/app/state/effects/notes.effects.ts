@@ -121,36 +121,4 @@ export class NotesEffects {
     })
   ), { dispatch: false })
 
-  selectNote = createEffect(() => this.actions$.pipe(
-    ofType(appActions.selectNote),
-    withLatestFrom(this.store.select(selectNotesList)),
-    switchMap(([action, notes]) => {
-      let selectedNote: Note = null;
-      const search = (<any>action).search;
-      if (!isNaN(+search)) {
-        selectedNote = notes[search - 1];
-      } else {
-        if (notes?.length > 0) {
-          notes.some(_note => {
-            if (new RegExp(search, 'i').test(_note.title)) {
-              selectedNote = _note;
-              return true;
-            }
-          })
-        }
-      }
-      if (selectedNote !== null) {
-        return [
-          of(setSelectedNote({ id: selectedNote.id })),
-          of(setAssistantAcknowledgement({ acknowledgement: `Selecting note: ${selectedNote.title}` }))
-        ]
-      } else {
-        return [
-          of(setAssistantAcknowledgement({ acknowledgement: `Sorry, I couldn't find the note you are searching for.` }))
-        ]
-      }
-    }),
-    mergeAll()
-  ));
-
 }

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { appActions } from '../../app-actions';
-import { InstructionResult, SpeechAssistantMeta } from '../../models/voice-assistant';
+import { AppInstruction, InstructionResult, SpeechAssistantMeta } from '../../models/voice-assistant';
 
 export const setVoiceAssistantSupport = createAction(appActions.setVoiceAssistantSupport, props<{ support: boolean }>());
 export const startVoiceAssistant = createAction(appActions.startVoiceAssistant);
@@ -12,5 +12,5 @@ export const setAssistantInstruction = createAction(appActions.setAssistantInstr
 export const errorAssistantInstruction = createAction(appActions.errorAssistantInstruction, props<{ err: any }>());
 export const cancelAssistantInstruction = createAction(appActions.cancelAssistantInstruction);
 
-export const setAssistantAcknowledgement = createAction(appActions.setAssistantAcknowledgement, props<{ acknowledgement: string }>());
-export const actOnAssistantInstruction = createAction(appActions.actOnAssistantInstruction, props<{ instruction: InstructionResult }>());
+export const setAssistantAcknowledgement = createAction(appActions.setAssistantAcknowledgement, props<{ acknowledgement: string, payload?: AppInstruction }>());
+export const actOnAssistantInstruction = createAction(appActions.actOnAssistantInstruction, props<{ payload: any }>());

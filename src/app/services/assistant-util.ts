@@ -1,10 +1,14 @@
-import { InstructionResult } from '../models/voice-assistant';
+import { AppInstruction } from '../models/voice-assistant';
 
 export const ASSISTANT_ACKNOWLEDGEMENT = {
   'navigate.back': `Navigating to previous page.`,
   'navigate.forward': `Navigating to $value.`,
-  'select.note': `Selecting $value`,
-  'select.contact': `Selecting $value`,
+
+  'select.note': `Selecting note: $value`,
+  'select.note.unknown': `Sorry, I couldn't find the note you are searching for.`,
+
+  'select.contact': `Selecting contact: $value`,
+  'select.contact.unknown': `Sorry, I couldn't find the contact you are searching for.`,
 
   'navigate.unknown': `Sorry, but I couldn't find the page you are asking for.`,
 }
@@ -23,11 +27,12 @@ export const assistantAcknowledgementNotFound = () => {
   return ASSISTANT_ACKNOWLEDGEMENT_NOT_FOUND[getRndInteger(0, ASSISTANT_ACKNOWLEDGEMENT_NOT_FOUND.length - 1)];
 }
 
-export const assistantAcknowledgement = (instruction: InstructionResult) => {
-  const command = `${instruction?.action}.${instruction?.target}`;
+export const assistantAcknowledgement = (instruction: AppInstruction) => {
+  const command = instruction?.action;
   if (command && ASSISTANT_ACKNOWLEDGEMENT[command]) {
     const responseMeta: string = ASSISTANT_ACKNOWLEDGEMENT[command];
-    return responseMeta.replace('$value', instruction.value);
+    return instruction?.acknowledgementValue ?
+      responseMeta.replace('$value', instruction.acknowledgementValue) : responseMeta;
   } else {
     return assistantAcknowledgementNotFound();
   }

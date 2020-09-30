@@ -10,14 +10,15 @@ import { selectNoteById, selectNotesLoading } from '../state/selectors/notes.sel
 @Component({
   selector: 'app-note-container',
   template: `
-    <app-note-page
+    <app-note-edit-page
       [loading]="loading$ | async"
-      [note]="note$ | async">
-    </app-note-page>
+      [note]="note$ | async"
+      (save)="onSave($event)">
+    </app-note-edit-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteContainerComponent implements OnInit {
+export class NoteEditContainerComponent implements OnInit {
 
   loading$: Observable<boolean>;
   note$: Observable<Note>;
@@ -31,6 +32,10 @@ export class NoteContainerComponent implements OnInit {
     this.loading$ = this.store.select(selectNotesLoading);
     this.note$ = this.activatedRoute.params.pipe(
       switchMap(params => this.store.select(selectNoteById, { id: params['id'] })));
+  }
+
+  onSave(note: Note) {
+    this.store.dispatch(saveNote({ note: note }));
   }
 
 }
