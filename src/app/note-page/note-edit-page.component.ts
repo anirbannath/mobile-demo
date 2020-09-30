@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Note } from '../models/note';
 
 @Component({
   selector: 'app-note-edit-page',
   templateUrl: './note-edit-page.component.html',
   styleUrls: ['./note-page.component.scss']
 })
-export class NoteEditPageComponent implements OnInit {
+export class NoteEditPageComponent {
 
-  constructor() { }
+  private _note: Note;
+  @Input() loading: boolean;
+  @Input()
+  get note() { return this._note }
+  set note(value: Note) { this._note = { ...value } };
 
-  ngOnInit(): void {
+  @Output() save = new EventEmitter<Note>();
+
+  onSave() {
+    this.save.emit(this.note);
   }
 
 }
