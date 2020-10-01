@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { User } from '../models/user';
-import { Note } from '../models/note';
+import { User } from '../_shared/models/user';
+import { Note } from '../_shared/models/note';
 
 @Component({
   selector: 'app-home-page',

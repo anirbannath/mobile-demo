@@ -1,5 +1,5 @@
-import { AppState } from '../../models/app-state';
 import { createSelector } from '@ngrx/store';
+import { AppState } from '../../models/app-state';
 import { selectSelectedContactId } from './contacts.selectors';
 import { Note, NoteDictionary } from '../../models/note';
 
@@ -42,10 +42,11 @@ export const selectClientNotesData = createSelector(
 export const selectNoteById = createSelector(
   selectNotesData,
   selectSelectedContactId,
-  (noteDictonary: NoteDictionary, contactId: number, props: { id: number }) => (noteDictonary && noteDictonary[props?.id]) ?? {
-    title: '',
-    description: '',
-    contactId: contactId,
-    occurredOn: new Date(Date.now())
-  } as Note
+  (noteDictonary: NoteDictionary, contactId: number, props: { id: number }) =>
+    props?.id && noteDictonary && noteDictonary[props.id] ? noteDictonary[props.id] : {
+      title: '',
+      description: '',
+      contactId: contactId,
+      occurredOn: new Date(Date.now())
+    } as Note
 );

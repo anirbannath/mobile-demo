@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { startVoiceAssistant, stopVoiceAssistant } from '../state/actions/voice-assistant.actions';
-import { selectVoiceAssistantSupported, selectVoiceAssistantActive } from '../state/selectors/voice-assistant.selectors';
+import { startVoiceAssistant, stopVoiceAssistant } from '../_shared/state/actions/voice-assistant.actions';
+import { selectVoiceAssistantSupported, selectVoiceAssistantActive } from '../_shared/state/selectors/voice-assistant.selectors';
 
 @Component({
   selector: 'app-start-container',

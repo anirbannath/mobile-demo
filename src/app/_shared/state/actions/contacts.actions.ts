@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { appActions } from '../../app-actions';
+import { appActions } from '../app-actions';
 import { Contact } from '../../models/contact';
 
 export const loadContacts = createAction(appActions.loadContacts);

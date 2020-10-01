@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { startVoiceAssistant, stopVoiceAssistant } from '../state/actions/voice-assistant.actions';
-import { selectVoiceAssistantActive, selectVoiceAssistantSupported } from '../state/selectors/voice-assistant.selectors';
-import { selectForceDarkTheme, selectSupportDarkTheme } from '../state/selectors/dark-theme.selector';
-import { setForceDarkTheme } from '../state/actions/dark-theme.actions';
+import { startVoiceAssistant, stopVoiceAssistant } from '../_shared/state/actions/voice-assistant.actions';
+import { selectVoiceAssistantActive, selectVoiceAssistantSupported } from '../_shared/state/selectors/voice-assistant.selectors';
+import { selectForceDarkTheme, selectSupportDarkTheme } from '../_shared/state/selectors/dark-theme.selector';
+import { setForceDarkTheme } from '../_shared/state/actions/dark-theme.actions';
 
 @Component({
   selector: 'app-settings-container',

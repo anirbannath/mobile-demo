@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { appActions } from '../../app-actions';
+import { appActions } from '../app-actions';
 import { AppInstruction, InstructionResult, SpeechAssistantMeta } from '../../models/voice-assistant';
 
 export const setVoiceAssistantSupport = createAction(appActions.setVoiceAssistantSupport, props<{ support: boolean }>());

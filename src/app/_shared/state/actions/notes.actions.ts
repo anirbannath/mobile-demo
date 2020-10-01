@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Note } from '../../models/note';
-import { appActions } from '../../app-actions';
+import { appActions } from '../app-actions';
 
 export const loadNotes = createAction(appActions.loadNotes);
 export const saveNote = createAction(appActions.saveNote, props<{ note: Note }>());

@@ -2,16 +2,15 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Note } from '../models/note';
-import { saveNote } from '../state/actions/notes.actions';
-import { selectNoteById, selectNotesLoading } from '../state/selectors/notes.selectors';
+import { switchMap } from 'rxjs/operators';
+import { Note } from '../_shared/models/note';
+import { saveNote } from '../_shared/state/actions/notes.actions';
+import { selectNoteById } from '../_shared/state/selectors/notes.selectors';
 
 @Component({
   selector: 'app-note-container',
   template: `
     <app-note-edit-page
-      [loading]="loading$ | async"
       [note]="note$ | async"
       (save)="onSave($event)">
     </app-note-edit-page>
@@ -20,7 +19,6 @@ import { selectNoteById, selectNotesLoading } from '../state/selectors/notes.sel
 })
 export class NoteEditContainerComponent implements OnInit {
 
-  loading$: Observable<boolean>;
   note$: Observable<Note>;
 
   constructor(
@@ -29,7 +27,6 @@ export class NoteEditContainerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loading$ = this.store.select(selectNotesLoading);
     this.note$ = this.activatedRoute.params.pipe(
       switchMap(params => this.store.select(selectNoteById, { id: params['id'] })));
   }

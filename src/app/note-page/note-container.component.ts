@@ -3,9 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Note } from '../models/note';
-import { saveNote } from '../state/actions/notes.actions';
-import { selectNoteById, selectNotesLoading } from '../state/selectors/notes.selectors';
+import { Note } from '../_shared/models/note';
+import { selectNoteById, selectNotesLoading } from '../_shared/state/selectors/notes.selectors';
 
 @Component({
   selector: 'app-note-container',

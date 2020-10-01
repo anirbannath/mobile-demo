@@ -1,17 +1,6 @@
 <app-header [cancel]="true" [save]="true" (onSave)="onSave()">Note</app-header>
 
 <div class="card-body">
-  <div *ngIf="loading">
-    <div class="skeleton loading-h w-100"></div>
-    <div class="skeleton loading-h w-50"></div>
-    <hr>
-    <div class="skeleton w-100"></div>
-    <div class="skeleton w-100"></div>
-    <div class="skeleton w-100"></div>
-    <div class="skeleton w-35"></div>
-  </div>
-  <div [hidden]="!loading">
-    <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title">
-    <textarea [(ngModel)]="note.description" placeholder="Description"></textarea>
-  </div>
+  <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title">
+  <textarea #description [(ngModel)]="note.description" placeholder="Description"></textarea>
 </div>

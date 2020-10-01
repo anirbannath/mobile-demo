@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Contact } from '../models/contact';
+import { Contact } from '../_shared/models/contact';
 
 @Component({
   selector: 'app-contacts-page',

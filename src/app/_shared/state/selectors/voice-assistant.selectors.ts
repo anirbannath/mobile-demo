@@ -1,5 +1,5 @@
-import { AppState } from '../../models/app-state';
 import { createSelector } from '@ngrx/store';
+import { AppState } from '../../models/app-state';
 
 export const selectVoiceAssistant = (state: AppState) => state.voiceAssistant;
 

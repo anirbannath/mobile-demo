@@ -1,5 +1,5 @@
-import { AppState } from '../../models/app-state';
 import { createSelector } from '@ngrx/store';
+import { AppState } from '../../models/app-state';
 import { Contact } from '../../models/contact';
 
 export const selectContacts = (state: AppState) => state.contacts;

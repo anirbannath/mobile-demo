@@ -1,12 +1,12 @@
 import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { environment } from '../environments/environment';
-import { VoiceAssistantService } from './services/voice-assistant.service';
-import { setVoiceAssistantSupport } from './state/actions/voice-assistant.actions';
-import { isPlatformBrowser } from '@angular/common';
-import { setForceDarkTheme, setSupportDarkTheme } from './state/actions/dark-theme.actions';
+import { VoiceAssistantService } from './_shared/services/voice-assistant.service';
+import { setVoiceAssistantSupport } from './_shared/state/actions/voice-assistant.actions';
+import { setForceDarkTheme, setSupportDarkTheme } from './_shared/state/actions/dark-theme.actions';
 
 @Injectable()
 export class AppBootstrapService {

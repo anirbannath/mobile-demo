@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HeaderModule } from '../header/header.module';
+import { HeaderModule } from '../_shared/components/header/header.module';
 
 import { NotePageRoutingModule } from './note-page-routing.module';
 import { NoteContainerComponent } from './note-container.component';

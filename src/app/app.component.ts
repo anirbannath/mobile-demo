@@ -3,12 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { routerAnimations } from './app-animations';
-import { loadNotes } from './state/actions/notes.actions';
-import { loadUser } from './state/actions/user.actions';
+import { loadNotes } from './_shared/state/actions/notes.actions';
+import { loadUser } from './_shared/state/actions/user.actions';
 import {
   selectVoiceAssistantAcknowledgement, selectVoiceAssistantFinalTranscript,
   selectVoiceAssistantInterimTranscript
-} from './state/selectors/voice-assistant.selectors';
+} from './_shared/state/selectors/voice-assistant.selectors';
 
 @Component({
   selector: 'app-root',

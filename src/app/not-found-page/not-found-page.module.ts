@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { NotFoundPageRoutingModule } from './not-found-page-routing.module';
 import { NotFoundPageComponent } from './not-found-page.component';
-import { HeaderModule } from '../header/header.module';
-import { FooterModule } from '../footer/footer.module';
+import { HeaderModule } from '../_shared/components/header/header.module';
+import { FooterModule } from '../_shared/components/footer/footer.module';
 
 
 @NgModule({

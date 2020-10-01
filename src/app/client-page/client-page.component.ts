@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { Contact } from '../models/contact';
-import { Note } from '../models/note';
+import { Contact } from '../_shared/models/contact';
+import { Note } from '../_shared/models/note';
 
 @Component({
   selector: 'app-client-page',

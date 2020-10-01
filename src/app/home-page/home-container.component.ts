@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
-import { Note } from '../models/note';
-import { selectUserLoading, selectUserData, selectUserError } from '../state/selectors/user.selectors';
-import { selectNotesLoading, selectNotesError, selectNotesList } from '../state/selectors/notes.selectors';
-import { setSelectedNote } from '../state/actions/notes.actions';
+import { User } from '../_shared/models/user';
+import { Note } from '../_shared/models/note';
+import { selectUserLoading, selectUserData, selectUserError } from '../_shared/state/selectors/user.selectors';
+import { selectNotesLoading, selectNotesError, selectNotesList } from '../_shared/state/selectors/notes.selectors';
+import { setSelectedNote } from '../_shared/state/actions/notes.actions';
 
 @Component({
   selector: 'app-home-container',

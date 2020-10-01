@@ -1,14 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Contact } from '../models/contact';
-import { Note } from '../models/note';
-import { setSelectedNote } from '../state/actions/notes.actions';
+import { Contact } from '../_shared/models/contact';
+import { Note } from '../_shared/models/note';
+import { setSelectedNote } from '../_shared/state/actions/notes.actions';
 import {
   selectContactsLoading, selectIndividualContactData,
   selectContactsError, selectSelectedContactId
-} from '../state/selectors/contacts.selectors';
-import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../state/selectors/notes.selectors';
+} from '../_shared/state/selectors/contacts.selectors';
+import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../_shared/state/selectors/notes.selectors';
 
 @Component({
   selector: 'app-client-container',

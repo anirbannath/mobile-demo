@@ -4,16 +4,15 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppBootstrapService } from './app-bootstrap.service';
-import { reducers } from './state/reducers';
-import { effects } from './state/effects';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FooterModule } from './footer/footer.module';
-import { VoiceAssistantService } from './services/voice-assistant.service';
-import { ToastModule } from './toast/toast.module';
+import { reducers } from './_shared/state/reducers';
+import { effects } from './_shared/state/effects';
+import { FooterModule } from './_shared/components/footer/footer.module';
+import { ToastModule } from './_shared/components/toast/toast.module';
 
 export function bootstrapServiceFactory(bootstrapService: AppBootstrapService) {
   return () => bootstrapService.bootstrap();
