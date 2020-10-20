@@ -1,6 +1,6 @@
-<app-header [note]="context > 0">Client Info</app-header>
+<app-header [note]="contactData">Client Info</app-header>
 
-<div *ngIf="context === 0" class="card-body text-center text-muted">
+<div *ngIf="!contactData" class="card-body text-center text-muted">
   <div class="mb-20 card-body text-muted">
     No contact selected.<br>
     Please select a contact before proceeding.<br>
@@ -8,7 +8,7 @@
   <a class="btn btn-primary" routerLink="/contacts">Go to Contacts</a>
 </div>
 
-<ng-container *ngIf="context > 0">
+<ng-container *ngIf="contactData">
   <div class="card">
     <div class="card-title">Overview</div>
     <div class="card-body text-center">

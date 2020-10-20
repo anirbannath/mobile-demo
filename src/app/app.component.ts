@@ -6,7 +6,7 @@ import { routerAnimations } from './app-animations';
 import { loadNotes } from './_shared/state/actions/notes.actions';
 import { loadUser } from './_shared/state/actions/user.actions';
 import {
-  selectVoiceAssistantAcknowledgement, selectVoiceAssistantFinalTranscript,
+  selectVoiceAssistantAcknowledgement, selectVoiceAssistantActive, selectVoiceAssistantFinalTranscript,
   selectVoiceAssistantInterimTranscript
 } from './_shared/state/selectors/voice-assistant.selectors';
 
@@ -18,6 +18,7 @@ import {
 })
 export class AppComponent implements OnInit {
 
+  voiceAssistantActive$: Observable<boolean>;
   voiceAssistantInterimTranscript$: Observable<string>;
   voiceAssistantFinalTranscript$: Observable<string>;
   voiceAssistantFinalAcknowledgement$: Observable<string>;
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.voiceAssistantActive$ = this.store.select(selectVoiceAssistantActive);
     this.voiceAssistantInterimTranscript$ = this.store.select(selectVoiceAssistantInterimTranscript);
     this.voiceAssistantFinalTranscript$ = this.store.select(selectVoiceAssistantFinalTranscript);
     this.voiceAssistantFinalAcknowledgement$ = this.store.select(selectVoiceAssistantAcknowledgement);

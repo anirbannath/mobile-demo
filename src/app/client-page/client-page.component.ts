@@ -12,7 +12,6 @@ export class ClientPageComponent {
 
   readonly loaders = Array.from(Array(5));
 
-  @Input() context: number;
   @Input() contactLoading: boolean;
   @Input() contactData: Contact;
   @Input() contactError: string;

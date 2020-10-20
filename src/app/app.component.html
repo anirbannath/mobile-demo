@@ -2,8 +2,8 @@
   <router-outlet #outlet="outlet"></router-outlet>
 </div>
 
-<app-toast [interim]="voiceAssistantInterimTranscript$ | async" [final]="voiceAssistantFinalTranscript$ | async"
-  [acknowledgement]="voiceAssistantFinalAcknowledgement$ | async">
+<app-toast *ngIf="voiceAssistantActive$ | async" [interim]="voiceAssistantInterimTranscript$ | async"
+  [final]="voiceAssistantFinalTranscript$ | async" [acknowledgement]="voiceAssistantFinalAcknowledgement$ | async">
 </app-toast>
 
 <app-footer></app-footer>

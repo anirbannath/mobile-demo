@@ -14,7 +14,6 @@ import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../
   selector: 'app-client-container',
   template: `
     <app-client-page
-      [context]="context$ | async"
       [contactLoading]="contactLoading$ | async"
       [contactData]="contactData$ | async"
       [contactError]="contactError$ | async"
@@ -28,7 +27,6 @@ import { selectNotesLoading, selectNotesError, selectClientNotesData } from '../
 })
 export class ClientContainerComponent implements OnInit {
 
-  context$: Observable<number>;
   contactLoading$: Observable<boolean>;
   contactData$: Observable<Contact>;
   contactError$: Observable<string>;
@@ -41,7 +39,6 @@ export class ClientContainerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.context$ = this.store.select(selectSelectedContactId);
     this.contactLoading$ = this.store.select(selectContactsLoading);
     this.contactData$ = this.store.select(selectIndividualContactData);
     this.contactError$ = this.store.select(selectContactsError);

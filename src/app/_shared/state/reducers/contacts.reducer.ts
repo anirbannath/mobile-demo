@@ -22,6 +22,6 @@ export const contactsReducer = createReducer(
 );
 
 export const selectedContactIdReducer = createReducer(
-  0,
+  null,
   on(setSelectedContact, (state, { id }) => id)
 );

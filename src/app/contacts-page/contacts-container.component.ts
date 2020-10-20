@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { selectContactsLoading, selectContactsError, selectContactsList } from '../_shared/state/selectors/contacts.selectors';
 import { loadContacts, setSelectedContact } from '../_shared/state/actions/contacts.actions';
 import { Contact } from '../_shared/models/contact';
@@ -25,8 +24,7 @@ export class ContactsContainerComponent implements OnInit {
   error$: Observable<string>;
 
   constructor(
-    private store: Store,
-    private router: Router
+    private store: Store
   ) { }
 
   ngOnInit(): void {
