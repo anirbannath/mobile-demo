@@ -1,14 +1,17 @@
-import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
-import { map, switchMap, distinctUntilChanged, catchError, withLatestFrom, mergeAll } from 'rxjs/operators';
+import { map, switchMap, distinctUntilChanged, catchError, withLatestFrom, mergeAll, concatAll } from 'rxjs/operators';
 import { appActions } from '../app-actions';
 import { VoiceAssistantService } from '../../services/voice-assistant.service';
 import { InstructionAssistantService } from '../../services/instruction-assistant.service';
-import { loadAssistantInstruction, setAssistantInstruction, setVoiceAssistantResult, setAssistantAcknowledgement } from '../actions/voice-assistant.actions';
+import {
+  loadAssistantInstruction, setAssistantInstruction,
+  setVoiceAssistantResult, setAssistantAcknowledgement, setAssistantContext
+} from '../actions/voice-assistant.actions';
 import { navigationInstructions } from '../../../app-routing.module';
 import { AppInstruction, InstructionResult } from '../../models/voice-assistant';
 import { assistantAcknowledgement } from '../../services/assistant-util';
@@ -17,6 +20,7 @@ import { setSelectedContact } from '../actions/contacts.actions';
 import { selectUserData } from '../selectors/user.selectors';
 import { selectNotesList } from '../selectors/notes.selectors';
 import { selectContactsList } from '../selectors/contacts.selectors';
+import { selectVoiceAssistantContext } from '../selectors/voice-assistant.selectors';
 import { Note } from '../../models/note';
 import { Contact } from '../../models/contact';
 
@@ -49,7 +53,7 @@ export class VoiceAssistantEffects {
         greetingMessage = 'Good evening';
       }
       return [
-        of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}` })),
+        of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}.` })),
         this.voiceAssistantService.result().pipe(
           map((data) => setVoiceAssistantResult({ result: data })))
       ]
@@ -69,26 +73,90 @@ export class VoiceAssistantEffects {
     ofType(appActions.setVoiceAssistantResult),
     map(action => (<any>action)?.result?.finalTranscript as string),
     distinctUntilChanged(),
-    withLatestFrom(this.store.select(selectUserData)),
-    switchMap(([finalTranscript, user]) => {
+    withLatestFrom(
+      this.store.select(selectUserData),
+      this.store.select(selectVoiceAssistantContext)
+    ),
+    switchMap(([finalTranscript, user, currentContext]) => {
       if (finalTranscript) {
-        if (this.location.path(true) === '/start') {
-          if (finalTranscript.toLowerCase().indexOf('agree') >= 0) {
-            this.router.navigate(['home']);
-            return of(setAssistantAcknowledgement({ acknowledgement: `Welcome ${user?.firstName}!` }))
-          } else {
-            return of(setAssistantAcknowledgement({ acknowledgement: `You need to say "I Agree" to proceed!` }))
+        if (currentContext && finalTranscript.toLowerCase() === 'yes') {
+          switch (currentContext.type) {
+            case 'DOM':
+              if (isPlatformBrowser(this.platformId)) {
+                const block = <HTMLElement>document.querySelector(currentContext.target);
+                return [
+                  of(setAssistantContext({
+                    context: {
+                      ...currentContext,
+                      text: block.getAttribute('va-speak') + block.innerText.replace(/\s/g, ' '),
+                    }
+                  })),
+                  of(setAssistantContext({
+                    context: null
+                  }))
+                ];
+              }
+              break;
           }
+        } else if (currentContext && finalTranscript.toLowerCase() === 'no') {
+          return [
+            of(setAssistantContext({
+              context: null
+            }))
+          ]
         } else {
-          const target = navigationInstructions.filter(nav => nav.path === this.location.path(true))[0]?.target;
-          return of(loadAssistantInstruction({
-            transcript: finalTranscript,
-            target: target
-          }))
+          if (this.location.path(true) === '/start') {
+            if (finalTranscript.toLowerCase().indexOf('agree') >= 0) {
+              this.router.navigate(['home']);
+              return [of(setAssistantAcknowledgement({ acknowledgement: `Welcome ${user?.firstName}!` }))]
+            } else {
+              return [of(setAssistantAcknowledgement({ acknowledgement: `You need to say "I Agree" to proceed!` }))]
+            }
+          } else {
+            let isPromptAction = false;
+            if (isPlatformBrowser(this.platformId)) {
+              const matchedCommandElement = this.getElementByCommand(finalTranscript);
+              if (matchedCommandElement) {
+                switch (matchedCommandElement.action) {
+                  case 'click':
+                    matchedCommandElement.element.click();
+                    break;
+                }
+                isPromptAction = true;
+              }
+              else if (finalTranscript === 'next control' || finalTranscript === 'next field' || finalTranscript === 'tab') {
+                this.getFocusableElement(1)?.focus();
+                isPromptAction = true;
+              } else if (finalTranscript === 'previous control' || finalTranscript === 'previous field') {
+                this.getFocusableElement(-1)?.focus();
+                isPromptAction = true;
+              } else if (document.activeElement?.getAttributeNames()?.findIndex(attr => attr === 'va-editable') > -1) {
+                this.ngZone.runOutsideAngular(() => {
+                  (<any>document.activeElement).value += ` ${finalTranscript}`;
+                })
+                isPromptAction = true;
+              }
+            }
+
+            if (!isPromptAction) {
+              const target = navigationInstructions.filter(nav => nav.path === this.location.path(true))[0]?.target;
+              return [
+                of(loadAssistantInstruction({
+                  transcript: finalTranscript,
+                  target: target
+                })),
+                of(setAssistantContext({
+                  context: null
+                }))
+              ]
+            }
+          }
         }
       }
       return EMPTY;
-    })));
+    }),
+    concatAll()
+  ));
 
   onLoadAssistantInstruction = createEffect(() => this.actions$.pipe(
     ofType(appActions.loadAssistantInstruction),
@@ -146,6 +214,21 @@ export class VoiceAssistantEffects {
           subscriber.complete();
         }
       })
+    })
+  ));
+
+  onSetContext = createEffect(() => this.actions$.pipe(
+    ofType(appActions.setAssistantContext),
+    switchMap((action) => {
+      const context = (<any>action).context;
+      if (context) {
+        switch (context.type) {
+          case 'DOM':
+            return of(setAssistantAcknowledgement({ acknowledgement: context.text }));
+            break;
+        }
+      }
+      return EMPTY;
     })
   ));
 
@@ -250,6 +333,43 @@ export class VoiceAssistantEffects {
     }
 
     return appInstruction;
+  }
+
+  private getFocusableElement(offset: number): any {
+    const focusableElements = document.querySelectorAll('[va-editable]');
+    let focusedindex: number;
+    for (let index = 0; index < focusableElements.length; index++) {
+      const element = focusableElements.item(index);
+      if (document.activeElement === element) {
+        focusedindex = index;
+        break;
+      }
+    }
+    let nextIndex = focusedindex + offset;
+    if (nextIndex >= focusableElements.length) {
+      nextIndex = 0;
+    } else if (nextIndex <= -1) {
+      nextIndex = focusableElements.length - 1;
+    }
+    return focusableElements.item(nextIndex);
+  }
+
+  private getElementByCommand(transcript: string) {
+    let matchedElement: { element: HTMLElement, action: string };
+    if (transcript) {
+      const vaCommandElement = document.querySelectorAll('[va-command]');
+      for (let index = 0; index < vaCommandElement.length; index++) {
+        const element = vaCommandElement.item(index);
+        if (transcript.indexOf(element.getAttribute('va-command')) > -1) {
+          matchedElement = {
+            element: <HTMLElement>element,
+            action: element.getAttribute('va-command-action') || 'click'
+          };
+          break;
+        }
+      }
+    }
+    return matchedElement;
   }
 
 }

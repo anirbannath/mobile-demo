@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../_shared/models/user';
@@ -6,6 +7,8 @@ import { Note } from '../_shared/models/note';
 import { selectUserLoading, selectUserData, selectUserError } from '../_shared/state/selectors/user.selectors';
 import { selectNotesLoading, selectNotesError, selectNotesList } from '../_shared/state/selectors/notes.selectors';
 import { setSelectedNote } from '../_shared/state/actions/notes.actions';
+import { setAssistantContext } from '../_shared/state/actions/voice-assistant.actions';
+import { AppStoreService } from '../_shared/services/app-store.service';
 
 @Component({
   selector: 'app-home-container',
@@ -22,7 +25,7 @@ import { setSelectedNote } from '../_shared/state/actions/notes.actions';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeContainerComponent implements OnInit {
+export class HomeContainerComponent implements OnInit, AfterViewInit {
 
   userLoading$: Observable<boolean>;
   userData$: Observable<User>;
@@ -32,7 +35,9 @@ export class HomeContainerComponent implements OnInit {
   notesError$: Observable<string>;
 
   constructor(
-    private store: Store
+    @Inject(PLATFORM_ID) private platformId,
+    private store: Store,
+    private appStore: AppStoreService,
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +47,21 @@ export class HomeContainerComponent implements OnInit {
     this.notesLoading$ = this.store.select(selectNotesLoading);
     this.notesData$ = this.store.select(selectNotesList);
     this.notesError$ = this.store.select(selectNotesError);
+  }
+
+  ngAfterViewInit() {
+    if (!this.appStore.homeAlreadyLoaded) {
+      if (isPlatformBrowser(this.platformId)) {
+        this.appStore.homeAlreadyLoaded = true;
+        this.store.dispatch(setAssistantContext({
+          context: {
+            type: 'DOM',
+            target: '[va-article="summary"]',
+            text: (<HTMLElement>document.querySelector('[va-article="summary"]')).getAttribute('va-question')
+          }
+        }))
+      }
+    }
   }
 
   onSelectNote(id: number) {

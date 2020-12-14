@@ -165,8 +165,6 @@ fieldset:disabled a.btn {
 }
 
 .card-title {
-  position: sticky;
-  top: 56px;
   padding: 6px 20px;
   @include color-fallback(background-color, --card-title, $card-title);
 }
@@ -246,6 +244,18 @@ small,
 
 .text-muted {
   @include color-fallback(color, --secondary, $secondary, true);
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
 }
 
 .text-truncate {
@@ -393,5 +403,48 @@ textarea {
 
   label:active:after {
     width: 25px;
+  }
+}
+
+.border {
+  border: 1px solid transparent;
+  @include color-fallback(border-color, --border, $border);
+
+  &.rounded {
+    border-radius: .25rem;
+  }
+}
+
+.symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  height: 50px;
+  width: 50px;
+
+  &.symbol-info {
+    background-color: #eee5ff;
+    color: #8950fc;
+  }
+
+  &.symbol-danger {
+    background-color: #ffe2e5;
+    color: #f64e60;
+  }
+
+  &.symbol-warn {
+    background-color: #fff4de;
+    color: #ffa800;
+  }
+
+  &.symbol-success {
+    background-color: #c9f7f5;
+    color: #1bc5bd;
+  }
+
+  &.symbol-primary {
+    background-color: #e1f0ff;
+    color: #3699ff;
   }
 }

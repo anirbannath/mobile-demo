@@ -27,3 +27,8 @@ export const selectVoiceAssistantAcknowledgement = createSelector(
   selectVoiceAssistant,
   (assistant) => assistant?.data?.acknowledgement
 );
+
+export const selectVoiceAssistantContext = createSelector(
+  selectVoiceAssistant,
+  (assistant) => assistant?.data?.context
+);

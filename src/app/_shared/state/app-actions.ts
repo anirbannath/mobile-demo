@@ -39,4 +39,6 @@ export const appActions = {
   setAssistantAcknowledgement: '[Voice Assistant] Set Assistant Acknowledgement',
   actOnAssistantInstruction: '[Voice Assistant] Act on Assistant Instruction',
 
+  setAssistantContext: '[Voice Assistant] Set Assistant Context',
+
 }

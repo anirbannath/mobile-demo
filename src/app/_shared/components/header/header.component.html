@@ -13,9 +13,10 @@
 <a *ngIf="note" class="btn-header btn-right" routerLink="/note" aria-label="create note">
   <i class="icon fa fa-plus" aria-hidden="true"></i>
 </a>
-<a *ngIf="edit" class="btn-header btn-right" [routerLink]="['edit']">
+<a *ngIf="edit" [attr.va-command]="editCommand" class="btn-header btn-right" [routerLink]="['edit']">
   Edit
 </a>
-<a *ngIf="save" class="btn-header btn-right" href="javascript:void(0)" (click)="onSaveClick()">
+<a *ngIf="save" [attr.va-command]="saveCommand" class="btn-header btn-right" href="javascript:void(0)"
+  (click)="onSaveClick()">
   Save
 </a>

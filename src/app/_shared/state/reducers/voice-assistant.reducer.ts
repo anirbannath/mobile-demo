@@ -3,7 +3,7 @@ import { initialState } from '../../models/app-state';
 import {
   startVoiceAssistant, stopVoiceAssistant,
   setVoiceAssistantSupport, setVoiceAssistantResult,
-  loadAssistantInstruction, setAssistantInstruction, setAssistantAcknowledgement
+  loadAssistantInstruction, setAssistantInstruction, setAssistantAcknowledgement, setAssistantContext
 } from '../actions/voice-assistant.actions';
 
 export const voiceAssistantReducer = createReducer(
@@ -39,6 +39,14 @@ export const voiceAssistantReducer = createReducer(
     data: {
       ...state.data,
       acknowledgement: acknowledgement
+    }
+  })),
+
+  on(setAssistantContext, (state, { context }) => ({
+    ...state,
+    data: {
+      ...state.data,
+      context: context
     }
   })),
 

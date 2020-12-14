@@ -14,3 +14,5 @@ export const cancelAssistantInstruction = createAction(appActions.cancelAssistan
 
 export const setAssistantAcknowledgement = createAction(appActions.setAssistantAcknowledgement, props<{ acknowledgement: string, payload?: AppInstruction }>());
 export const actOnAssistantInstruction = createAction(appActions.actOnAssistantInstruction, props<{ payload: any }>());
+
+export const setAssistantContext = createAction(appActions.setAssistantContext, props<{ context: any }>());

@@ -4,7 +4,8 @@ export interface SpeechAssistantMeta {
   finalTranscript?: string,
   interimTranscript?: string,
   instruction?: InstructionResult,
-  acknowledgement?: string
+  acknowledgement?: string,
+  context?: any
 }
 
 export interface InstructionRequest {
@@ -24,4 +25,5 @@ export interface AppInstruction {
   action?: string,
   type?: 'function' | 'action',
   payload?: any,
+  context?: any
 }

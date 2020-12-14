@@ -1,6 +1,7 @@
-<app-header [cancel]="true" [save]="true" (onSave)="onSave()">Note</app-header>
+<app-header [cancel]="true" [save]="true" [saveCommand]="'save'" (onSave)="onSave()">Note
+</app-header>
 
 <div class="card-body">
-  <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title">
-  <textarea #description [(ngModel)]="note.description" placeholder="Description"></textarea>
+  <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title" va-editable>
+  <textarea #description [(ngModel)]="note.description" placeholder="Description" va-editable></textarea>
 </div>

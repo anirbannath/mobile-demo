@@ -13,7 +13,9 @@ export class HeaderComponent {
   @Input() settings: boolean;
   @Input() note: boolean;
   @Input() edit: boolean;
+  @Input() editCommand: string;
   @Input() save: boolean;
+  @Input() saveCommand: string;
 
   @Output() onSave = new EventEmitter<void>();
 

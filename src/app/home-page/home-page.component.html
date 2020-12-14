@@ -2,34 +2,62 @@
 
 <div>
   <div class="card">
-    <div class="card-title">Overview</div>
-    <div class="card-body text-center">
-      <ng-container *ngIf="!userLoading">
-        <div>
-          <div class="h5 text-muted">Welcome</div>
-          <h1 class="h4 text-truncate">{{ userData?.lastName }}, {{ userData?.firstName }}</h1>
+    <div class="card-title">Recent Stats</div>
+    <div class="card-body py-4" va-article="summary" va-question="Should I go through your routine for the day?"
+      va-speak="Here's what your day looks like. You have ">
+      <div class="row">
+        <div class="col-6 mb-3">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-info mr-3">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="h6">2</div>
+              <small class="text-muted">Meetings <span class="sr-only">scheduled, </span></small>
+            </div>
+          </div>
         </div>
-        <hr>
-        <div>
-          <div class="h4">{{ userData?.profit | currency }}</div>
-          <div class="text-muted">Net Profit</div>
-          <div>Last updated: {{ today | date }}</div>
+        <div class="col-6 mb-3">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-danger mr-3">
+              <i class="fa fa-tasks" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="h6">3</div>
+              <small class="text-muted">Tasks <span class="sr-only">due, </span></small>
+            </div>
+          </div>
         </div>
-      </ng-container>
-      <ng-container *ngIf="userLoading">
-        <div>
-          <div class="skeleton mx-auto w-25 mb-10"></div>
-          <div class="skeleton mx-auto w-50"></div>
+        <div class="col-6">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-success mr-3">
+              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="h6">7</div>
+              <small class="text-muted">
+                <span class="sr-only">unread </span>Notes <span class="sr-only">and </span></small>
+            </div>
+          </div>
         </div>
-        <hr>
-        <div>
-          <div class="skeleton mx-auto w-50 mb-10"></div>
-          <div class="skeleton mx-auto w-25 mb-10"></div>
-          <div class="skeleton mx-auto w-35"></div>
+        <div class="col-6">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-primary mr-3">
+              <i class="fa fa-comment-o" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="h6">2</div>
+              <small class="text-muted">Messages<span class="sr-only">.</span></small>
+            </div>
+          </div>
         </div>
-      </ng-container>
+
+        <div class="sr-only">Your next meeting for the day is scheduled at 9 a.m.</div>
+
+      </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-title">Notes</div>
     <ng-container *ngIf="!notesLoading">

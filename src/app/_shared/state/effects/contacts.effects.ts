@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, withLatestFrom, map, delay, tap } from 'rxjs/operators';
+import { switchMap, withLatestFrom, map, tap } from 'rxjs/operators';
 import { appActions } from '../app-actions';
 import { environment } from '../../../../environments/environment';
 import { selectContactsData } from '../selectors/contacts.selectors';
@@ -29,7 +29,6 @@ export class ContactsEffects {
         return of(cancelLoadContacts());
       } else {
         return this.http.get(environment.dataSource.contacts).pipe(
-          delay(environment.dataDelay),
           map((data: Array<Contact>) => setContacts({ contacts: data })));
       }
     })

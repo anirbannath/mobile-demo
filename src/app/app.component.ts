@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { routerAnimations } from './app-animations';
+import { loadContacts } from './_shared/state/actions/contacts.actions';
 import { loadNotes } from './_shared/state/actions/notes.actions';
 import { loadUser } from './_shared/state/actions/user.actions';
 import {
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit {
   voiceAssistantFinalAcknowledgement$: Observable<string>;
 
   constructor(
-    private store: Store
+    private store: Store,
   ) { }
 
   ngOnInit() {
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     this.voiceAssistantFinalTranscript$ = this.store.select(selectVoiceAssistantFinalTranscript);
     this.voiceAssistantFinalAcknowledgement$ = this.store.select(selectVoiceAssistantAcknowledgement);
     this.store.dispatch(loadUser());
+    this.store.dispatch(loadContacts());
     this.store.dispatch(loadNotes());
   }
 

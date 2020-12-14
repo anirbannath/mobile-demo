@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectContactsLoading, selectContactsError, selectContactsList } from '../_shared/state/selectors/contacts.selectors';
-import { loadContacts, setSelectedContact } from '../_shared/state/actions/contacts.actions';
+import { setSelectedContact } from '../_shared/state/actions/contacts.actions';
 import { Contact } from '../_shared/models/contact';
 
 @Component({
@@ -31,7 +31,6 @@ export class ContactsContainerComponent implements OnInit {
     this.loading$ = this.store.select(selectContactsLoading);
     this.contactsData$ = this.store.select(selectContactsList);
     this.error$ = this.store.select(selectContactsError);
-    this.store.dispatch(loadContacts());
   }
 
   onSelectContact(id: number) {
