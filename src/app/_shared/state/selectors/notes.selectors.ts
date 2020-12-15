@@ -7,21 +7,21 @@ export const selectNotes = (state: AppState) => state.notes;
 
 export const selectNotesLoading = createSelector(
   selectNotes,
-  (notes) => notes.loading
+  (notes) => notes?.loading
 );
 
 export const selectNotesData = createSelector(
   selectNotes,
-  (notes) => notes.data
+  (notes) => notes?.data
 );
 
 export const selectNotesList = createSelector(
   selectNotesData,
-  (noteDictonary) => {
+  (noteDictionary) => {
     const list: Array<Note> = [];
-    if (noteDictonary) {
-      Object.keys(noteDictonary).forEach(key => {
-        list.push(noteDictonary[key]);
+    if (noteDictionary) {
+      Object.keys(noteDictionary).forEach(key => {
+        list.push(noteDictionary[key]);
       });
     }
     return list;
@@ -30,7 +30,7 @@ export const selectNotesList = createSelector(
 
 export const selectNotesError = createSelector(
   selectNotes,
-  (notes) => notes.error
+  (notes) => notes?.error
 );
 
 export const selectClientNotesData = createSelector(
@@ -42,11 +42,14 @@ export const selectClientNotesData = createSelector(
 export const selectNoteById = createSelector(
   selectNotesData,
   selectSelectedContactId,
-  (noteDictonary: NoteDictionary, contactId: number, props: { id: number }) =>
-    props?.id && noteDictonary && noteDictonary[props.id] ? noteDictonary[props.id] : {
+  (notedictionary: NoteDictionary, contactId: number, props: { id: number }) =>
+    props?.id && notedictionary && notedictionary[props.id] ? notedictionary[props.id] : {
       title: '',
       description: '',
       contactId: contactId,
-      occurredOn: new Date(Date.now())
+      occurredOn: new Date(Date.now()),
+      meeting: '',
+      tags: [],
+      tagNames: []
     } as Note
 );

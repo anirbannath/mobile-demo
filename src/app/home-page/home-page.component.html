@@ -36,7 +36,7 @@
             <div>
               <div class="h6">7</div>
               <small class="text-muted">
-                <span class="sr-only">unread </span>Notes <span class="sr-only">and </span></small>
+                Notes <span class="sr-only">and </span></small>
             </div>
           </div>
         </div>
@@ -53,31 +53,19 @@
         </div>
 
         <div class="sr-only">Your next meeting for the day is scheduled at 9 a.m.</div>
-
       </div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title">Notes</div>
-    <ng-container *ngIf="!notesLoading">
-      <div *ngIf="notesData?.length <= 0" class="card-body text-center text-muted">
-        {{ notesError || 'No records to show.' }}
-      </div>
-      <div *ngIf="!notesError && notesData?.length > 0">
-        <a *ngFor="let note of notesData" class="card-body list-item" (click)="onSelectNote(note.id)">
-          <div class="text-primary text-truncate">{{ note?.title }}</div>
-          <div class="text-clamp text-small">{{ note?.description }}</div>
-          <div class="text-muted text-truncate text-small">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm a' }}</div>
-        </a>
-      </div>
-    </ng-container>
-    <div *ngIf="notesLoading">
-      <div *ngFor="let loader of loaders" class="card-body list-item">
-        <div class="skeleton w-50"></div>
-        <div class="skeleton w-75"></div>
-        <div class="skeleton w-35"></div>
-      </div>
-    </div>
+    <app-notes [isLoading]="notesLoading" [notes]="notesData" [error]="notesError" (selectNote)="onSelectNote($event)">
+    </app-notes>
   </div>
 </div>
+
+<a class="btn btn-float btn-primary" routerLink="/note">
+  <svg xmlns="http://www.w3.org/2000/svg" class="add-note-icon" viewBox="0 0 512 512" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M256 112v288M400 256H112"></path>
+  </svg>
+</a>

@@ -6,21 +6,21 @@ export const selectContacts = (state: AppState) => state.contacts;
 
 export const selectContactsLoading = createSelector(
   selectContacts,
-  (contacts) => contacts.loading
+  (contacts) => contacts?.loading
 );
 
 export const selectContactsData = createSelector(
   selectContacts,
-  (contacts) => contacts.data
+  (contacts) => contacts?.data
 );
 
 export const selectContactsList = createSelector(
   selectContactsData,
-  (contactDictonary) => {
+  (contactdictionary) => {
     const list: Array<Contact> = [];
-    if (contactDictonary) {
-      Object.keys(contactDictonary).forEach(key => {
-        list.push(contactDictonary[key]);
+    if (contactdictionary) {
+      Object.keys(contactdictionary).forEach(key => {
+        list.push(contactdictionary[key]);
       });
     }
     return list;
@@ -29,7 +29,7 @@ export const selectContactsList = createSelector(
 
 export const selectContactsError = createSelector(
   selectContacts,
-  (contacts) => contacts.error
+  (contacts) => contacts?.error
 );
 
 export const selectSelectedContactId = (state: AppState) => state.selectedContactId;

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -20,9 +20,10 @@ import { setSelectedContact } from '../actions/contacts.actions';
 import { selectUserData } from '../selectors/user.selectors';
 import { selectNotesList } from '../selectors/notes.selectors';
 import { selectContactsList } from '../selectors/contacts.selectors';
-import { selectVoiceAssistantContext } from '../selectors/voice-assistant.selectors';
+import { selectVoiceAssistantActive, selectVoiceAssistantContext } from '../selectors/voice-assistant.selectors';
 import { Note } from '../../models/note';
 import { Contact } from '../../models/contact';
+import { AppStoreService } from '../../services/app-store.service';
 
 @Injectable()
 export class VoiceAssistantEffects {
@@ -36,6 +37,7 @@ export class VoiceAssistantEffects {
     private location: Location,
     private router: Router,
     private ngZone: NgZone,
+    private appStore: AppStoreService
   ) { }
 
   startVoiceAssistant = createEffect(() => this.actions$.pipe(
@@ -52,6 +54,7 @@ export class VoiceAssistantEffects {
       } else if (hourOfDay <= 20) {
         greetingMessage = 'Good evening';
       }
+      this.appStore.isAssistantActive = true;
       return [
         of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}.` })),
         this.voiceAssistantService.result().pipe(
@@ -65,6 +68,7 @@ export class VoiceAssistantEffects {
     ofType(appActions.stopVoiceAssistant),
     switchMap(() => {
       this.voiceAssistantService.stop();
+      this.appStore.isAssistantActive = false;
       return of(setAssistantAcknowledgement({ acknowledgement: 'Good bye.' }))
     })
   ));
@@ -108,9 +112,19 @@ export class VoiceAssistantEffects {
           if (this.location.path(true) === '/start') {
             if (finalTranscript.toLowerCase().indexOf('agree') >= 0) {
               this.router.navigate(['home']);
-              return [of(setAssistantAcknowledgement({ acknowledgement: `Welcome ${user?.firstName}!` }))]
+              return [
+                of(setAssistantAcknowledgement({ acknowledgement: `Welcome ${user?.firstName}!` })),
+                of(setAssistantContext({
+                  context: null
+                }))
+              ]
             } else {
-              return [of(setAssistantAcknowledgement({ acknowledgement: `You need to say "I Agree" to proceed!` }))]
+              return [
+                of(setAssistantAcknowledgement({ acknowledgement: `You need to say "I Agree" to proceed!` })),
+                of(setAssistantContext({
+                  context: null
+                }))
+              ]
             }
           } else {
             let isPromptAction = false;
@@ -119,8 +133,15 @@ export class VoiceAssistantEffects {
               if (matchedCommandElement) {
                 switch (matchedCommandElement.action) {
                   case 'click':
-                    matchedCommandElement.element.click();
-                    break;
+                    return [
+                      of(setAssistantAcknowledgement({
+                        acknowledgement: matchedCommandElement.reply,
+                        payload: { type: 'function', payload: () => { matchedCommandElement.element.click() } }
+                      })),
+                      of(setAssistantContext({
+                        context: null
+                      }))
+                    ]
                 }
                 isPromptAction = true;
               }
@@ -131,9 +152,7 @@ export class VoiceAssistantEffects {
                 this.getFocusableElement(-1)?.focus();
                 isPromptAction = true;
               } else if (document.activeElement?.getAttributeNames()?.findIndex(attr => attr === 'va-editable') > -1) {
-                this.ngZone.runOutsideAngular(() => {
-                  (<any>document.activeElement).value += ` ${finalTranscript}`;
-                })
+                (<any>document.activeElement).value += ` ${finalTranscript}`;
                 isPromptAction = true;
               }
             }
@@ -188,32 +207,38 @@ export class VoiceAssistantEffects {
 
   onSetAssistantAcknowledgement = createEffect(() => this.actions$.pipe(
     ofType(appActions.setAssistantAcknowledgement),
-    switchMap((action) => {
-      return new Observable<Action>(subscriber => {
-        const acknowledgement: string = (<any>action).acknowledgement;
-        const instruction: AppInstruction = (<any>action).payload;
-        if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
-          const msg = new SpeechSynthesisUtterance();
-          msg.text = acknowledgement;
-          window.speechSynthesis.speak(msg);
-          msg.onend = () => {
-            if (instruction && instruction.payload) {
-              this.ngZone.run(() => {
-                if (instruction.type === 'action') {
-                  subscriber.next(instruction.payload)
-                } else {
-                  instruction.payload();
-                }
+    withLatestFrom(
+      this.store.select(selectVoiceAssistantActive)
+    ),
+    switchMap(([action, isActive]) => {
+      if (isActive) {
+        return new Observable<Action>(subscriber => {
+          const acknowledgement: string = (<any>action).acknowledgement;
+          const instruction: AppInstruction = (<any>action).payload;
+          if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = acknowledgement;
+            window.speechSynthesis.speak(msg);
+            msg.onend = () => {
+              if (instruction && instruction.payload) {
+                this.ngZone.run(() => {
+                  if (instruction.type === 'action') {
+                    subscriber.next(instruction.payload)
+                  } else {
+                    instruction.payload();
+                  }
+                  subscriber.complete();
+                })
+              } else {
                 subscriber.complete();
-              })
-            } else {
-              subscriber.complete();
+              }
             }
+          } else {
+            subscriber.complete();
           }
-        } else {
-          subscriber.complete();
-        }
-      })
+        })
+      }
+      return EMPTY;
     })
   ));
 
@@ -355,16 +380,23 @@ export class VoiceAssistantEffects {
   }
 
   private getElementByCommand(transcript: string) {
-    let matchedElement: { element: HTMLElement, action: string };
+    let matchedElement: { element: HTMLElement, action: string, reply: string };
     if (transcript) {
       const vaCommandElement = document.querySelectorAll('[va-command]');
       for (let index = 0; index < vaCommandElement.length; index++) {
         const element = vaCommandElement.item(index);
-        if (transcript.indexOf(element.getAttribute('va-command')) > -1) {
-          matchedElement = {
-            element: <HTMLElement>element,
-            action: element.getAttribute('va-command-action') || 'click'
-          };
+        const commands = element.getAttribute('va-command')?.split(',');
+        const matchFound = commands.some(command => {
+          if (transcript.indexOf(command) > -1) {
+            matchedElement = {
+              element: <HTMLElement>element,
+              action: element.getAttribute('va-command-action') || 'click',
+              reply: element.getAttribute('va-command-reply')
+            };
+            return true;
+          }
+        });
+        if (matchFound) {
           break;
         }
       }

@@ -5,6 +5,7 @@ import { HomePageRoutingModule } from './home-page-routing.module';
 import { HomePageComponent } from './home-page.component';
 import { HeaderModule } from '../_shared/components/header/header.module';
 import { HomeContainerComponent } from './home-container.component';
+import { NotesModule } from '../_shared/components/notes/notes.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { HomeContainerComponent } from './home-container.component';
   imports: [
     CommonModule,
     HomePageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    NotesModule
   ]
 })
 export class HomePageModule { }

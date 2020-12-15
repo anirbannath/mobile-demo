@@ -16,7 +16,6 @@ const routes: Routes = [
   },
   {
     path: '', component: NoteEditContainerComponent,
-    canActivate: [CanActivateContactGuard],
     data: { animationKey: 'CreateNotePage' }
   }
 ];

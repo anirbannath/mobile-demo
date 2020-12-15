@@ -5,10 +5,10 @@ export const selectDarkTheme = (state: AppState) => state.darkTheme;
 
 export const selectSupportDarkTheme = createSelector(
   selectDarkTheme,
-  (darkTheme) => darkTheme && darkTheme.isSupported
+  (darkTheme) => darkTheme?.isSupported
 );
 
 export const selectForceDarkTheme = createSelector(
   selectDarkTheme,
-  (darkTheme) => darkTheme && darkTheme.isForced
+  (darkTheme) => darkTheme?.isForced
 );

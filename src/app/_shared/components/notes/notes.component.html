@@ -1,0 +1,19 @@
+<ng-container *ngIf="!isLoading">
+  <div *ngIf="notes?.length <= 0" class="card-body text-center text-muted">
+    {{ error || 'No records to show.' }}
+  </div>
+  <div *ngIf="!error && notes?.length > 0">
+    <a *ngFor="let note of notes" class="card-body list-item" (click)="onSelectNote(note.id)">
+      <div class="text-primary text-truncate">{{ note?.title }}</div>
+      <div class="text-clamp text-small">{{ note?.description }}</div>
+      <div class="text-muted text-truncate text-small">{{ note?.occurredOn | date: 'EEEE, MMM d, y, h:mm a' }}</div>
+    </a>
+  </div>
+</ng-container>
+<div *ngIf="isLoading">
+  <div *ngFor="let loader of loaders" class="card-body list-item">
+    <div class="skeleton w-50"></div>
+    <div class="skeleton w-75"></div>
+    <div class="skeleton w-35"></div>
+  </div>
+</div>

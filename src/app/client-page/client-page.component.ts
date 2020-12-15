@@ -10,8 +10,6 @@ import { Note } from '../_shared/models/note';
 })
 export class ClientPageComponent {
 
-  readonly loaders = Array.from(Array(5));
-
   @Input() contactLoading: boolean;
   @Input() contactData: Contact;
   @Input() contactError: string;

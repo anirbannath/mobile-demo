@@ -8,6 +8,11 @@ export const appActions = {
   errorUser: '[User] Error User',
   cancelLoadUser: '[User] Cancel Load User',
 
+  loadTags: '[Tags] Load Tags',
+  setTags: '[Tags] Set Tags',
+  errorTags: '[Tags] Error Tags',
+  cancelLoadTags: '[Tags] Cancel Load Tags',
+
   loadContacts: '[Contacts] Load Contacts',
   setContacts: '[Contacts] Set Contacts',
   errorContacts: '[Contacts] Error Contacts',

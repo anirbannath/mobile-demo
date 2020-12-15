@@ -95,12 +95,59 @@ hr {
   @include color-fallback(border-color, --border, $border);
 }
 
+.footer-wrapper {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  @include color-fallback(color, --light, $light);
+  @include color-fallback(background-color, --primary, $primary);
+  justify-content: center;
+  padding: 0 20px;
+  z-index: 100;
+
+  .nav-link {
+    display: flex;
+    text-decoration: none;
+    color: $light;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 33%;
+    background: transparent;
+    border-color: transparent;
+    outline: none;
+
+    &.active {
+      @include color-fallback(background-color, --dark, $dark);
+    }
+
+    .nav-icon {
+      font-size: 1.1rem;
+    }
+
+    .nav-text {
+      font-size: 0.85rem;
+      line-height: 1;
+      margin-top: 4px;
+    }
+  }
+}
+
+.footer-buffer {
+  height: 60px;
+}
+
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 400;
   @include color-fallback(color, --default, $default);
-  text-align: center;
-  vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -157,6 +204,24 @@ fieldset:disabled a.btn {
   line-height: 1;
 }
 
+.btn-float {
+  position: fixed;
+  bottom: 76px;
+  right: 20px;
+  height: 58px;
+  width: 58px;
+  border-radius: 5000px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.add-note-icon {
+  display: block;
+  height: 100%;
+  width: 100%;
+  stroke: currentcolor;
+  stroke-width: 32px;
+}
+
 .card {
   &:not(:last-child) {
     border-bottom: 1px solid transparent;
@@ -184,9 +249,17 @@ fieldset:disabled a.btn {
   }
 }
 
-.mx-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
+.position-relative {
+  position: relative;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.px-20 {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
 }
 
 .mb-10 {
@@ -447,4 +520,49 @@ textarea {
     background-color: #e1f0ff;
     color: #3699ff;
   }
+}
+
+.badge {
+  display: inline-flex;
+  height: 1.2rem;
+  min-width: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50rem;
+  font-size: 0.6rem;
+  @include color-fallback(color, --light, $light);
+
+  &.lock-position {
+    position: absolute;
+    top: -4px;
+    right: -15px;
+  }
+
+  &.badge-primary {
+    @include color-fallback(background-color, --primary-bright, $primary-bright);
+  }
+
+  &.badge-warn {
+    @include color-fallback(background-color, --warning, $warning);
+  }
+
+  &.badge-success {
+    @include color-fallback(background-color, --success, $success);
+  }
+
+  &.badge-danger {
+    @include color-fallback(background-color, --danger, $danger);
+  }
+}
+
+.tag {
+  display: inline-flex;
+  padding: 3px 14px;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50rem;
+  @include color-fallback(color, --light, $light);
+  @include color-fallback(background-color, --info, $info);
 }

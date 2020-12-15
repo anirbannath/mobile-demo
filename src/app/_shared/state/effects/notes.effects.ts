@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
-import { mergeAll, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { appActions } from '../app-actions';
 import { environment } from '../../../../environments/environment';
 import { selectNotesList } from '../selectors/notes.selectors';
-import { cancelLoadNotes, setNotes, loadNotes as loadAllNotes, errorNotes, setSelectedNote } from '../actions/notes.actions';
+import { cancelLoadNotes, setNotes, loadNotes as loadAllNotes, errorNotes } from '../actions/notes.actions';
 import { Note } from '../../models/note';
 
 @Injectable()

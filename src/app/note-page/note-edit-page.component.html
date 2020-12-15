@@ -5,3 +5,24 @@
   <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title" va-editable>
   <textarea #description [(ngModel)]="note.description" placeholder="Description" va-editable></textarea>
 </div>
+
+<div class="footer-wrapper">
+  <button class="nav-link">
+    <div class="position-relative">
+      <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
+      <div *ngIf="note.tags?.length > 0" class="badge badge-danger lock-position">{{note.tags?.length}}</div>
+    </div>
+    <div class="nav-text">Tags</div>
+  </button>
+  <button class="nav-link position-relative">
+    <div class="position-relative">
+      <i class="fa fa-calendar nav-icon" aria-hidden="true"></i>
+      <div *ngIf="note.meeting" class="badge badge-danger lock-position">
+        <i class="fa fa-check" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="nav-text">Meeting</div>
+  </button>
+</div>
+
+<div class="footer-buffer"></div>

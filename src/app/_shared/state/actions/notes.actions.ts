@@ -4,7 +4,7 @@ import { appActions } from '../app-actions';
 
 export const loadNotes = createAction(appActions.loadNotes);
 export const saveNote = createAction(appActions.saveNote, props<{ note: Note }>());
-export const setNotes = createAction(appActions.setNotes, props<{ notes: Array<any> }>());
+export const setNotes = createAction(appActions.setNotes, props<{ notes: Array<Note> }>());
 export const errorNotes = createAction(appActions.errorNotes, props<{ error: string }>());
 export const cancelLoadNotes = createAction(appActions.cancelLoadNotes);
 

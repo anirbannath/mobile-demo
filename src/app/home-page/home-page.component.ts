@@ -9,9 +9,6 @@ import { Note } from '../_shared/models/note';
 })
 export class HomePageComponent {
 
-  readonly loaders = Array.from(Array(5));
-  readonly today = Date.now();
-
   @Input() userLoading: boolean;
   @Input() userData: User;
   @Input() userError: string;

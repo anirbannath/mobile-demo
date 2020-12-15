@@ -50,9 +50,9 @@ export class HomeContainerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.appStore.homeAlreadyLoaded) {
+    if (!this.appStore.isHomeLoadedOnce && this.appStore.isAssistantActive) {
       if (isPlatformBrowser(this.platformId)) {
-        this.appStore.homeAlreadyLoaded = true;
+        this.appStore.isHomeLoadedOnce = true;
         this.store.dispatch(setAssistantContext({
           context: {
             type: 'DOM',

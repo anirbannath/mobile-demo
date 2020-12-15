@@ -5,6 +5,7 @@ import { ClientPageRoutingModule } from './client-page-routing.module';
 import { ClientPageComponent } from './client-page.component';
 import { HeaderModule } from '../_shared/components/header/header.module';
 import { ClientContainerComponent } from './client-container.component';
+import { NotesModule } from '../_shared/components/notes/notes.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { ClientContainerComponent } from './client-container.component';
   imports: [
     CommonModule,
     ClientPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    NotesModule
   ]
 })
 export class ClientPageModule { }

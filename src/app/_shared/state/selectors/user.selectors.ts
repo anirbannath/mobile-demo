@@ -5,15 +5,15 @@ export const selectUser = (state: AppState) => state.user;
 
 export const selectUserLoading = createSelector(
   selectUser,
-  (user) => user.loading
+  (user) => user?.loading
 );
 
 export const selectUserData = createSelector(
   selectUser,
-  (user) => user.data
+  (user) => user?.data
 );
 
 export const selectUserError = createSelector(
   selectUser,
-  (user) => user.error
+  (user) => user?.error
 );

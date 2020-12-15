@@ -4,14 +4,21 @@
     "title": "Plans for upgrading the stark reactor",
     "description": "Mr. Stark was very cool that I couldn't understand a word about his plans.",
     "occurredOn": "September 1, 2020 10:10:00",
-    "contactId": 1
+    "contactId": 1,
+    "tags": [
+      1
+    ],
+    "meeting": "December 31, 2020 10:10:00"
   },
   {
     "id": 2,
     "title": "Finalizing plans for Endgame",
     "description": "Let's make a time heist and save Earth.",
     "occurredOn": "September 2, 2020 12:20:00",
-    "contactId": 1
+    "contactId": 1,
+    "tags": [
+      2
+    ]
   },
   {
     "id": 3,
