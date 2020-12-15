@@ -12,6 +12,9 @@ import { Note } from '../_shared/models/note';
 })
 export class NoteEditPageComponent implements AfterViewInit {
 
+  isTagsOpen: boolean;
+  isMeetingOpen: boolean;
+
   private _note: Note;
   @Input()
   get note() { return this._note }
@@ -27,6 +30,22 @@ export class NoteEditPageComponent implements AfterViewInit {
 
   onSave() {
     this.save.emit(this.note);
+  }
+
+  openTags() {
+    this.isTagsOpen = true;
+  }
+
+  closeTags() {
+    this.isTagsOpen = false;
+  }
+
+  openMeeting() {
+    this.isMeetingOpen = true;
+  }
+
+  closeMeeting() {
+    this.isMeetingOpen = false;
   }
 
 }

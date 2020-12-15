@@ -1,0 +1,4 @@
+<div class="dialog-backdrop" [@dialogFade]="show" (click)="onDismiss()"></div>
+<div class="dialog-container" [@dialogScale]="show">
+  <ng-content></ng-content>
+</div>

@@ -15,6 +15,7 @@
   --card-title: #{$dark-card-title};
   --border: #{$dark-border};
   --skeleton: #{$dark-skeleton};
+  --dialog: #{$dark-dialog};
   --toast: #{$dark-toast};
 }
 
@@ -33,6 +34,7 @@
   --card-title: #{$card-title};
   --border: #{$border};
   --skeleton: #{$skeleton};
+  --dialog: #{$dialog};
   --toast: #{$toast};
 
   @media (prefers-color-scheme: dark) {

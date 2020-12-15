@@ -2,19 +2,19 @@
 </app-header>
 
 <div class="card-body">
-  <input type="text" class="h5" [(ngModel)]="note.title" placeholder="Title" va-editable>
+  <input type="text" class="h2" [(ngModel)]="note.title" placeholder="Title" va-editable>
   <textarea #description [(ngModel)]="note.description" placeholder="Description" va-editable></textarea>
 </div>
 
 <div class="footer-wrapper">
-  <button class="nav-link">
+  <button class="nav-link" (click)="openTags()">
     <div class="position-relative">
       <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
       <div *ngIf="note.tags?.length > 0" class="badge badge-danger lock-position">{{note.tags?.length}}</div>
     </div>
     <div class="nav-text">Tags</div>
   </button>
-  <button class="nav-link position-relative">
+  <button class="nav-link position-relative" (click)="openMeeting()">
     <div class="position-relative">
       <i class="fa fa-calendar nav-icon" aria-hidden="true"></i>
       <div *ngIf="note.meeting" class="badge badge-danger lock-position">
@@ -26,3 +26,24 @@
 </div>
 
 <div class="footer-buffer"></div>
+
+<app-dialog dialog-x-lg *ngIf="isTagsOpen" (dismiss)="closeTags()">
+  <div class="p-4">
+    <h2 class="mb-3">Manage Tags</h2>
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn btn-default mr-2" (click)="closeTags()">Cancel</button>
+      <button class="btn btn-primary">Apply</button>
+    </div>
+  </div>
+</app-dialog>
+
+<app-dialog dialog-x-lg *ngIf="isMeetingOpen" (dismiss)="closeMeeting()">
+  <div class="p-4">
+    <h2 class="mb-3">Meeting</h2>
+    <input type="text" [(ngModel)]="note.meeting" placeholder="Date and time of meeting" va-editable>
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn btn-default mr-2" (click)="closeMeeting()">Cancel</button>
+      <button class="btn btn-primary">Apply</button>
+    </div>
+  </div>
+</app-dialog>

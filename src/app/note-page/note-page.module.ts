@@ -8,6 +8,7 @@ import { NoteContainerComponent } from './note-container.component';
 import { NotePageComponent } from './note-page.component';
 import { NoteEditPageComponent } from './note-edit-page.component';
 import { NoteEditContainerComponent } from './note-edit-container.component';
+import { DialogModule } from '../_shared/components/dialog/dialog.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { NoteEditContainerComponent } from './note-edit-container.component';
     CommonModule,
     NotePageRoutingModule,
     FormsModule,
-    HeaderModule
+    HeaderModule,
+    DialogModule
   ]
 })
 export class NotePageModule { }
