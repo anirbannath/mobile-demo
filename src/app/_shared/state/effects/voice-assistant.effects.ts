@@ -152,7 +152,7 @@ export class VoiceAssistantEffects {
                 this.getFocusableElement(-1)?.focus();
                 isPromptAction = true;
               } else if (document.activeElement?.getAttributeNames()?.findIndex(attr => attr === 'va-editable') > -1) {
-                (<any>document.activeElement).value += ` ${finalTranscript}`;
+                (<any>document.activeElement).value += ((<any>document.activeElement).value ? '' : ' ') + finalTranscript;
                 if (document.activeElement.nodeName === 'TEXTAREA' || document.activeElement.nodeName === 'INPUT') {
                   document.activeElement.dispatchEvent(new Event('input'));
                 }
