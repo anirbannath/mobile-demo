@@ -48,7 +48,7 @@ export const selectNoteById = createSelector(
       description: '',
       contactId: contactId,
       occurredOn: new Date(Date.now()),
-      meeting: '',
+      meeting: null,
       tags: [],
       tagNames: []
     } as Note

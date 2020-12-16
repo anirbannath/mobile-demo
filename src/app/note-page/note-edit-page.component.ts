@@ -3,6 +3,7 @@ import {
   EventEmitter, Input, Output, ViewChild
 } from '@angular/core';
 import { Note } from '../_shared/models/note';
+import { Tag } from '../_shared/models/tag';
 
 @Component({
   selector: 'app-note-edit-page',
@@ -15,6 +16,7 @@ export class NoteEditPageComponent implements AfterViewInit {
   isTagsOpen: boolean;
   isMeetingOpen: boolean;
 
+  @Input() tags: Array<Tag>;
   private _note: Note;
   @Input()
   get note() { return this._note }

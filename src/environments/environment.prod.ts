@@ -9,6 +9,7 @@ export const environment = {
   },
   dataSource: {
     user: '/data/user.json',
+    tags: '/data/system-tags.json',
     contacts: '/data/contacts.json'
   },
   instructionResolver: '/api/resolve-instruction'

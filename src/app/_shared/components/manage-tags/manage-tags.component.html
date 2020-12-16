@@ -1,0 +1,16 @@
+<app-dialog dialog-x-lg (dismiss)="cancel()">
+  <div class="p-4">
+    <h2 class="mb-3">Manage Tags</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label formArrayName="tags" *ngFor="let tag of tags; let i = index"
+        class="d-flex align-items-center justify-content-between my-2">
+        <div class="text-truncate flex-grow-1">{{tag.name}}</div>
+        <input type="checkbox" [formControlName]="i" class="ml-3 mb-1">
+      </label>
+      <div class="d-flex justify-content-end mt-4">
+        <button type="button" class="btn btn-default mr-2" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Apply</button>
+      </div>
+    </form>
+  </div>
+</app-dialog>

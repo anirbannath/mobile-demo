@@ -7,7 +7,7 @@ export interface Note {
   occurredOn?: Date,
   contactId?: number,
   tags?: Array<number>,
-  meeting?: string
+  meeting?: Date
 }
 
 export interface NoteDictionary {

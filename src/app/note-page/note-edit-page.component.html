@@ -27,23 +27,7 @@
 
 <div class="footer-buffer"></div>
 
-<app-dialog dialog-x-lg *ngIf="isTagsOpen" (dismiss)="closeTags()">
-  <div class="p-4">
-    <h2 class="mb-3">Manage Tags</h2>
-    <div class="d-flex justify-content-end mt-4">
-      <button class="btn btn-default mr-2" (click)="closeTags()">Cancel</button>
-      <button class="btn btn-primary">Apply</button>
-    </div>
-  </div>
-</app-dialog>
+<app-manage-tags *ngIf="isTagsOpen" [tags]="tags" [(selectedTags)]="note.tags" (dismiss)="closeTags()">
+</app-manage-tags>
 
-<app-dialog dialog-x-lg *ngIf="isMeetingOpen" (dismiss)="closeMeeting()">
-  <div class="p-4">
-    <h2 class="mb-3">Meeting</h2>
-    <input type="text" [(ngModel)]="note.meeting" placeholder="Date and time of meeting" va-editable>
-    <div class="d-flex justify-content-end mt-4">
-      <button class="btn btn-default mr-2" (click)="closeMeeting()">Cancel</button>
-      <button class="btn btn-primary">Apply</button>
-    </div>
-  </div>
-</app-dialog>
+<app-manage-meeting *ngIf="isMeetingOpen" [(meeting)]="note.meeting" (dismiss)="closeMeeting()"></app-manage-meeting>

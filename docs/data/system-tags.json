@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Follow up",
+    "keywords": [
+      "follow up",
+      "follow-up",
+      "meeting"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Internal",
+    "keywords": [
+      "internal"
+    ]
+  }
+]

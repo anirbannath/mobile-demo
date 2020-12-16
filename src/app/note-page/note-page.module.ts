@@ -9,6 +9,8 @@ import { NotePageComponent } from './note-page.component';
 import { NoteEditPageComponent } from './note-edit-page.component';
 import { NoteEditContainerComponent } from './note-edit-container.component';
 import { DialogModule } from '../_shared/components/dialog/dialog.module';
+import { ManageTagsModule } from '../_shared/components/manage-tags/manage-tags.module';
+import { ManageMeetingModule } from '../_shared/components/manage-meeting/manage-meeting.module';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { DialogModule } from '../_shared/components/dialog/dialog.module';
     NotePageRoutingModule,
     FormsModule,
     HeaderModule,
-    DialogModule
+    ManageTagsModule,
+    ManageMeetingModule
   ]
 })
 export class NotePageModule { }
