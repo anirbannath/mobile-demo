@@ -43,11 +43,11 @@ export class ManageTagsComponent {
   }
 
   private addCheckboxes() {
-    this.tags.forEach(() => this.tagsFormArray.push(new FormControl(false)));
+    this.tags?.forEach(() => this.tagsFormArray.push(new FormControl(false)));
   }
 
   private refreshCheckboxes() {
-    this.selectedTags.forEach((tagId) => {
+    this.selectedTags?.forEach((tagId) => {
       const tagIndex = this.tags.findIndex(tag => tag.id === tagId);
       if (tagIndex > -1) {
         this.tagsFormArray.controls[tagIndex].setValue(true);
@@ -56,8 +56,10 @@ export class ManageTagsComponent {
   }
 
   submit() {
-    this.selectedTags = this.form.value?.tags?.map((checked, i) =>
-      checked ? this.tags[i].id : null).filter(v => v !== null);
+    if (this.tags?.length > 0) {
+      this.selectedTags = this.form.value?.tags?.map((checked, i) =>
+        checked ? this.tags[i].id : null).filter(v => v !== null);
+    }
     this.dismiss.emit();
   }
 
