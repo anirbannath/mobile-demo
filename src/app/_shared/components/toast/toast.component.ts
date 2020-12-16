@@ -30,6 +30,8 @@ export class ToastComponent implements OnChanges {
         this.showToast = false;
         this._cd.markForCheck();
       }, this.duration);
+    } else {
+      this.showToast = false;
     }
   }
 
