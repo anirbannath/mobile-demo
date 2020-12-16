@@ -218,7 +218,7 @@ export class VoiceAssistantEffects {
         return new Observable<Action>(subscriber => {
           const acknowledgement: string = (<any>action).acknowledgement;
           const instruction: AppInstruction = (<any>action).payload;
-          if (isPlatformBrowser(this.platformId) && window.speechSynthesis && acknowledgement) {
+          if (isPlatformBrowser(this.platformId) && window.speechSynthesis) {
             const msg = new SpeechSynthesisUtterance();
             msg.text = acknowledgement;
             window.speechSynthesis.speak(msg);

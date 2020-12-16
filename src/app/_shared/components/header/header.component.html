@@ -12,10 +12,11 @@
 <a *ngIf="settings" class="btn-header btn-right" routerLink="/settings" aria-label="settings">
   <i class="icon fa fa-cog" aria-hidden="true"></i>
 </a>
-<a *ngIf="edit" [attr.va-command]="editCommand" class="btn-header btn-right" [routerLink]="['edit']">
+<a *ngIf="edit" [attr.va-command]="editCommand" va-command-reply="Navigating to edit page." class="btn-header btn-right"
+  [routerLink]="['edit']">
   Edit
 </a>
-<a *ngIf="save" [attr.va-command]="saveCommand" class="btn-header btn-right" href="javascript:void(0)"
-  (click)="onSaveClick()">
+<a *ngIf="save" [attr.va-command]="saveCommand" va-command-reply="Saving changes." class="btn-header btn-right"
+  href="javascript:void(0)" (click)="onSaveClick()">
   Save
 </a>
