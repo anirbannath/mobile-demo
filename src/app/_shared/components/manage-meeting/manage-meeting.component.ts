@@ -41,7 +41,7 @@ export class ManageMeetingComponent {
   }
 
   onMonthChange() {
-    this.setDaysOfMonth(this.value.selectedYear, this.value.selectedMonth);
+    this.days = this.setDaysOfMonth(this.value.selectedYear, this.value.selectedMonth);
   }
 
   submit() {
