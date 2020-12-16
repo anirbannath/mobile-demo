@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Contact } from '../_shared/models/contact';
 import { Note } from '../_shared/models/note';
+import { TagDictionary } from '../_shared/models/tag';
 
 @Component({
   selector: 'app-client-page',
@@ -10,6 +11,7 @@ import { Note } from '../_shared/models/note';
 })
 export class ClientPageComponent {
 
+  @Input() tagsData: TagDictionary;
   @Input() contactLoading: boolean;
   @Input() contactData: Contact;
   @Input() contactError: string;

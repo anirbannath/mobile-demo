@@ -15,6 +15,9 @@ export class NoteEditPageComponent implements AfterViewInit {
 
   isTagsOpen: boolean;
   isMeetingOpen: boolean;
+  isConfirmationOpen: boolean;
+
+  confirmed: boolean;
 
   @Input() tags: Array<Tag>;
   private _note: Note;
@@ -31,7 +34,12 @@ export class NoteEditPageComponent implements AfterViewInit {
   }
 
   onSave() {
-    this.save.emit(this.note);
+    if (!this.confirmed && this.note.tags.indexOf(1) > -1) {
+      this.isConfirmationOpen = true;
+      this.openMeeting();
+    } else {
+      this.save.emit(this.note);
+    }
   }
 
   openTags() {
@@ -47,7 +55,29 @@ export class NoteEditPageComponent implements AfterViewInit {
   }
 
   closeMeeting() {
+    if (this.isConfirmationOpen) {
+      this.isConfirmationOpen = false;
+      this.confirmed = true;
+    }
     this.isMeetingOpen = false;
+  }
+
+  onDescriptionChange() {
+    const desc = this.note.description?.toLowerCase();
+    this.tags.forEach(tag => {
+      if (tag.keywords.some(keyword => desc.indexOf(keyword) > -1)) {
+        this.addTag(tag.id);
+      }
+    })
+  }
+
+  addTag(id: number) {
+    if (!this.note.tags) {
+      this.note.tags = [];
+    }
+    if (this.note.tags.indexOf(id) === -1) {
+      this.note.tags = [...this.note.tags, id];
+    }
   }
 
 }

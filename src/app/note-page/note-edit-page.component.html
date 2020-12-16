@@ -3,7 +3,8 @@
 
 <div class="card-body">
   <input type="text" class="h2" [(ngModel)]="note.title" placeholder="Title" va-editable>
-  <textarea #description [(ngModel)]="note.description" placeholder="Description" va-editable></textarea>
+  <textarea #description [(ngModel)]="note.description" (ngModelChange)="onDescriptionChange()"
+    placeholder="Description" va-editable></textarea>
 </div>
 
 <div class="footer-wrapper">
@@ -30,4 +31,5 @@
 <app-manage-tags *ngIf="isTagsOpen" [tags]="tags" [(selectedTags)]="note.tags" (dismiss)="closeTags()">
 </app-manage-tags>
 
-<app-manage-meeting *ngIf="isMeetingOpen" [(meeting)]="note.meeting" (dismiss)="closeMeeting()"></app-manage-meeting>
+<app-manage-meeting *ngIf="isMeetingOpen" [confirmation]="isConfirmationOpen" [(meeting)]="note.meeting"
+  (meetingChange)="note.meeting && addTag(1)" (dismiss)="closeMeeting()"></app-manage-meeting>

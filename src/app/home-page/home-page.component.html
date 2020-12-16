@@ -12,7 +12,7 @@
               <i class="fa fa-calendar" aria-hidden="true"></i>
             </div>
             <div>
-              <div class="h6">2</div>
+              <div class="h6">{{meetingCount}}</div>
               <small class="text-muted">Meetings <span class="sr-only">scheduled, </span></small>
             </div>
           </div>
@@ -23,7 +23,7 @@
               <i class="fa fa-tasks" aria-hidden="true"></i>
             </div>
             <div>
-              <div class="h6">3</div>
+              <div class="h6">0</div>
               <small class="text-muted">Tasks <span class="sr-only">due, </span></small>
             </div>
           </div>
@@ -34,7 +34,7 @@
               <i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
             <div>
-              <div class="h6">7</div>
+              <div class="h6">{{notesData?.length || 0}}</div>
               <small class="text-muted">
                 Notes <span class="sr-only">and </span></small>
             </div>
@@ -52,14 +52,17 @@
           </div>
         </div>
 
-        <div class="sr-only">Your next meeting for the day is scheduled at 9 a.m.</div>
+        <div *ngIf="nextMeeting" class="sr-only">
+          Your next meeting for the day is scheduled at {{nextMeeting | date:'h:mm a'}}
+        </div>
       </div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title">Notes</div>
-    <app-notes [isLoading]="notesLoading" [notes]="notesData" [error]="notesError" (selectNote)="onSelectNote($event)">
+    <app-notes [tags]="tagsData" [isLoading]="notesLoading" [notes]="notesData" [error]="notesError"
+      (selectNote)="onSelectNote($event)">
     </app-notes>
   </div>
 </div>

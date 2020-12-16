@@ -13,11 +13,11 @@
     <div class="card-title">Overview</div>
     <div class="card-body text-center">
       <ng-container *ngIf="!contactLoading">
-        <div>
-          <div class="h4" style="line-height: 1.3;">{{ (contactData?.netWorth / 1000000000) | currency }} B</div>
-          <div class="text-muted">Net worth</div>
-          <h1 class="h4 text-truncate">{{ contactData?.lastName }}, {{ contactData?.firstName }}</h1>
-          <div class="text-muted mb-10">{{ contactData?.type }}</div>
+        <div class="py-2">
+          <div class="h2" style="line-height: 1.3;">{{ (contactData?.netWorth / 1000000000) | currency }} B</div>
+          <div class="text-muted mb-1">Net worth</div>
+          <h1 class="h2 text-truncate">{{ contactData?.lastName }}, {{ contactData?.firstName }}</h1>
+          <div class="text-muted">{{ contactData?.type }}</div>
         </div>
       </ng-container>
       <ng-container *ngIf="contactLoading">
@@ -30,7 +30,8 @@
   </div>
   <div class="card">
     <div class="card-title">Notes</div>
-    <app-notes [isLoading]="notesLoading" [notes]="notesData" [error]="notesError" (selectNote)="onSelectNote($event)">
+    <app-notes [tags]="tagsData" [isLoading]="notesLoading" [notes]="notesData" [error]="notesError"
+      (selectNote)="onSelectNote($event)">
     </app-notes>
   </div>
 </ng-container>

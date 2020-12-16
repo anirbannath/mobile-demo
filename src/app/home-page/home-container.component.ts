@@ -2,21 +2,19 @@ import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, Inject, PLAT
 import { isPlatformBrowser } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from '../_shared/models/user';
 import { Note } from '../_shared/models/note';
-import { selectUserLoading, selectUserData, selectUserError } from '../_shared/state/selectors/user.selectors';
 import { selectNotesLoading, selectNotesError, selectNotesList } from '../_shared/state/selectors/notes.selectors';
 import { setSelectedNote } from '../_shared/state/actions/notes.actions';
 import { setAssistantContext } from '../_shared/state/actions/voice-assistant.actions';
 import { AppStoreService } from '../_shared/services/app-store.service';
+import { TagDictionary } from '../_shared/models/tag';
+import { selectTagsData } from '../_shared/state/selectors/tags.selectors';
 
 @Component({
   selector: 'app-home-container',
   template: `
     <app-home-page
-      [userLoading]="userLoading$ | async"
-      [userData]="userData$ | async"
-      [userError]="userError$ | async"
+      [tagsData]="tagsData$ | async"
       [notesLoading]="notesLoading$ | async"
       [notesData]="notesData$ | async"
       [notesError]="notesError$ | async"
@@ -27,9 +25,7 @@ import { AppStoreService } from '../_shared/services/app-store.service';
 })
 export class HomeContainerComponent implements OnInit, AfterViewInit {
 
-  userLoading$: Observable<boolean>;
-  userData$: Observable<User>;
-  userError$: Observable<string>;
+  tagsData$: Observable<TagDictionary>;
   notesLoading$: Observable<boolean>;
   notesData$: Observable<Array<Note>>;
   notesError$: Observable<string>;
@@ -41,9 +37,7 @@ export class HomeContainerComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.userLoading$ = this.store.select(selectUserLoading);
-    this.userData$ = this.store.select(selectUserData);
-    this.userError$ = this.store.select(selectUserError);
+    this.tagsData$ = this.store.select(selectTagsData);
     this.notesLoading$ = this.store.select(selectNotesLoading);
     this.notesData$ = this.store.select(selectNotesList);
     this.notesError$ = this.store.select(selectNotesError);

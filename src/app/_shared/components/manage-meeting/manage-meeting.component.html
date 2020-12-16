@@ -1,34 +1,43 @@
 <app-dialog dialog-x-lg (dismiss)="cancel()">
   <div class="p-4">
-    <h2 class="mb-3 heading">Meeting</h2>
+    <div *ngIf="confirmation" class="meeting-heading text-danger text-small mb-2">
+      It seems like you may need to set-up a meeting!
+    </div>
+    <div class="d-flex mb-3">
+      <h2 class="meeting-heading mr-1">Meeting</h2>
+      <div class="switch">
+        <input type="checkbox" id="voiceSwitch" [checked]="!meetingDisabled" (click)="toggleDisabled()" /><label
+          for="voiceSwitch">Toggle voice assistant</label>
+      </div>
+    </div>
     <div class="d-flex w-100">
       <div class="flex-grow-1 pr-2">
-        <div class="select-label text-small">Year</div>
-        <select [(ngModel)]="value.selectedYear">
+        <div class="select-label text-small" [class.text-muted]="meetingDisabled">Year</div>
+        <select [(ngModel)]="value.selectedYear" [disabled]="meetingDisabled">
           <option *ngFor="let year of years" [value]="year">{{year}}</option>
         </select>
       </div>
       <div class="flex-grow-1 pr-2">
-        <div class="select-label text-small">Month</div>
-        <select [(ngModel)]="value.selectedMonth" (ngModelChange)="onMonthChange()">
+        <div class="select-label text-small" [class.text-muted]="meetingDisabled">Month</div>
+        <select [(ngModel)]="value.selectedMonth" (ngModelChange)="onMonthChange()" [disabled]="meetingDisabled">
           <option *ngFor="let month of months; let i = index" [value]="i">{{month}}</option>
         </select>
       </div>
       <div class="flex-grow-1 pr-2">
-        <div class="select-label text-small">Day</div>
-        <select [(ngModel)]="value.selectedDate">
+        <div class="select-label text-small" [class.text-muted]="meetingDisabled">Day</div>
+        <select [(ngModel)]="value.selectedDate" [disabled]="meetingDisabled">
           <option *ngFor="let day of days" [value]="day">{{day}}</option>
         </select>
       </div>
       <div class="flex-grow-1 pr-2">
-        <div class="select-label text-small">Hour</div>
-        <select [(ngModel)]="value.selectedHour">
+        <div class="select-label text-small" [class.text-muted]="meetingDisabled">Hour</div>
+        <select [(ngModel)]="value.selectedHour" [disabled]="meetingDisabled">
           <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
         </select>
       </div>
       <div class="flex-grow-1">
-        <div class="select-label text-small">Minute</div>
-        <select [(ngModel)]="value.selectedMinute">
+        <div class="select-label text-small" [class.text-muted]="meetingDisabled">Minute</div>
+        <select [(ngModel)]="value.selectedMinute" [disabled]="meetingDisabled">
           <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
         </select>
       </div>

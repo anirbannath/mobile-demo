@@ -1,14 +1,16 @@
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-.heading {
+.meeting-heading {
   padding-left: 3px;
 }
 
 select {
   border: 0;
   border-bottom: 1px solid transparent;
-  @include color-fallback(border-color, --border, 1px solid $border);
+  @include color-fallback(border-color, --border, $border);
+  @include color-fallback(color, --default, $default);
+  @include color-fallback(background-color, --body, $body);
   padding: 8px 0;
   width: 100%;
   font-size: 1.1rem;

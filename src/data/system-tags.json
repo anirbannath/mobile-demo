@@ -5,14 +5,15 @@
     "keywords": [
       "follow up",
       "follow-up",
-      "meeting"
+      "meet"
     ]
   },
   {
     "id": 2,
     "name": "Internal",
     "keywords": [
-      "internal"
+      "internal",
+      "team"
     ]
   }
 ]

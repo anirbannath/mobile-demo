@@ -10,6 +10,8 @@ import { DateValue } from './manage-meeting.model';
 })
 export class ManageMeetingComponent {
 
+  meetingDisabled: boolean;
+
   readonly months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   readonly daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   readonly years = Array.from(Array(5)).map((_, i) => new Date().getFullYear() + i);
@@ -19,6 +21,7 @@ export class ManageMeetingComponent {
 
   value: DateValue;
 
+  @Input() confirmation: boolean;
   private _meeting: Date;
   @Input()
   get meeting() { return this._meeting; }
@@ -45,12 +48,16 @@ export class ManageMeetingComponent {
   }
 
   submit() {
-    this.meeting = this.toDate(this.value);
+    this.meeting = this.meetingDisabled ? null : this.toDate(this.value);
     this.dismiss.emit();
   }
 
   cancel() {
     this.dismiss.emit();
+  }
+
+  toggleDisabled() {
+    this.meetingDisabled = !this.meetingDisabled;
   }
 
   private setDaysOfMonth(year: string | number, month: string | number) {
