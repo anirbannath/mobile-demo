@@ -226,13 +226,6 @@ fieldset:disabled a.btn {
   stroke-width: 32px;
 }
 
-.card {
-  &:not(:last-child) {
-    border-bottom: 1px solid transparent;
-    @include color-fallback(border-color, --border, $border);
-  }
-}
-
 .card-title {
   padding: 6px 20px;
   @include color-fallback(background-color, --card-title, $card-title);
