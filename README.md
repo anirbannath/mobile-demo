@@ -14,14 +14,20 @@ Some of its features may only work properly on Google Chrome (yet a few features
 
 ## Voice assistant commands
 
-To activate voice assistant go to the settings page and activate Voice Assistant.
+To activate voice assistant go to the settings page and activate Voice Assistant. Or you may start the assistant by clicking the top right button in the start-up page.
 
-Here are some commands which can be used to navigate between the pages:
+Here are some commands which can be used in the application:
 
 - Go to home
-- Go to contact page
+- Take me to contacts
 - Navigate to client page
 - Create note
 - Create a note
 - Discard (For going to the previous page)
 - Cancel (For going to the previous page)
+- Save
+- Edit
+
+## Project Architecture
+
+![Voice assistant architecture](assistant-architecture.png)
