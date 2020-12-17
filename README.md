@@ -2,7 +2,7 @@
 
 [Demo](https://anirbannath.github.io/mobile-demo/)
 
-This application is created to demostrate a basic mobile application with basic voice navigation capibilities and theming.
+This application is created to demostrate a basic mobile application enabling basic voice interaction capibilities and theming.
 
 The source code suggests best practices which should be followed while developing an Angular application and is mainly designed targeting mobile platforms (like Android/iOS).
 
