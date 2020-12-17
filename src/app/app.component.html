@@ -6,4 +6,9 @@
   [final]="voiceAssistantFinalTranscript$ | async" [acknowledgement]="voiceAssistantFinalAcknowledgement$ | async">
 </app-toast>
 
+<div *ngIf="isMicrophoneShow" class="microphone-notification">
+  <i class="fa" [class.fa-microphone]="appStore.isAssistantActive"
+    [class.fa-microphone-slash]="!appStore.isAssistantActive" aria-hidden="true"></i>
+</div>
+
 <app-footer *ngIf="showFooter$ | async"></app-footer>

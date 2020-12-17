@@ -40,9 +40,9 @@ export class SettingsContainerComponent implements OnInit {
 
   onVoiceAssistantToggle(active: boolean) {
     if (active) {
-      this.store.dispatch(startVoiceAssistant());
+      this.store.dispatch(startVoiceAssistant({}));
     } else {
-      this.store.dispatch(stopVoiceAssistant());
+      this.store.dispatch(stopVoiceAssistant({}));
     }
   }
 

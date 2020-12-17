@@ -55,21 +55,27 @@ export class VoiceAssistantEffects {
         greetingMessage = 'Good evening';
       }
       this.appStore.isAssistantActive = true;
-      return [
-        of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}.` })),
-        this.voiceAssistantService.result().pipe(
-          map((data) => setVoiceAssistantResult({ result: data })))
-      ]
+      return (<any>action).muted ?
+        [
+          of(setAssistantAcknowledgement({ acknowledgement: '' })),
+          this.voiceAssistantService.result().pipe(
+            map((data) => setVoiceAssistantResult({ result: data })))
+        ] : [
+          of(setAssistantAcknowledgement({ acknowledgement: `${greetingMessage} ${user?.firstName}.` })),
+          this.voiceAssistantService.result().pipe(
+            map((data) => setVoiceAssistantResult({ result: data })))
+        ]
     }),
     mergeAll()
   ));
 
   stopVoiceAssistant = createEffect(() => this.actions$.pipe(
     ofType(appActions.stopVoiceAssistant),
-    switchMap(() => {
+    switchMap((action) => {
       this.voiceAssistantService.stop();
       this.appStore.isAssistantActive = false;
-      return of(setAssistantAcknowledgement({ acknowledgement: 'Good bye.' }))
+      return (<any>action).muted ? of(setAssistantAcknowledgement({ acknowledgement: '' })) :
+        of(setAssistantAcknowledgement({ acknowledgement: 'Good bye.', force: true }))
     })
   ));
 
@@ -92,7 +98,7 @@ export class VoiceAssistantEffects {
                   of(setAssistantContext({
                     context: {
                       ...currentContext,
-                      text: block.getAttribute('va-speak') + block.innerText.replace(/\s/g, ' '),
+                      text: block.innerText.replace(/\s+/g, ' '),
                     }
                   })),
                   of(setAssistantContext({
@@ -152,7 +158,7 @@ export class VoiceAssistantEffects {
                 this.getFocusableElement(-1)?.focus();
                 isPromptAction = true;
               } else if (document.activeElement?.getAttributeNames()?.findIndex(attr => attr === 'va-editable') > -1) {
-                (<any>document.activeElement).value += ((<any>document.activeElement).value ? '' : ' ') + finalTranscript;
+                (<any>document.activeElement).value += ((<any>document.activeElement).value ? ' ' : '') + finalTranscript;
                 if (document.activeElement.nodeName === 'TEXTAREA' || document.activeElement.nodeName === 'INPUT') {
                   document.activeElement.dispatchEvent(new Event('input'));
                 }
@@ -214,7 +220,7 @@ export class VoiceAssistantEffects {
       this.store.select(selectVoiceAssistantActive)
     ),
     switchMap(([action, isActive]) => {
-      if (isActive) {
+      if (isActive || (<any>action).force) {
         return new Observable<Action>(subscriber => {
           const acknowledgement: string = (<any>action).acknowledgement;
           const instruction: AppInstruction = (<any>action).payload;
