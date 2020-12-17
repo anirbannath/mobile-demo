@@ -8,7 +8,9 @@ The source code suggests best practices which should be followed while developin
 
 It doesn't use any server-side API for fetching or saving data. It uses some static JSON files for retrieving data and uses IndexedDB for saving data.
 
-Under the hood, this application uses NgRx for state management and webkitSpeechRecognition for voice navigation.
+However, it uses a few Node.JS APIs for processing voice instructions.
+
+Under the hood, in the client-side, this application uses NgRx for state management and webkitSpeechRecognition for voice navigation.
 
 > Some assistant features need Node.JS APIs. Thus, the Github Pages may not work properly. Please run the application locally.
 >
@@ -31,6 +33,7 @@ Here are some commands which can be used in the application:
 - Cancel (For going to the previous page)
 - Save
 - Edit
+- You can dictate to the assistant once it goes into the Edit Note screen.
 
 ## Project Architecture
 
