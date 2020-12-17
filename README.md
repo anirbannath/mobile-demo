@@ -10,7 +10,11 @@ It doesn't use any server-side API for fetching or saving data. It uses some sta
 
 Under the hood, this application uses NgRx for state management and webkitSpeechRecognition for voice navigation.
 
-Some of its features may only work properly on Google Chrome (yet a few features may not work for iOS even with Google Chrome).
+> Some assistant features need Node.JS APIs. Thus, the Github Pages may not work properly. Please run the application locally.
+>
+> To run locally do `npm install` followed by `npm start`.
+>
+> Also, some of its features may only work properly on Google Chrome (yet a few features may not work for iOS even with Google Chrome).
 
 ## Voice assistant commands
 
