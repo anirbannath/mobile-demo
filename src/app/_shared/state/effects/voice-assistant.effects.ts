@@ -98,7 +98,7 @@ export class VoiceAssistantEffects {
                   of(setAssistantContext({
                     context: {
                       ...currentContext,
-                      text: block.innerText.replace(/\s+/g, ' '),
+                      text: block?.innerText?.replace(/\s+/g, ' '),
                     }
                   })),
                   of(setAssistantContext({

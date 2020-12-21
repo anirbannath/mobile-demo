@@ -44,17 +44,15 @@ export class HomeContainerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.appStore.isHomeLoadedOnce && this.appStore.isAssistantActive) {
-      if (isPlatformBrowser(this.platformId)) {
-        this.appStore.isHomeLoadedOnce = true;
-        this.store.dispatch(setAssistantContext({
-          context: {
-            type: 'DOM',
-            target: '[va-article="home-summary"]',
-            text: (<HTMLElement>document.querySelector('[va-article="home-summary"]')).getAttribute('va-question')
-          }
-        }))
-      }
+    if (isPlatformBrowser(this.platformId) && !this.appStore.isHomeLoadedOnce && this.appStore.isAssistantActive) {
+      this.appStore.isHomeLoadedOnce = true;
+      this.store.dispatch(setAssistantContext({
+        context: {
+          type: 'DOM',
+          target: '[va-article="home-summary"]',
+          text: (<HTMLElement>document.querySelector('[va-article="home-summary"]'))?.getAttribute('va-question')
+        }
+      }))
     }
   }
 

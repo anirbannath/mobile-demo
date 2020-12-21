@@ -1,7 +1,4 @@
-import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef,
-  EventEmitter, Input, Output, ViewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../_shared/models/note';
 import { Tag } from '../_shared/models/tag';
 
@@ -11,7 +8,7 @@ import { Tag } from '../_shared/models/tag';
   styleUrls: ['./note-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteEditPageComponent implements AfterViewInit {
+export class NoteEditPageComponent {
 
   isTagsOpen: boolean;
   isMeetingOpen: boolean;
@@ -26,12 +23,6 @@ export class NoteEditPageComponent implements AfterViewInit {
   set note(value: Note) { this._note = { ...value } };
 
   @Output() save = new EventEmitter<Note>();
-
-  @ViewChild('description') description: ElementRef<HTMLElement>;
-
-  ngAfterViewInit() {
-    this.description.nativeElement.focus();
-  }
 
   onSave() {
     if (!this.confirmed && this.note.tags.indexOf(1) > -1) {

@@ -3,8 +3,8 @@
 
 <div class="card-body">
   <input type="text" class="h2" [(ngModel)]="note.title" placeholder="Title" va-editable>
-  <textarea #description [(ngModel)]="note.description" (ngModelChange)="onDescriptionChange()"
-    placeholder="Description" va-editable></textarea>
+  <textarea appFocus [(ngModel)]="note.description" (ngModelChange)="onDescriptionChange()" placeholder="Description"
+    va-editable></textarea>
 </div>
 
 <div class="footer-wrapper">

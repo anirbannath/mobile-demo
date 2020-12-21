@@ -1,6 +1,32 @@
-import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  EventEmitter, Inject, Input, Output, PLATFORM_ID
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppStoreService } from '../../services/app-store.service';
+import { setAssistantAcknowledgement, setAssistantContext } from '../../state/actions/voice-assistant.actions';
 import { DateValue } from './manage-meeting.model';
+
+declare global {
+  interface Date {
+    isValid(): boolean;
+    addDays(days: number): Date;
+  }
+}
+
+Date.prototype.isValid = function () {
+  // If the date object is invalid it
+  // will return 'NaN' on getTime()
+  // and NaN is never equal to itself.
+  return this.getTime() === this.getTime();
+};
+
+Date.prototype.addDays = function (days: number) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
 
 @Component({
   selector: 'app-manage-meeting',
@@ -9,7 +35,7 @@ import { DateValue } from './manage-meeting.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'va-index': '100' }
 })
-export class ManageMeetingComponent {
+export class ManageMeetingComponent implements AfterViewInit {
 
   meetingDisabled: boolean;
 
@@ -21,6 +47,7 @@ export class ManageMeetingComponent {
   days: Array<string>;
 
   value: DateValue;
+  dateValueString = '';
 
   @Input() confirmation: boolean;
   private _meeting: Date;
@@ -38,10 +65,22 @@ export class ManageMeetingComponent {
   @Output() dismiss = new EventEmitter<void>();
 
   constructor(
-    private datePipe: DatePipe
+    @Inject(PLATFORM_ID) private platformId,
+    private cd: ChangeDetectorRef,
+    private store: Store,
+    private appStore: AppStoreService
   ) {
     this._meeting = new Date();
     this.value = this.parseDate(this._meeting);
+  }
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId) && this.confirmation && this.appStore.isAssistantActive) {
+      this.appStore.isHomeLoadedOnce = true;
+      this.store.dispatch(setAssistantAcknowledgement({
+        acknowledgement: (<HTMLElement>document.querySelector('[va-article="enter-date"]'))?.innerText.replace(/\s/g, ' ')
+      }))
+    }
   }
 
   onMonthChange() {
@@ -59,6 +98,24 @@ export class ManageMeetingComponent {
 
   toggleDisabled() {
     this.meetingDisabled = !this.meetingDisabled;
+  }
+
+  tryParseDateValue() {
+    if (this.dateValueString) {
+      let parsedDate = this.dateValueString.toLowerCase()
+        .replace(/at/gi, '')
+        .replace(/^(\d+)\w+/, '$1')
+        .replace('noon', '12:00')
+        .replace('tomorrow', new Date().addDays(1).toDateString());
+      const date = new Date(parsedDate);
+      if (date.isValid()) {
+        this.value = this.parseDate(date);
+      }
+    }
+    setTimeout(() => {
+      this.dateValueString = '';
+      this.cd.markForCheck();
+    }, 1);
   }
 
   private setDaysOfMonth(year: string | number, month: string | number) {
