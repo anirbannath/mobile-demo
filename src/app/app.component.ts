@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       window.onkeyup = ((e: KeyboardEvent) => {
-        if (e.ctrlKey && e.key === 'm') {
+        if (e.ctrlKey && e.key === '5') {
           e.preventDefault();
           if (this.appStore.isAssistantActive) {
             this.store.dispatch(stopVoiceAssistant({ muted: true }));

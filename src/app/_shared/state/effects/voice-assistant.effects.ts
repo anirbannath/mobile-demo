@@ -391,9 +391,18 @@ export class VoiceAssistantEffects {
   private getElementByCommand(transcript: string) {
     let matchedElement: { element: HTMLElement, action: string, reply: string };
     if (transcript) {
-      const vaCommandElement = document.querySelectorAll('[va-command]');
-      for (let index = 0; index < vaCommandElement.length; index++) {
-        const element = vaCommandElement.item(index);
+      const vaCanvases = document.querySelectorAll('[va-index]');
+      let targetCanvas: HTMLElement = null;
+      for (let index = 0; index < vaCanvases.length; index++) {
+        const vaCanvas = <HTMLElement>vaCanvases.item(index);
+        if ((vaCanvas && !targetCanvas) ||
+          (+vaCanvas.getAttribute('va-index') > +targetCanvas?.getAttribute('va-index'))) {
+          targetCanvas = vaCanvas;
+        }
+      }
+      const vaCommandElements = (targetCanvas || document).querySelectorAll('[va-command]');
+      for (let index = 0; index < vaCommandElements.length; index++) {
+        const element = vaCommandElements.item(index);
         const commands = element.getAttribute('va-command')?.split(',');
         const matchFound = commands.some(command => {
           if (transcript.indexOf(command) > -1) {

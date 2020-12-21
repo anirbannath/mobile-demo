@@ -6,7 +6,8 @@ import { DateValue } from './manage-meeting.model';
   selector: 'app-manage-meeting',
   templateUrl: './manage-meeting.component.html',
   styleUrls: ['./manage-meeting.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { 'va-index': '100' }
 })
 export class ManageMeetingComponent {
 

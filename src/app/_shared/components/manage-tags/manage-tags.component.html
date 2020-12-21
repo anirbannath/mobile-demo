@@ -8,8 +8,10 @@
         <input type="checkbox" [formControlName]="i" class="ml-3 mb-1">
       </label>
       <div class="d-flex justify-content-end mt-4">
-        <button type="button" class="btn btn-default mr-2" (click)="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="button" va-command="cancel,discard" va-command-reply="Discarding changes."
+          class="btn btn-default mr-2" (click)="cancel()">Cancel</button>
+        <button type="submit" va-command="save,apply" va-command-reply="Applying changes."
+          class="btn btn-primary">Apply</button>
       </div>
     </form>
   </div>

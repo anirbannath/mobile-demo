@@ -6,7 +6,8 @@ import { Tag } from '../../models/tag';
   selector: 'app-manage-tags',
   templateUrl: './manage-tags.component.html',
   styleUrls: ['./manage-tags.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { 'va-index': '100' }
 })
 export class ManageTagsComponent {
 

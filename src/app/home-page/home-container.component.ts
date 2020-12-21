@@ -50,8 +50,8 @@ export class HomeContainerComponent implements OnInit, AfterViewInit {
         this.store.dispatch(setAssistantContext({
           context: {
             type: 'DOM',
-            target: '[va-article="summary"]',
-            text: (<HTMLElement>document.querySelector('[va-article="summary"]')).getAttribute('va-question')
+            target: '[va-article="home-summary"]',
+            text: (<HTMLElement>document.querySelector('[va-article="home-summary"]')).getAttribute('va-question')
           }
         }))
       }
