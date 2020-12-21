@@ -563,3 +563,9 @@ textarea {
   @include color-fallback(color, --light, $light);
   @include color-fallback(background-color, --info, $info);
 }
+
+.alert-warning {
+  @include color-fallback(color, --warning, $warning);
+  background-color: rgba(255, 171, 2, 0.1);
+  border-color: rgba(255, 205, 53, 0.3);
+}

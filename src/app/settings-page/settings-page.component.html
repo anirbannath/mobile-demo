@@ -38,12 +38,15 @@
     <p>Here are some commands which can be used to navigate between the pages:</p>
     <ul>
       <li>Go to home</li>
-      <li>Go to contact page</li>
+      <li>Take me to contacts</li>
       <li>Navigate to client page</li>
       <li>Create note</li>
       <li>Create a note</li>
       <li>Discard (For going to the previous page)</li>
       <li>Cancel (For going to the previous page)</li>
+      <li>Save</li>
+      <li>Edit</li>
+      <li>You can dictate to the assistant once it goes into the Edit Note screen.</li>
     </ul>
   </div>
 </div>
@@ -51,15 +54,24 @@
 <div class="card">
   <div class="card-title">Disclaimer</div>
   <div class="card-body text-small">
-    <p>This application is created for learning and demo purpose.</p>
+    <p>This application is created to demostrate a basic mobile application enabling basic voice interaction
+      capibilities and theming.</p>
     <p>The source code suggests best practices which should be followed while developing an Angular application and is
       mainly designed targeting mobile platforms (like Android/iOS).</p>
     <p>It doesn't use any server-side API for fetching or saving data. It uses some static JSON files for retrieving
       data and uses IndexedDB for saving data.</p>
-    <p>Under the hood, this application uses NgRx for state management and webkitSpeechRecognition for voice navigation.
+    <p>However, it uses a few Node.JS APIs for processing voice instructions.</p>
+    <p>Under the hood, in the client-side, this application uses NgRx for state management and webkitSpeechRecognition
+      for voice navigation.</p>
+    <p class="p-3 alert-warning">
+      Some assistant features need Node.JS APIs.
+      <br>
+      To run locally do 'npm install' followed by 'npm start'.
+      <br>
+      Also, some of its features may only work properly on Google Chrome (yet a few features may not work for iOS even
+      with Google Chrome).
+      <br>
     </p>
-    <p>Some of its features may only work properly on Google Chrome (yet a few features may not work for iOS even with
-      Google Chrome)</p>
     <p>
       Thanks,<br>
       <a class="link" href="https://github.com/anirbannath/mobile-demo" target="_blank" aria-label="github repository">
